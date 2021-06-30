@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/Dialog_width"
+    android:layout_height="@dimen/Dialog_height"
+    android:minHeight="@dimen/Dialog_height"
+    android:background="@color/bg_standard">
+
+    <TextView
+        android:id="@+id/DialogMusicPreference_TV_Title"
+        style="@style/Header_Textview"
+        android:layout_width="@dimen/Dialog_width"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/DialogMusicPreference_TV_Dance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/DialogMusicPreference_IV_Pause"
+        style="@style/Data_Icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/DialogMusicPreference_IV_Exit"
+        app:srcCompat="@drawable/ic_action_pause" />
+
+    <ImageView
+        android:id="@+id/DialogMusicPreference_IV_Exit"
+        style="@style/Data_Icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_confirm" />
+
+    <TextView
+        android:id="@+id/DialogMusicPreference_TV_Dance"
+        style="@style/Header_Textview"
+        android:layout_width="@dimen/Dialog_width"
+        android:layout_height="wrap_content"
+        android:text="Dance"
+        app:layout_constraintTop_toBottomOf="@id/DialogMusicPreference_TV_Title"
+        app:layout_constraintBottom_toTopOf="@id/DialogMusicPreference_Line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/DialogMusicPreference_Line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/bg_light"
+
+        app:layout_constraintTop_toBottomOf="@id/DialogMusicPreference_TV_Dance"
+        app:layout_constraintBottom_toTopOf="@id/DialogMusicPreference_RV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/DialogMusicPreference_RV"
+        style="@style/Data_RV_Style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/DialogMusicPreference_Line" />
+
+
+    
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

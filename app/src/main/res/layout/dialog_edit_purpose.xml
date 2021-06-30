@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/bg_light">
+
+
+    <TextView
+        android:id="@+id/TV_EditClassificationTitle"
+        style="@style/Data_Edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/bg_light"
+        android:text="@string/EditClassification"
+        app:layout_constraintBottom_toTopOf="@id/IV_EditPurpose_SCD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!--app:layout_constraintBottom_toTopOf="@id/PB_EditClassification_Cancel"-->
+
+
+        <ImageView
+            android:id="@+id/IV_EditPurpose_SCD"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toStartOf="@id/IV_EditPurpose_WarmuUpCoolDown"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_purpose_scd"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/IV_EditPurpose_WarmuUpCoolDown"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditPurpose_StepPractise"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditPurpose_SCD"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_purpose_warmup" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditPurpose_StepPractise"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditPurpose_ClassMixed"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditPurpose_WarmuUpCoolDown"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_purpose_step" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditPurpose_ClassMixed"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditPurpose_CelticListening"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditPurpose_StepPractise"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_purpose_class" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditPurpose_CelticListening"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditPurpose_Listening"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditPurpose_ClassMixed"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_purpose_celtic" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditPurpose_Listening"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditPurpose_Unknown"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditPurpose_CelticListening"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_purpose_world" />
+
+        <ImageView
+            android:id="@+id/IV_EditPurpose_Unknown"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditPurpose_Listening"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_favourite_unknown" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/ET_MusicDirectoryPairing_Artist"
+        style="@style/Data_Edittext"
+        android:autofillHints="@string/Artist"
+        android:hint="@string/Artist"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ET_MusicDirectoryPairing_Album"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_MusicDirectoryPairing"
+        tools:ignore="HardcodedText" />
+
+    <EditText
+        android:id="@+id/ET_MusicDirectoryPairing_Album"
+        style="@style/Data_Edittext"
+        android:autofillHints="@string/Album"
+        android:hint="@string/Album"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@id/ET_MusicDirectoryPairing_Artist"
+        app:layout_constraintEnd_toStartOf="@id/FL_MusicDirectoryPairing_Purpose"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_MusicDirectoryPairing"
+        tools:ignore="HardcodedText" />
+
+    <FrameLayout
+        android:id="@+id/FL_MusicDirectoryPairing_Purpose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintStart_toEndOf="@id/ET_MusicDirectoryPairing_Album"
+        app:layout_constraintEnd_toStartOf="@id/FL_MusicDirectoryPairing_PairingStatus"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_MusicDirectoryPairing"
+        >
+        <Spinner
+            android:id="@+id/SP_MusicDirectoryPairing_Purpose"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:dropDownWidth="@dimen/RV_basic_width_02"
+           />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_MusicDirectoryPairing_PairingStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintStart_toEndOf="@id/FL_MusicDirectoryPairing_Purpose"
+        app:layout_constraintEnd_toStartOf="@id/FL_MusicDirectoryPairing_XXX"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_MusicDirectoryPairing">
+        <Spinner
+            android:id="@+id/SP_MusicDirectoryPairing_PairingStatus"
+            style="@style/Data_Icon"
+            android:dropDownWidth="@dimen/RV_basic_width_02"
+           />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_MusicDirectoryPairing_XXX"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toStartOf="@id/ET_MusicDirectoryPairing_Count"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_MusicDirectoryPairing_PairingStatus"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_MusicDirectoryPairing">
+    <Spinner
+        android:id="@+id/SP_MusicDirectoryPairing_XXX"
+        style="@style/Data_Icon"
+        
+        android:dropDownWidth="@dimen/RV_basic_width_02"
+       />
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/ET_MusicDirectoryPairing_Count"
+        style="@style/Data_Edittext"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@id/ET_MusicDirectoryPairing_Artist"
+        app:layout_constraintStart_toEndOf="@id/FL_MusicDirectoryPairing_XXX"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ET_MusicDirectoryPairing_Artist" />
+
+    <View
+        android:id="@+id/BV_MusicDirectoryPairing"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ET_MusicDirectoryPairing_Artist"
+        app:layout_constraintBottom_toTopOf="@id/RV_MusicDirectoryPairing"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_MusicDirectoryPairing"
+        style="@style/Data_RV_Style"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_MusicDirectoryPairing" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

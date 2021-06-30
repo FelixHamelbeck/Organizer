@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_bar_menu_dance"
+        android:icon="@drawable/ic_allemande05_bw"
+        android:title="@string/Dance"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_bar_menu_playlist"
+        android:icon="@drawable/ic_playlist"
+        android:title="@string/Playlist"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_bar_menu_play"
+        android:icon="@drawable/ic_director"
+        android:title="MediaPlayer"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_bar_menu_chained_list"
+        android:icon="@drawable/ic_dynamicfilter"
+        android:title="ChainedList"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_bar_musicdirectory"
+        android:title="MusicDirectory"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_bar_musicdirectory_pairing"
+        android:title="MusicDirectoryPairing"
+        app:showAsAction="never"/>
+
+
+
+
+</menu>

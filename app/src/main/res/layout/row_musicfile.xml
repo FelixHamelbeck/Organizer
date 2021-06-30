@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/CL_RowMusicFile"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicFile_Artist"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/TV_RowMusicFile_Album"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicFile_Album"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/FL_RowMusicFile_Purpose"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintStart_toEndOf="@id/TV_RowMusicFile_Artist"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicFile_Purpose"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toStartOf="@+id/FL_RowMusicFile_Preference"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/TV_RowMusicFile_Album"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowMusicFile_Purpose"
+            android:layout_gravity="center"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_purpose_world" />
+<!--        <ImageView-->
+<!--            android:id="@+id/IV_RowMusicFile_PurposeOverlay"-->
+<!--            android:layout_gravity="center"-->
+<!--            style="@style/Data_Icon"-->
+<!--            android:src="@drawable/ic_purpose_world" />-->
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicFile_Preference"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:background="@color/scream_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toStartOf="@+id/FL_RowMusicFile_Dance"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/FL_RowMusicFile_Purpose"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowMusicFile_Preference"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_favourite_good" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicFile_Dance"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toStartOf="@+id/TV_RowMusicFile_Name"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowMusicFile_Preference"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowMusicFile_Dance"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_threedancers" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/TV_RowMusicFile_Name"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/FL_RowMusicFile_Play"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintStart_toEndOf="@+id/FL_RowMusicFile_Dance"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicFile_Play"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toStartOf="@+id/FL_RowMusicFile_Playlist"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/TV_RowMusicFile_Name"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowMusicFile_Play"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_action_play" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicFile_Playlist"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toStartOf="@id/TV_RowMusicFile_Duration"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/FL_RowMusicFile_Play"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowMusicFile_Playlist"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_playlist" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/TV_RowMusicFile_Duration"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowMusicFile_Playlist"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

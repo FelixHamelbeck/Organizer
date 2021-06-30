@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/ET_Dance_Dancename"
+        style="@style/Data_Edittext"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Favourite"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        tools:ignore="Autofill" />
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Playlist"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/ET_Dance_Dancename"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        >
+        <Spinner
+            android:id="@+id/SP_Dance_Favourite"
+            style="@style/Data_Edittext"
+            android:background="@color/scream_transparent"
+            android:dropDownWidth="@dimen/RV_basic_width_02"
+            />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Playlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Type"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Favourite"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+    <Spinner
+        android:id="@+id/SP_Dance_Playlist"
+        style="@style/Data_Edittext"
+        android:dropDownWidth="@dimen/RV_basic_width_02"
+        android:background="@color/scream_transparent"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Shape"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Playlist"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+    <Spinner
+        android:id="@+id/SP_Dance_Type"
+        style="@style/Data_Edittext"
+        android:dropDownWidth="@dimen/RV_basic_width_02"
+        android:background="@color/scream_transparent"
+       />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Couples"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Type"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+    <Spinner
+        android:id="@+id/SP_Dance_Shape"
+        style="@style/Data_Edittext"
+        android:dropDownWidth="@dimen/RV_basic_width_02"
+        android:background="@color/scream_transparent" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Couples"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Progression"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Shape"
+        app:layout_constraintTop_toTopOf="parent">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Progression"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_MusicFile"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Couples"
+        app:layout_constraintTop_toTopOf="parent">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_MusicFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Diagram"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Progression"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/Dance_IV_MusicFile"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_music_single"
+            android:visibility="visible"
+            tools:ignore="ContentDescription"  />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Diagram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Crib"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_MusicFile"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/Dance_IV_Diagram"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_diagram"
+            android:visibility="visible"
+            tools:ignore="ContentDescription"  />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Crib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Rscds"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Diagram"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_Dance_Crib"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_crib"
+            android:visibility="visible"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Rscds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Sort"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Crib"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/IV_Dance_Rscds"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_rscds_crown"
+            android:visibility="visible"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_Dance_Sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Rscds"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/IV_Dance_Sort"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_info"
+            android:visibility="visible"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/BV_Dance"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/scream_blue"
+
+        app:layout_constraintTop_toBottomOf="@id/ET_Dance_Dancename"
+        app:layout_constraintBottom_toTopOf="@id/RV_Dance_Dance"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_Dance_Dance"
+        style="@style/Data_RV_Style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_Dance" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

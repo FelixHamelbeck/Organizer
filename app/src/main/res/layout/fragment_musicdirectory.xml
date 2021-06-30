@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/ET_MusicDirectory_Artist"
+        style="@style/Data_Edittext"
+        android:autofillHints="@string/Artist"
+        android:hint="@string/Artist"
+        android:inputType="textPersonName"
+
+        app:layout_constraintEnd_toStartOf="@+id/ET_MusicDirectory_Album"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <EditText
+        android:id="@+id/ET_MusicDirectory_Album"
+        style="@style/Data_Edittext"
+        android:autofillHints="@string/Album"
+        android:hint="@string/Album"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/SP_MusicDirectory_Purpose"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toEndOf="@id/ET_MusicDirectory_Artist"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <Spinner
+        android:id="@+id/SP_MusicDirectory_Purpose"
+        style="@style/Data_Edittext"
+
+        android:dropDownWidth="@dimen/RV_basic_width_02"
+        app:layout_constraintBottom_toBottomOf="@id/ET_MusicDirectory_Artist"
+        app:layout_constraintEnd_toStartOf="@+id/FL_MusicDirectory_Pairing"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/ET_MusicDirectory_Album"
+        app:layout_constraintTop_toTopOf="@id/ET_MusicDirectory_Artist" />
+
+    <FrameLayout
+        android:id="@+id/FL_MusicDirectory_Pairing"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/ET_MusicDirectory_Artist"
+        app:layout_constraintEnd_toStartOf="@+id/ET_MusicDirectory_Count"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/SP_MusicDirectory_Purpose"
+        app:layout_constraintTop_toTopOf="@id/ET_MusicDirectory_Artist" />
+
+    <EditText
+        android:id="@+id/ET_MusicDirectory_Count"
+        style="@style/Data_Edittext"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@id/ET_MusicDirectory_Artist"
+        app:layout_constraintStart_toEndOf="@+id/FL_MusicDirectory_Pairing"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ET_MusicDirectory_Artist" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_MusicDirectory"
+        style="@style/Data_RV_Style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ET_MusicDirectory_Artist" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

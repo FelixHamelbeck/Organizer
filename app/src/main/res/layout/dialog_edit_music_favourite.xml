@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/bg_light">
+
+
+    <TextView
+        android:id="@+id/TV_EditMusicFavouriteTitle"
+        style="@style/Data_Edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/bg_light"
+        android:text="@string/EditMusicFavourite"
+        app:layout_constraintBottom_toTopOf="@id/IV_EditMusicFavourite_Favourite_NotOk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!--app:layout_constraintBottom_toTopOf="@id/PB_EditMusicFavourite_Cancel"-->
+
+
+        <ImageView
+            android:id="@+id/IV_EditMusicFavourite_Favourite_NotOk"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_Unknown"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+            app:srcCompat="@drawable/ic_favourite_horrible"
+            />
+
+        <ImageView
+            android:id="@+id/IV_EditMusicFavourite_Favourite_Unknown"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_OddRepeat"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_NotOk"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+            app:srcCompat="@drawable/ic_favourite_unknown" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditMusicFavourite_Favourite_OddRepeat"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_Neutral"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_Unknown"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+            app:srcCompat="@drawable/ic_favourite_oddrepeat" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditMusicFavourite_Favourite_Neutral"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_AnyGood"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_OddRepeat"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+            app:srcCompat="@drawable/ic_favourite_neutral" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditMusicFavourite_Favourite_AnyGood"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_GoodRepeat"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_Neutral"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+            app:srcCompat="@drawable/ic_favourite_anygood" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditMusicFavourite_Favourite_GoodRepeat"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_Okay"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_AnyGood"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+            app:srcCompat="@drawable/ic_favourite_goodrepeat" />
+
+        <ImageView
+            android:id="@+id/IV_EditMusicFavourite_Favourite_Okay"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_Good"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_GoodRepeat"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+            app:srcCompat="@drawable/ic_favourite_okay" />
+
+    <ImageView
+        android:id="@+id/IV_EditMusicFavourite_Favourite_Good"
+        style="@style/Data_Icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_VeryGood"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_Okay"
+        app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+        app:srcCompat="@drawable/ic_favourite_good" />
+
+    <ImageView
+        android:id="@+id/IV_EditMusicFavourite_Favourite_VeryGood"
+        style="@style/Data_Icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IV_EditMusicFavourite_Favourite_Today"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_Good"
+        app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+        app:srcCompat="@drawable/ic_favourite_verygood" />
+
+    <ImageView
+        android:id="@+id/IV_EditMusicFavourite_Favourite_Today"
+        style="@style/Data_Icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/IV_EditMusicFavourite_Favourite_VeryGood"
+        app:layout_constraintTop_toBottomOf="@id/TV_EditMusicFavouriteTitle"
+        app:srcCompat="@drawable/ic_favourite_today" />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

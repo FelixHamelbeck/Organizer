@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/PB_PlaylistAction_Create"
+        style="@style/Label_Array_Button"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill_horizontal"
+        android:layout_row="0"
+        android:text="@string/Play_PB_Create_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="@dimen/RV_basic_width_01" />
+
+
+
+    <TextView
+        android:id="@+id/TV_PlaylistAction_Title"
+        style="@style/Header_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/RV_row_height"
+        android:layout_marginLeft="@dimen/Head_margin"
+        android:layout_marginRight="@dimen/Head_margin"
+        android:gravity="end"
+        android:paddingLeft="@dimen/Head_padding"
+        android:paddingRight="@dimen/Head_padding"
+        android:text="@string/SelectPlaylist"
+        app:layout_constraintBottom_toTopOf="@id/BV_PlaylistAction_BottomOfTopRow"
+        app:layout_constraintEnd_toStartOf="@id/PB_PlaylistAction_Create"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_PlaylistAction_BottomOfTopRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="PB_PlaylistAction_Create,TV_PlaylistAction_Title" />
+
+
+
+    <EditText
+        android:id="@+id/ET_PlaylistAction_Name"
+        style="@style/Data_Edittext"
+        android:inputType="textPersonName"
+        android:layout_width="600dp"
+        app:layout_constraintBottom_toTopOf="@id/SP_PlaylistAction_Purpose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_PlaylistAction_BottomOfTopRow" />
+
+    <TextView
+        android:id="@+id/TV_PlaylistAction_Label"
+        style="@style/Header_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/RV_row_height"
+        android:layout_marginLeft="@dimen/Head_margin"
+        android:layout_marginRight="@dimen/Head_margin"
+        android:gravity="end"
+        android:paddingLeft="@dimen/Head_padding"
+        android:paddingRight="@dimen/Head_padding"
+        android:text="Default"
+        android:textColor="@color/txt_light"
+        app:layout_constraintBottom_toTopOf="@id/TV_PlaylistAction_Theme"
+        app:layout_constraintEnd_toStartOf="@id/TV_PlaylistAction_DefaultPlaylist"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_PlaylistAction_BottomOfTopRow" />
+
+    <TextView
+        android:id="@+id/TV_PlaylistAction_DefaultPlaylist"
+        style="@style/Header_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/RV_row_height"
+        android:layout_marginBottom="@dimen/Head_margin"
+        android:layout_marginLeft="@dimen/Head_margin"
+        android:layout_marginRight="@dimen/Head_margin"
+        android:layout_marginTop="@dimen/Head_margin"
+        android:background="@drawable/border"
+        android:paddingLeft="@dimen/Head_padding"
+        android:paddingRight="@dimen/Head_padding"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@id/TV_PlaylistAction_Theme"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/TV_PlaylistAction_Label"
+        app:layout_constraintTop_toBottomOf="@id/BV_PlaylistAction_BottomOfTopRow" />
+
+
+    <Spinner
+        android:id="@+id/SP_PlaylistAction_Purpose"
+        style="@style/Data_Edittext"
+        android:background="@color/scream_transparent"
+
+        android:dropDownWidth="@dimen/RV_basic_width_02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.5"
+
+        app:layout_constraintBottom_toTopOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintTop_toBottomOf="@id/ET_PlaylistAction_Name" />
+
+
+    <TextView
+        android:id="@+id/TV_PlaylistAction_Theme"
+        style="@style/Header_Textview"
+        android:layout_width="@dimen/Head_basic_width_01"
+        android:layout_height="wrap_content"
+        android:text="@string/Theme"
+        android:textColor="@color/txt_light"
+        app:layout_constraintBottom_toTopOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintEnd_toStartOf="@id/TV_PlaylistAction_Event"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TV_PlaylistAction_Label" />
+
+
+    <TextView
+        android:id="@+id/TV_PlaylistAction_Event"
+        style="@style/Header_Textview"
+        android:layout_width="@dimen/Head_basic_width_01"
+        android:layout_height="wrap_content"
+        android:text="@string/event"
+        android:textColor="@color/txt_light"
+        app:layout_constraintBottom_toTopOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintEnd_toStartOf="@id/TV_PlaylistAction_Other"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/TV_PlaylistAction_Theme"
+        app:layout_constraintTop_toBottomOf="@id/TV_PlaylistAction_Label" />
+
+
+    <TextView
+        android:id="@+id/TV_PlaylistAction_Other"
+        style="@style/Header_Textview"
+        android:layout_width="@dimen/Head_basic_width_01"
+        android:layout_height="wrap_content"
+        android:text="@string/other"
+        android:textColor="@color/txt_light"
+        app:layout_constraintBottom_toTopOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/TV_PlaylistAction_Event"
+        app:layout_constraintTop_toBottomOf="@id/TV_PlaylistAction_Label" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_PlaylistAction_TopOfThreeRV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="RV_PlaylistAction_Theme,RV_PlaylistAction_Event,RV_PlaylistAction_Other" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/GL_PlaylistAction_1THIRD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.333" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/GL_PlaylistAction_2THIRD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.667" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_PlaylistAction_Theme"
+        style="@style/Data_RV_Style"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/data_quadraline_height"
+        android:layout_marginLeft="@dimen/Head_margin"
+        android:layout_marginRight="@dimen/Head_margin"
+        android:maxHeight="@dimen/data_recycle_height"
+        android:paddingLeft="@dimen/Head_padding"
+        android:paddingRight="@dimen/Head_padding"
+        android:scrollbarSize="@dimen/ScrollBarSize"
+        android:scrollbarThumbVertical="@color/bg_light"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/GL_PlaylistAction_1THIRD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintVertical_bias="0" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_PlaylistAction_Event"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/data_quadraline_height"
+        android:layout_marginLeft="@dimen/Head_margin"
+        android:layout_marginRight="@dimen/Head_margin"
+        android:maxHeight="@dimen/data_recycle_height"
+        android:minHeight="120dp"
+        android:paddingLeft="@dimen/Head_padding"
+        android:paddingRight="@dimen/Head_padding"
+        android:scrollbarSize="@dimen/ScrollBarSize"
+        android:scrollbarThumbVertical="@color/bg_light"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/GL_PlaylistAction_2THIRD"
+        app:layout_constraintStart_toEndOf="@id/GL_PlaylistAction_1THIRD"
+        app:layout_constraintTop_toBottomOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintVertical_bias="0" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_PlaylistAction_Other"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/data_quadraline_height"
+        android:layout_marginLeft="@dimen/Head_margin"
+        android:layout_marginRight="@dimen/Head_margin"
+        android:maxHeight="300dp"
+        android:paddingLeft="@dimen/Head_padding"
+        android:paddingRight="@dimen/Head_padding"
+        android:scrollbarSize="@dimen/ScrollBarSize"
+        android:scrollbarThumbVertical="@color/bg_light"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/GL_PlaylistAction_2THIRD"
+        app:layout_constraintTop_toBottomOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintVertical_bias="0" />
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/TV_Empty"-->
+    <!--        style="@style/Head_Text_Data"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="250dp"-->
+    <!--        android:text=""-->
+
+    <!--        app:layout_constraintTop_toBottomOf="@id/top_barrier"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="1" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

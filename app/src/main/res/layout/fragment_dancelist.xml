@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/setup_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/FL_DanceList_Purpose"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/Head_icon_size"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/FL_DanceList_Dummy0"
+        app:layout_constraintBottom_toTopOf="@id/BV_DanceList"
+        >
+        <Spinner
+            android:id="@+id/SP_DanceList_Purpose"
+            style="@style/Data_Icon"
+            android:layout_span="1"
+            android:textAlignment="viewEnd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dropDownWidth="@dimen/RV_basic_width_02"
+            app:layout_constraintHorizontal_bias="0.5" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/FL_DanceList_Create"
+        android:layout_width="@dimen/Head_icon_size"
+        android:layout_height="@dimen/Head_icon_size"
+        app:layout_constraintStart_toEndOf="@id/FL_DanceList_Dummy2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_DanceList"
+        >
+        <ImageView
+            android:id="@+id/IV_DanceList_AddNew"
+            style="@style/Data_Icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_addnew"
+            android:visibility="visible"
+            />
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/FL_DanceList_Dummy0"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/Head_icon_size"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_DanceList_Purpose"
+        app:layout_constraintEnd_toStartOf="@id/ET_DanceList_Name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_DanceList"
+        android:visibility="invisible"
+        >
+    </FrameLayout>
+
+
+
+
+    <EditText
+        android:id="@+id/ET_DanceList_Name"
+
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/RV_icon_size"
+        android:inputType="textPersonName"
+
+        android:text="Name"
+        app:layout_constraintHorizontal_weight="8"
+        app:layout_constraintStart_toEndOf="@id/FL_DanceList_Dummy0"
+        app:layout_constraintEnd_toStartOf="@id/ET_DanceList_Count"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_DanceList"
+        />
+
+
+
+    <EditText
+        android:id="@+id/ET_DanceList_Count"
+        style="@style/Data_Edittext"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/RV_icon_size"
+        android:inputType="textPersonName"
+        android:text="Count"
+        android:visibility="invisible"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/ET_DanceList_Name"
+        app:layout_constraintEnd_toStartOf="@id/FL_DanceList_Dummy1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_DanceList"
+        />
+
+
+
+
+    <FrameLayout
+        android:id="@+id/FL_DanceList_Dummy1"
+        android:layout_width="@dimen/Head_icon_size"
+        android:layout_height="@dimen/Head_icon_size"
+        app:layout_constraintStart_toEndOf="@id/ET_DanceList_Count"
+        app:layout_constraintEnd_toStartOf="@id/FL_DanceList_Dummy2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/FL_DanceList_Dummy2"
+        android:layout_width="@dimen/Head_icon_size"
+        android:layout_height="@dimen/Head_icon_size"
+        app:layout_constraintStart_toEndOf="@id/FL_DanceList_Dummy1"
+        app:layout_constraintEnd_toStartOf="@id/FL_DanceList_Create"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_DanceList"
+        >
+    </FrameLayout>
+
+
+
+
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_DanceList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="ET_DanceList_Name,ET_DanceList_Count,
+        FL_DanceList_Dummy0,FL_DanceList_Dummy1,FL_DanceList_Dummy2,FL_DanceList_Create" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_PlayList"
+        style="@style/Data_RV_Style"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_DanceList"
+        app:flow_verticalBias="1"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

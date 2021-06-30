@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/CL_RowMusicDirectoryPairing"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicDirectoryPairing_Artist"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/TV_RowMusicDirectoryPairing_Album"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicDirectoryPairing_Album"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairing"
+        app:layout_constraintEnd_toStartOf="@id/FL_RowMusicDirectoryPairing_Purpose"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toEndOf="@id/TV_RowMusicDirectoryPairing_Artist"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicDirectoryPairing_Purpose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairing"
+        app:layout_constraintEnd_toStartOf="@id/FL_RowMusicDirectoryPairing_Pairing"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/TV_RowMusicDirectoryPairing_Album"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <ImageView
+            android:id="@+id/IV_RowMusicDirectoryPairing_Purpose"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_purpose_world" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicDirectoryPairing_Pairing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairing"
+        app:layout_constraintEnd_toStartOf="@id/FL_RowMusicDirectoryPairing_Caret"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowMusicDirectoryPairing_Purpose"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/IV_RowMusicDirectoryPairing_Pairing"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_link_with" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicDirectoryPairing_Caret"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairing"
+        app:layout_constraintEnd_toStartOf="@id/TV_RowMusicDirectoryPairing_Count"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowMusicDirectoryPairing_Pairing"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/IV_RowMusicDirectoryPairing_Caret"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_caret_down" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicDirectoryPairing_Count"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowMusicDirectoryPairing_Caret"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+<!--    <androidx.constraintlayout.widget.Barrier-->
+<!--        android:id="@+id/BV_RowMusicDirectoryPairing"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="20dp"-->
+<!--        android:background="@color/scream_red"-->
+<!--        app:barrierDirection="bottom"-->
+<!--        app:constraint_referenced_ids="TV_RowMusicDirectoryPairing_Album,TV_RowMusicDirectoryPairing_Artist,TV_RowMusicDirectoryPairing_Count,FL_RowMusicDirectoryPairing_Caret,FL_RowMusicDirectoryPairing_Purpose,FL_RowMusicDirectoryPairing_Pairing" />-->
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_RowMusicDirectoryPairing"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="TV_RowMusicDirectoryPairing_Artist,TV_RowMusicDirectoryPairing_Album,TV_RowMusicDirectoryPairing_Count,
+            FL_RowMusicDirectoryPairing_Caret,FL_RowMusicDirectoryPairing_Pairing,FL_RowMusicDirectoryPairing_Purpose"
+
+        />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_RowMusicDirectoryPairing"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="@dimen/ScrollBarSize"
+        android:scrollbarThumbVertical="@color/bg_light"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_RowMusicDirectoryPairing"
+        app:layout_constraintVertical_bias="0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

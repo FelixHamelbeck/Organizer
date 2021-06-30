@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/bg_light">
+
+
+    <TextView
+        android:id="@+id/TV_EditClassificationTitle"
+        style="@style/Data_Edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/bg_light"
+        android:text="Edit Status"
+        app:layout_constraintBottom_toTopOf="@id/IV_EditPairingStatus_Confirmed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!--app:layout_constraintBottom_toTopOf="@id/PB_EditClassification_Cancel"-->
+
+
+        <ImageView
+            android:id="@+id/IV_EditPairingStatus_Confirmed"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toStartOf="@id/IV_EditPairingStatus_Candidate"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_link_confirmed"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/IV_EditPairingStatus_Candidate"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/IV_EditPairingStatus_Rejected"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditPairingStatus_Confirmed"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_link_candidate" />
+
+
+        <ImageView
+            android:id="@+id/IV_EditPairingStatus_Rejected"
+            style="@style/Data_Icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/IV_EditPairingStatus_Candidate"
+            app:layout_constraintTop_toBottomOf="@id/TV_EditClassificationTitle"
+            app:srcCompat="@drawable/ic_link_rejected" />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

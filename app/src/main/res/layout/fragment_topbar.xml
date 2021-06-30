@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+android:backgroundTint="@color/bg_standard"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/TopBar_Height">
+
+
+    <ImageView
+        android:id="@+id/IV_TopBar_AppIcon"
+        style="@style/Data_Icon"
+        android:layout_width="@dimen/TopBar_AppIconSize"
+        android:layout_height="@dimen/TopBar_AppIconSize"
+        android:layout_marginStart="@dimen/TopBar_Margin"
+        android:background="@color/bg_emphasis"
+        android:elevation="@dimen/Detail_block"
+        android:fadingEdge="horizontal|vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/TV_TopBar_AppName"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_pouchette_250_foreground"
+        tools:ignore="ContentDescription" />
+
+
+    <TextView
+        android:id="@+id/TV_TopBar_AppName"
+        style="@style/TopBar_Textview"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/TopBar_Title_FontSize"
+        android:text="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/BV_TopBar_Left"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_AppIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+
+
+
+    <androidx.constraintlayout.widget.Barrier
+
+        android:id="@+id/BV_TopBar_Left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="TV_TopBar_InfoBottom, TV_TopBar_InfoTop"
+        tools:layout_editor_absoluteX="59dp" />
+
+
+    <TextView
+        android:id="@+id/TV_TopBar_InfoTop"
+        style="@style/TopBar_Textview"
+        android:text="@string/infotop"
+        app:layout_constraintBottom_toTopOf="@id/TV_TopBar_InfoBottom"
+        app:layout_constraintEnd_toEndOf="@id/BV_TopBar_Right"
+        app:layout_constraintHorizontal_bias="0."
+        app:layout_constraintStart_toStartOf="@id/BV_TopBar_Left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/TV_TopBar_InfoBottom"
+        style="@style/TopBar_Textview"
+        android:text="@string/infotop_but_much_longer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/BV_TopBar_Right"
+        app:layout_constraintHorizontal_bias="0."
+        app:layout_constraintStart_toStartOf="@id/BV_TopBar_Left"
+        app:layout_constraintTop_toBottomOf="@id/TV_TopBar_InfoTop"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.constraintlayout.widget.Barrier
+
+        android:id="@+id/BV_TopBar_Right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="TV_TopBar_InfoBottom, TV_TopBar_InfoTop"
+       />
+
+
+
+    <ImageView
+        android:id="@+id/IV_TopBar_EmptySpace"
+        style="@style/Data_Icon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:contentDescription="Empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IV_TopBar_Dance"
+
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/BV_TopBar_Right"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <ImageView
+        android:id="@+id/IV_TopBar_Dance"
+        style="@style/TopBar_Icon"
+        android:contentDescription="Dance"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IV_TopBar_MusicFile"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_EmptySpace"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_allemande05_bw" />
+
+
+
+    <ImageView
+        android:id="@+id/IV_TopBar_MusicFile"
+        style="@style/TopBar_Icon"
+        android:contentDescription="MusicFile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IV_TopBar_Playlist"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_Dance"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_accordion" />
+
+
+    <ImageView
+        android:id="@+id/IV_TopBar_Playlist"
+        style="@style/TopBar_Icon"
+        android:contentDescription="Playlist"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IV_TopBar_Player"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_MusicFile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_playlist" />
+
+
+    <ImageView
+        android:id="@+id/IV_TopBar_Player"
+        style="@style/TopBar_Icon"
+        android:contentDescription="Dance"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IV_TopBar_MenuIcon"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_Playlist"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_director" />
+
+    <ImageView
+        android:id="@+id/IV_TopBar_MenuIcon"
+        style="@style/TopBar_Icon"
+        android:layout_width="@dimen/TopBar_MenuIconSize"
+        android:contentDescription="@string/menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_Player"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_menudotdotdot" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

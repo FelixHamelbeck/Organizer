@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="Jig">#FFFFCC</color>
+    <color name="Reel">#FFCCCC</color>
+    <color name="Strathspey">#CCCCFF</color>
+    <color name="Medley">#CCFFCC</color>
+    <color name="Other">#CCFFFF</color>
+
+
+
+
+    <color name="bg_emphasis">#8888ff</color>
+    <color name="bg_standard">#AAAAFF</color>
+    <color name="bg_light">#eeeeff</color>
+
+    <color name="bg_list_standard">#DDDDFF</color>
+    <color name="bg_list_selected">#9999FF</color>
+    <color name="bg_list_preselected">#FF9999</color>
+    <color name="bg_list_highlight">#BB5555</color>
+
+
+    <color name="bg_pushbutton_standard">#5555FF</color>
+    <color name="bg_pushbutton_inactive">#AAAAFF</color>
+
+
+    <color name="txt_standard">#000000</color>
+    <color name="txt_light">#999999</color>
+    <color name="txt_selected">#FFFFFF</color>
+    <color name="txt_inactive">#888888</color>
+    <color name="txt_warning">#ff0000</color>
+
+    <color name="divider">#999999</color>
+
+
+    <color name="scream_transparent">#000000FF</color>
+    <color name="scream_black">#000000</color>
+    <color name="scream_red">#ff0000</color>
+    <color name="scream_blue">#0000FF</color>
+    <color name="scream_green">#00ff00</color>
+    <color name="scream_yellow">#ffff00</color>
+    <color name="scream_cyan">#00ffff</color>
+
+
+</resources>

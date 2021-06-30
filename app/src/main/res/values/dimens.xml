@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--Poster-->
+
+
+    <!--Head-->
+    <dimen name="Head_textview_font_size">28sp</dimen>
+    <dimen name="Head_padding">2dp</dimen>
+    <dimen name="Head_margin">2dp</dimen>
+    <dimen name="Head_row_height">62dp</dimen>
+    <dimen name="Head_icon_size">50dp</dimen>
+    <dimen name="Head_basic_width_01">240dp</dimen>
+
+    <!--Recyclerview-->
+    <dimen name="RV_textview_font_size">24sp</dimen>
+    <dimen name="RV_padding">0dp</dimen>
+    <dimen name="RV_block">18dp</dimen>
+    <dimen name="RV_edittext_font_size">28sp</dimen>
+    <dimen name="RV_row_height">44dp</dimen>
+    <dimen name="RV_icon_size">40dp</dimen>
+    <dimen name="RV_basic_width_quarter">30dp</dimen>
+    <dimen name="RV_basic_width_01">120dp</dimen>
+    <dimen name="RV_basic_width_02">240dp</dimen>
+
+
+    <!--Detail-->
+    <dimen name="Detail_textview_font_size">18sp</dimen>
+    <dimen name="Detail_block">15dp</dimen>
+    <dimen name="Detail_row_height">24dp</dimen>
+    <dimen name="Detail_row_padding">1dp</dimen>
+    <dimen name="Detail_row_margin">1dp</dimen>
+
+    <!-- Info -->
+
+    <!--Button-->
+    <dimen name="PB_Standard_height">36dp</dimen>
+    <dimen name="PB_Standard_font_size">24sp</dimen>
+    <dimen name="PB_Standard_margin">8dp</dimen>
+    <dimen name="PB_Standard_padding">0dp</dimen>
+
+    <!--Introduction-->
+
+
+    <!--ticket-->
+
+
+    <!--Misc-->
+    <dimen name="LineHeight">1dp</dimen>
+    <dimen name="ScrollBarSize">3dp</dimen>
+    <dimen name="Dialog_width">650dp</dimen>
+    <dimen name="Dialog_height">600dp</dimen>
+    <dimen name="data_quadraline_height">180dp</dimen>
+    <dimen name="data_recycle_height">270dp</dimen>
+
+    <dimen name="TopBar_Margin">10dp</dimen>
+    <dimen name="TopBar_Height">120dp</dimen>
+    <dimen name="TopBar_AppIconSize">90dp</dimen>
+    <dimen name="TopBar_IconSize">72dp</dimen>
+    <dimen name="TopBar_MenuIconSize">60dp</dimen>
+    <dimen name="TopBar_Title_FontSize">40sp</dimen>
+    <dimen name="TopBar_Info_FontSize">18sp</dimen>
+
+
+
+</resources>

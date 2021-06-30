@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/CL_RowMusicDirectory"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/TV_RowAlbum_Artist"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/TV_RowAlbum_Album"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/TV_RowAlbum_Album"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/FL_RowAlbum_Purpose"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toEndOf="@id/TV_RowAlbum_Artist"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <FrameLayout
+        android:id="@+id/FL_RowAlbum_Purpose"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toStartOf="@+id/FL_RowAlbum_Pairing"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/TV_RowAlbum_Album"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowAlbum_Purpose"
+            android:layout_gravity="center"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_purpose_world" />
+        <ImageView
+            android:id="@+id/IV_RowAlbum_PurposeOverlay"
+            android:layout_gravity="center"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_purpose_world" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_RowAlbum_Pairing"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toStartOf="@id/BH_RowAlbum_BelowNormal"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/FL_RowAlbum_Purpose"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowAlbum_Pairing"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_playlist" />
+    </FrameLayout>
+
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BH_RowAlbum_BelowNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="TV_RowAlbum_Signature,TV_RowAlbum_Count" />
+
+
+    <TextView
+        android:id="@+id/TV_RowAlbum_Count"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/empty"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/TV_RowAlbum_Signature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowAlbum_Pairing"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        />
+
+
+
+    <TextView
+        android:id="@+id/TV_RowAlbum_Signature"
+        style="@style/Data_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="Hallo"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/TV_RowAlbum_Count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowAlbum_Pairing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

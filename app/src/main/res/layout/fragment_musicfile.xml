@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/ET_Musicfile_Artist"
+        style="@style/Data_Edittext"
+        android:autofillHints="@string/Artist"
+        android:hint="@string/Artist"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ET_Musicfile_Album"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <EditText
+        android:id="@+id/ET_Musicfile_Album"
+        style="@style/Data_Edittext"
+        android:autofillHints="@string/Album"
+        android:hint="@string/Album"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@id/ET_Musicfile_Artist"
+        app:layout_constraintEnd_toStartOf="@id/FL_Musicfile_Purpose"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
+        tools:ignore="HardcodedText" />
+
+    <FrameLayout
+        android:id="@+id/FL_Musicfile_Purpose"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/Head_icon_size"
+
+        android:layout_gravity="center"
+        app:layout_constraintStart_toEndOf="@id/ET_Musicfile_Album"
+        app:layout_constraintEnd_toStartOf="@id/FL_Musicfile_DanceLink"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/ET_Musicfile_Artist"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"    >
+        <Spinner
+            android:id="@+id/SP_Musicfile_Purpose"
+            style="@style/Data_Icon"
+            android:dropDownWidth="@dimen/RV_basic_width_02"
+            android:layout_gravity="center"
+            app:layout_constraintHorizontal_bias="0.5"
+            />
+    </FrameLayout>
+
+
+<!--    <FrameLayout-->
+<!--        android:id="@+id/FL_Musicfile_Favourite"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="@dimen/Head_icon_size"-->
+<!--        android:visibility="visible"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"-->
+<!--        app:layout_constraintStart_toEndOf="@id/FL_Musicfile_Purpose"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/FL_Musicfile_DanceLink"-->
+<!--        app:layout_constraintHorizontal_weight="1"-->
+<!--        app:layout_constraintTop_toTopOf="@id/ET_Musicfile_Artist" />-->
+
+    <FrameLayout
+        android:id="@+id/FL_Musicfile_DanceLink"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
+        app:layout_constraintStart_toEndOf="@id/FL_Musicfile_Purpose"
+        app:layout_constraintEnd_toStartOf="@id/ET_Musicfile_Name"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/ET_Musicfile_Artist" />
+
+
+    <EditText
+        android:id="@+id/ET_Musicfile_Name"
+        style="@style/Data_Edittext"
+        android:autofillHints="@string/Name"
+        android:hint="@string/Name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
+        app:layout_constraintStart_toEndOf="@id/FL_Musicfile_DanceLink"
+        app:layout_constraintEnd_toStartOf="@id/FL_Musicfile_Play"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintTop_toTopOf="@id/ET_Musicfile_Artist" />
+
+    <FrameLayout
+        android:id="@+id/FL_Musicfile_Play"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
+        app:layout_constraintStart_toEndOf="@id/ET_Musicfile_Name"
+        app:layout_constraintEnd_toStartOf="@id/FL_Musicfile_Playlist"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/ET_Musicfile_Artist" />
+
+    <FrameLayout
+        android:id="@+id/FL_Musicfile_Playlist"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
+        app:layout_constraintEnd_toStartOf="@id/ET_Musicfile_Duration"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_Musicfile_Play"
+        app:layout_constraintTop_toTopOf="@id/ET_Musicfile_Artist" />
+
+    <EditText
+        android:id="@+id/ET_Musicfile_Duration"
+        style="@style/Data_Edittext"
+        android:autofillHints="@string/Duration"
+        android:hint="@string/Duration"
+        android:inputType="textPersonName"
+        android:paddingEnd="@dimen/RV_padding"
+        android:paddingStart="@dimen/RV_padding"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
+        app:layout_constraintStart_toEndOf="@id/FL_Musicfile_Playlist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/ET_Musicfile_Artist" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_Musicfile"
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="FL_Musicfile_Purpose,FL_Musicfile_DanceLink,FL_Musicfile_Play,
+        FL_Musicfile_Playlist,ET_Musicfile_Album,ET_Musicfile_Artist,ET_Musicfile_Duration,ET_Musicfile_Name"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_Musicfile"
+        style="@style/Data_RV_Style"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_Musicfile" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

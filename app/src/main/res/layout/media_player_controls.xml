@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/PB_player_play"
+        style="@style/Label_Array_Button"
+        android:text="@string/Play_PB_play_text"
+        app:layout_constraintEnd_toStartOf="@id/GL_player_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/PB_player_stop"
+        />
+
+    <Button
+        android:id="@+id/PB_player_stop"
+        style="@style/Label_Array_Button"
+        android:text="@string/Play_PB_stop_text"
+        app:layout_constraintEnd_toStartOf="@id/GL_player_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PB_player_play"
+        app:layout_constraintBottom_toTopOf="@id/TV_volume"/>
+
+
+    <TextView
+        android:id="@+id/TV_volume"
+        style="@style/Data_Textview"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:text="@string/TV_Volume"
+
+        app:layout_constraintBottom_toBottomOf="@id/TV_speed"
+        app:layout_constraintEnd_toStartOf="@id/GL_player_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/TV_speed" />
+
+    <Button
+        android:id="@+id/PB_player_raiseVolume"
+        style="@style/Label_Array_Button"
+        android:text="@string/Play_PB_raiseVolume_text"
+        app:layout_constraintBottom_toBottomOf="@id/PB_player_raiseSpeed"
+        app:layout_constraintEnd_toStartOf="@id/GL_player_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/PB_player_raiseSpeed" />
+
+    <Button
+        android:id="@+id/PB_player_lowerVolume"
+        style="@style/Label_Array_Button"
+        android:text="@string/Play_PB_lowerVolume_text"
+        app:layout_constraintBottom_toBottomOf="@id/PB_player_normalSpeed"
+        app:layout_constraintEnd_toStartOf="@id/GL_player_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/PB_player_normalSpeed" />
+
+
+
+    <Button
+        android:id="@+id/PB_player_playlist"
+        style="@style/Label_Array_Button"
+        android:text="@string/Play_PB_playlist_text"
+        app:layout_constraintBottom_toBottomOf="@id/PB_player_lowerSpeed"
+        app:layout_constraintEnd_toStartOf="@id/GL_player_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/PB_player_lowerSpeed"
+        android:visibility="gone"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/GL_player_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <Button
+        android:id="@+id/PB_player_continue"
+        style="@style/Label_Array_Button"
+        android:text="@string/Play_PB_continue_text"
+        app:layout_constraintBottom_toBottomOf="@id/PB_player_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/GL_player_vertical"
+        app:layout_constraintTop_toTopOf="@id/PB_player_play" />
+
+
+    <Button
+        android:id="@+id/PB_player_choose"
+        style="@style/Label_Array_Button"
+        android:text="@string/Play_PB_choose_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/GL_player_vertical"
+        app:layout_constraintTop_toTopOf="@id/PB_player_stop"
+        app:layout_constraintBottom_toBottomOf="@id/PB_player_stop"/>
+
+
+    <TextView
+        android:id="@+id/TV_speed"
+        style="@style/Data_Textview"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:text="@string/TV_Speed"
+        app:layout_constraintBottom_toTopOf="@id/PB_player_raiseSpeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/GL_player_vertical"
+        app:layout_constraintTop_toBottomOf="@id/PB_player_stop" />
+
+
+    <Button
+        android:id="@+id/PB_player_raiseSpeed"
+        style="@style/Label_Array_Button"
+        android:maxLines="1"
+        android:text="@string/Play_PB_raiseSpeed_text"
+        app:layout_constraintBottom_toTopOf="@id/PB_player_normalSpeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/GL_player_vertical"
+        app:layout_constraintTop_toBottomOf="@id/TV_speed" />
+
+    <Button
+        android:id="@+id/PB_player_normalSpeed"
+        style="@style/Label_Array_Button"
+
+        android:maxLines="1"
+        android:text="@string/Play_PB_normalSpeed_text"
+        app:layout_constraintBottom_toTopOf="@id/PB_player_lowerSpeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/GL_player_vertical"
+        app:layout_constraintTop_toBottomOf="@id/PB_player_raiseSpeed" />
+
+    <Button
+        android:id="@+id/PB_player_lowerSpeed"
+        style="@style/Label_Array_Button"
+        android:text="@string/Play_PB_lowerSpeed_text"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@id/PR_player_track"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/GL_player_vertical"
+        app:layout_constraintTop_toBottomOf="@id/PB_player_normalSpeed" />
+
+
+    <ProgressBar
+        android:id="@+id/PR_player_track"
+        style="?android:attr/progressBarStyleHorizontal"
+
+        android:layout_width="0dp"
+        android:layout_height="@dimen/RV_row_height"
+        android:layout_marginLeft="@dimen/PB_Standard_margin"
+        android:layout_marginRight="@dimen/PB_Standard_margin"
+
+        android:progressBackgroundTint="@color/bg_pushbutton_standard"
+        android:progressTint="@color/scream_black"
+        app:layout_constraintBottom_toTopOf="@id/TV_player_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PB_player_lowerSpeed" />
+
+    <TextView
+        android:id="@+id/TV_player_time"
+        style="@style/Data_Textview"
+        android:gravity="center"
+        android:text="@string/Play_TV_player_time"
+        app:layout_constraintBottom_toTopOf="@id/TV_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PR_player_track" />
+
+    <TextView
+        android:id="@+id/TV_title"
+        style="@style/Data_Textview"
+        android:gravity="center"
+        android:text="@string/Play_TV_title"
+        app:layout_constraintBottom_toTopOf="@id/TV_album"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TV_player_time" />
+
+    <TextView
+        android:id="@+id/TV_album"
+        style="@style/Data_Textview"
+        android:gravity="center"
+        android:text="@string/Album"
+        app:layout_constraintBottom_toTopOf="@id/TV_artist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TV_title" />
+
+
+    <TextView
+        android:id="@+id/TV_artist"
+        style="@style/Data_Textview"
+        android:gravity="center"
+        android:text="@string/Play_TV_artist"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TV_album" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_list_standard"
+    android:layout_width="1800px"
+    android:layout_height="800px"
+    >
+
+    <ScrollView
+        android:id="@+id/DanceInfo_SC"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarSize="10dip"
+        android:scrollbarThumbVertical="@color/bg_emphasis"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_Name"
+                style="@style/Header_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_BH_BelowIcons"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_IV_Favourite"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/DanceInfo_BH_AboveIcons" />
+
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/DanceInfo_BH_AboveIcons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="top"
+                app:constraint_referenced_ids="DanceInfo_TV_Name,DanceInfo_IV_Favourite,DanceInfo_IV_Musicfile,DanceInfo_IV_RSCDS,DanceInfo_IV_Dancelist"/>
+
+            <ImageView
+                android:id="@+id/DanceInfo_IV_Favourite"
+                style="@style/TopBar_Icon"
+                app:srcCompat="@drawable/ic_favourite_unknown"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_IV_Dancelist"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_BH_AboveIcons"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_BH_BelowIcons"  />
+
+            <ImageView
+                android:id="@+id/DanceInfo_IV_Dancelist"
+                style="@style/TopBar_Icon"
+                app:srcCompat="@drawable/ic_playlist"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_IV_Musicfile"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_BH_AboveIcons"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_BH_BelowIcons" />
+
+
+            <ImageView
+                android:id="@+id/DanceInfo_IV_Musicfile"
+                style="@style/TopBar_Icon"
+                app:srcCompat="@drawable/ic_music_single"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_IV_RSCDS"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_BH_AboveIcons"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_BH_BelowIcons" />
+
+
+            <ImageView
+                android:id="@+id/DanceInfo_IV_RSCDS"
+                style="@style/TopBar_Icon"
+                app:srcCompat="@drawable/ic_rscds_crown"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_BH_AboveIcons"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_BH_BelowIcons"  />
+
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/DanceInfo_BH_BelowIcons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="DanceInfo_IV_Favourite,DanceInfo_IV_Musicfile,DanceInfo_IV_RSCDS,DanceInfo_IV_Dancelist"/>
+
+
+            <!--         +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+            <ImageView
+                android:id="@+id/DanceInfo_IV_DisplayDiagram"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_RV_Crib"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_BH_BelowIcons" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/DanceInfo_RV_Crib"
+                style="@style/Data_RV_Style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_TV_ItalicDots"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_IV_DisplayDiagram" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_ItalicDots"
+                style="@style/Data_Textview"
+                android:gravity="left"
+                android:text="ItalicDots"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_TL_Devised"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_RV_Crib" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TL_Devised"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Devised"
+
+                app:layout_constraintBottom_toBottomOf="@id/DanceInfo_TV_Devised"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_GL_Left"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/DanceInfo_TV_Devised" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TL_Intensity"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Intensity"
+                app:layout_constraintBottom_toBottomOf="@id/DanceInfo_TV_Intensity"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_GL_Left"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/DanceInfo_TV_Intensity"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TL_Formation"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Formation"
+                app:layout_constraintBottom_toBottomOf="@id/DanceInfo_TV_Formation"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_GL_Left"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/DanceInfo_TV_Formation"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TL_Step"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Step"
+                app:layout_constraintBottom_toBottomOf="@id/DanceInfo_TV_Step"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_GL_Left"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/DanceInfo_TV_Step"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TL_Published"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Published"
+                app:layout_constraintBottom_toBottomOf="@id/DanceInfo_TV_Published"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_GL_Left"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/DanceInfo_TV_Published"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TL_Music"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Music"
+                app:layout_constraintBottom_toBottomOf="@id/DanceInfo_TV_Music"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_GL_Left"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/DanceInfo_TV_Music"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TL_Extra"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Extra"
+                app:layout_constraintBottom_toBottomOf="@id/DanceInfo_TV_Extra"
+                app:layout_constraintEnd_toStartOf="@id/DanceInfo_GL_Left"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/DanceInfo_TV_Extra"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_Devised"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Devised"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_TV_Formation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/DanceInfo_GL_Right"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_TV_ItalicDots" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_Intensity"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+
+                android:text="Intensity"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_TV_Formation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/DanceInfo_GL_Right"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_TV_Devised" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_Formation"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:maxLines="24"
+                android:text="Formation"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_TV_Step"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/DanceInfo_GL_Right"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_TV_Intensity" />
+
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_Step"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:maxLines="24"
+                android:text="Step"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_TV_Published"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/DanceInfo_GL_Right"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_TV_Formation" />
+
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_Published"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:maxLines="24"
+                android:text="Published"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_TV_Music"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/DanceInfo_GL_Right"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_TV_Step" />
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_Music"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Music"
+                app:layout_constraintBottom_toTopOf="@id/DanceInfo_TV_Extra"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/DanceInfo_GL_Right"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_TV_Published" />
+
+
+            <TextView
+                android:id="@+id/DanceInfo_TV_Extra"
+                style="@style/Data_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Extra"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/DanceInfo_GL_Right"
+                app:layout_constraintTop_toBottomOf="@id/DanceInfo_TV_Music" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/DanceInfo_GL_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.20" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/DanceInfo_GL_Right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.21" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+</LinearLayout>

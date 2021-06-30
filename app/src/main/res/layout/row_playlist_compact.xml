@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RowPlaylist_CL"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toEndOf="@id/RowPlaylist_TV_Name"
+    >
+
+
+
+
+
+    <TextView
+        android:id="@+id/RowPlaylist_TV_Name"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/RV_icon_size"
+        android:text="Name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.5"        />
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/RowPlaylist_CL_Count"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/RowPlaylist_TV_Name"
+
+        >
+
+
+    <TextView
+        android:id="@+id/RowPlaylist_TV_Open"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/RV_icon_size"
+        android:text=" ("
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        />
+
+
+    <TextView
+        android:id="@+id/RowPlaylist_TV_Count"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/RV_icon_size"
+        android:text="0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/RowPlaylist_TV_Open"
+        app:layout_constraintVertical_bias="0.5"
+        />
+
+
+    <TextView
+        android:id="@+id/RowPlaylist_TV_Close"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/RV_icon_size"
+        android:text=")"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/RowPlaylist_TV_Count"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

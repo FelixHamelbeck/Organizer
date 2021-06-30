@@ -1,0 +1,72 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Pochette</string>
+
+
+    <!-- UI in Navigation Bar -->
+
+
+    <!-- UI in Navigation Bar -->
+
+
+    <!-- UI in Fragment Player -->
+    <string name="Play_PB_play_text">Play</string>
+    <string name="Play_PB_continue_text">Continue</string>
+    <string name="Play_PB_stop_text">Stop</string>
+    <string name="Play_PB_choose_text">Choose</string>
+    <string name="TV_Volume">Vol</string>
+    <string name="TV_Speed">Speed</string>
+    <string name="Play_PB_raiseVolume_text">Volume +</string>
+    <string name="Play_PB_lowerVolume_text">Volume -</string>
+    <string name="Play_PB_playlist_text">Playlist</string>
+    <string name="Play_PB_raiseSpeed_text" tools:ignore="StringFormatInvalid">+1% Spe</string>
+    <string name="Play_PB_lowerSpeed_text" tools:ignore="StringFormatInvalid">-1% Spe</string>
+    <string name="Play_PB_normalSpeed_text">100% </string>
+    <string name="Play_PB_Create_text">Create</string>
+    <string name="Play_TV_player_time">00:00/—:—</string>
+    <string name="Play_TV_title">Title</string>
+    <string name="Play_TV_artist">Artist</string>
+
+
+    <!-- UI in Dialogues -->
+
+    <!-- UI Setup Fragment-->
+
+
+    <!-- UI Test  Fragment-->
+
+
+    <!-- UI ScddbAlbum  Fragment-->
+
+
+    <string name="Dummy">***</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <!-- Example settings for Data & Sync -->
+
+
+    <!-- Example settings for Notifications -->
+
+    <string name="empty">X</string>
+    <string name="NotAvailable">N A</string>
+    <string name="event">Event</string>
+    <string name="other">Other</string>
+    <string name="SelectPlaylist">Select Playlist</string>
+    <string name="Dance">Dance</string>
+    <string name="Playlist">Playlist</string>
+    <string name="Name">Name</string>
+    <string name="EditClassification">Edit Classification</string>
+    <string name="Theme">Theme</string>
+
+
+    <string name="EditMusicFavourite">Choose Music for Dance</string>
+    <string name="Album">Album</string>
+    <string name="Artist">Artist</string>
+    <string name="Duration">Duration</string>
+    <string name="infotop">InfoTop</string>
+    <string name="infotop_but_much_longer">InfoTop but much longer</string>
+    <string name="menu">Menu</string>
+
+</resources>

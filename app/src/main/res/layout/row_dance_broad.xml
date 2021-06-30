@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/IV_RowScddbDance_Favourite"
+        style="@style/Data_Icon"
+        android:contentDescription="Favourite"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@+id/IV_RowScddbDance_Playlist"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/TV_RowScddbDance_Name"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:srcCompat="@drawable/ic_favourite_unknown" />
+
+    <ImageView
+        android:id="@+id/IV_RowScddbDance_Playlist"
+        style="@style/Data_Icon"
+        android:contentDescription="Playlist"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@+id/TV_RowScddbDance_Type"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_Favourite"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:srcCompat="@drawable/ic_playlist" />
+
+    <ImageView
+        android:id="@+id/IV_RowScddbDance_MusicFile"
+        style="@style/Data_Icon"
+        android:contentDescription="Music"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@+id/IV_RowScddbDance_Diagram"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/TV_RowScddbDance_Progression"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:srcCompat="@drawable/ic_music_multiple" />
+
+    <ImageView
+        android:id="@+id/IV_RowScddbDance_Diagram"
+        style="@style/Data_Icon"
+        android:contentDescription="Diagram"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@+id/IV_RowScddbDance_Crib"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_MusicFile"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:srcCompat="@drawable/ic_diagram" />
+
+    <ImageView
+        android:id="@+id/IV_RowScddbDance_Crib"
+        style="@style/Data_Icon"
+        android:contentDescription="Crib"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@+id/IV_RowScddbDance_RSCDS"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_Diagram"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:srcCompat="@drawable/ic_crib" />
+
+    <ImageView
+        android:id="@+id/IV_RowScddbDance_RSCDS"
+        style="@style/Data_Icon"
+        android:contentDescription="RSCDS"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@id/IV_RowScddbDance_Info"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_Crib"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:srcCompat="@drawable/ic_rscds_crown" />
+
+    <ImageView
+        android:id="@+id/IV_RowScddbDance_Info"
+        style="@style/Data_Icon"
+        android:contentDescription="Info"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_RSCDS"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:srcCompat="@drawable/ic_info" />
+
+    <TextView
+        android:id="@+id/TV_RowScddbDance_Name"
+        style="@style/Data_Textview"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintEnd_toStartOf="@+id/IV_RowScddbDance_Favourite"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/VI_RowScddbDance_topline"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/TV_RowScddbDance_Type"
+        style="@style/Data_Textview"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@+id/TV_RowScddbDance_Shape"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@+id/IV_RowScddbDance_Playlist"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/TV_RowScddbDance_Shape"
+        style="@style/Data_Textview"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@+id/TV_RowScddbDance_Couples"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/TV_RowScddbDance_Type"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/TV_RowScddbDance_Couples"
+        style="@style/Data_Textview"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@+id/TV_RowScddbDance_Progression"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/TV_RowScddbDance_Shape"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/TV_RowScddbDance_Progression"
+        style="@style/Data_Textview"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintEnd_toStartOf="@id/IV_RowScddbDance_MusicFile"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/TV_RowScddbDance_Couples"
+        app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <View
+        android:id="@+id/VI_RowScddbDance_topline"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/LineHeight"
+        android:background="@color/divider"
+        app:layout_constraintBottom_toTopOf="@id/TV_RowScddbDance_Name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_PlaylistAction_TopOfThreeRV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="IV_RowScddbDance_DisplayDiagram,RV_RowScddbDance_Crib" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/GL_RowScddbDance_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_RowScddbDance_Crib"
+        style="@style/Data_RV_Style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toEndOf="@id/GL_RowScddbDance_vertical"
+        app:layout_constraintTop_toTopOf="@id/BV_PlaylistAction_TopOfThreeRV" />
+
+
+    <org.pochette.organizer.gui_assist.BitmapView
+        android:id="@+id/IV_RowScddbDance_DisplayDiagram"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="Diagram"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/GL_RowScddbDance_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintVertical_bias="0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

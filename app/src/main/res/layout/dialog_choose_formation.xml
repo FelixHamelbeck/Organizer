@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/Dialog_width"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_light">
+
+
+    <TextView
+        android:id="@+id/TV_DialogFormationTitle"
+        style="@style/Data_Edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ChooseFormation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/TV_DialogFormationSelected"/>
+
+    <ImageView
+        android:id="@+id/IV_DialogFormationSelected_Confirm"
+        style="@style/Data_Icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:srcCompat="@drawable/ic_confirm" />
+
+    <TextView
+        android:id="@+id/TV_DialogFormationSelected"
+        style="@style/Data_Edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Touch Choice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintBottom_toTopOf="@id/BV_DialogFormation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TV_DialogFormationTitle" />
+
+
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_DialogFormation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="RV_DialogFormation,LL_DialogFormation" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_DialogFormation"
+        android:layout_height="300dp"
+        android:layout_width="@dimen/Dialog_width"
+        style="@style/Data_RV_Style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_DialogFormation" />
+
+
+
+        <LinearLayout
+            android:id="@+id/LL_DialogFormation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:visibility="gone"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/BV_DialogFormation">
+
+        </LinearLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

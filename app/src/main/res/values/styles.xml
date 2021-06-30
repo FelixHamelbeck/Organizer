@@ -1,0 +1,126 @@
+<resources>
+
+
+
+    <style name="TopBar_Icon">
+        <item name="android:layout_width">@dimen/TopBar_IconSize</item>
+        <item name="android:layout_height">@dimen/TopBar_IconSize</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+
+    </style>
+
+
+    <style name="TopBar_Textview">
+
+        <item name="android:textSize">@dimen/Detail_textview_font_size</item>
+        <item name="android:layout_height">@dimen/Detail_row_height</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/txt_standard</item>
+        <item name="android:paddingTop">@dimen/Detail_row_padding</item>
+        <item name="android:paddingBottom">@dimen/Detail_row_padding</item>
+        <item name="android:paddingLeft">@dimen/Detail_row_padding</item>
+        <item name="android:paddingRight">@dimen/Detail_row_padding</item>
+
+        <item name="android:layout_marginStart">@dimen/TopBar_Margin</item>
+        <item name="android:layout_marginEnd">@dimen/TopBar_Margin</item>
+    </style>
+
+
+    <!--    Style for Titles of Dialogues-->
+
+    <style name="Header_Textview">
+        <item name="android:layout_height">@dimen/Head_row_height</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">@dimen/Head_textview_font_size</item>
+        <item name="android:textColor">@color/txt_standard</item>
+        <item name="android:paddingTop">@dimen/Head_padding</item>
+        <item name="android:paddingBottom">@dimen/Head_padding</item>
+        <item name="android:paddingLeft">@dimen/Head_padding</item>
+        <item name="android:paddingRight">@dimen/Head_padding</item>
+    </style>
+
+
+
+<!-- the normal styles-->
+
+    <style name="Data_Icon">
+        <item name="android:textSize">@dimen/Head_textview_font_size</item>
+        <item name="android:textColor">@color/txt_standard</item>
+        <item name="android:layout_width">@dimen/Head_icon_size</item>
+        <item name="android:layout_height">@dimen/Head_icon_size</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+    </style>
+
+
+
+    <style name="Data_RV_Style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:padding">@dimen/RV_padding</item>
+    </style>
+
+    <style name="Data_Textview">
+        <item name="android:layout_height">@dimen/RV_row_height</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">@dimen/RV_textview_font_size</item>
+        <item name="android:textColor">@color/txt_standard</item>
+        <item name="android:paddingTop">@dimen/RV_padding</item>
+        <item name="android:paddingBottom">@dimen/RV_padding</item>
+        <item name="android:paddingLeft">@dimen/RV_padding</item>
+        <item name="android:paddingRight">@dimen/RV_padding</item>
+    </style>
+
+    <style name="Data_Edittext">
+        <item name="android:layout_height">@dimen/RV_row_height</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textColor">@color/txt_standard</item>
+        <item name="android:textSize">@dimen/RV_edittext_font_size</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+    </style>
+
+    <style name="Label_Array_Button">
+        <item name="android:textColor">@color/txt_selected</item>
+        <item name="android:background">@color/bg_pushbutton_standard</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/RV_edittext_font_size</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/PB_Standard_height</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:paddingTop">@dimen/PB_Standard_padding</item>
+        <item name="android:paddingBottom">@dimen/PB_Standard_padding</item>
+        <item name="android:paddingLeft">@dimen/PB_Standard_padding</item>
+        <item name="android:paddingRight">@dimen/PB_Standard_padding</item>
+
+        <item name="android:layout_marginTop">@dimen/PB_Standard_margin</item>
+        <item name="android:layout_marginBottom">@dimen/PB_Standard_margin</item>
+        <item name="android:layout_marginLeft">@dimen/PB_Standard_margin</item>
+        <item name="android:layout_marginRight">@dimen/PB_Standard_margin</item>
+
+        <item name="android:minWidth">@dimen/RV_basic_width_01</item>
+    </style>
+
+<!-- smallest scale  for crib and other details-->
+
+    <style name="Detail_Text_Data">
+        <item name="android:layout_height">@dimen/Detail_row_height</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">@dimen/Detail_textview_font_size</item>
+        <item name="android:textColor">@color/txt_standard</item>
+        <item name="android:paddingTop">@dimen/Detail_row_padding</item>
+        <item name="android:paddingBottom">@dimen/Detail_row_padding</item>
+        <item name="android:layout_marginTop">@dimen/Detail_row_margin</item>
+        <item name="android:layout_marginBottom">@dimen/Detail_row_margin</item>
+    </style>
+
+
+</resources>

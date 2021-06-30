@@ -1,0 +1,4 @@
+include ':data_library'
+include ':utils_lib'
+include ':app'
+rootProject.name = "Organizer"

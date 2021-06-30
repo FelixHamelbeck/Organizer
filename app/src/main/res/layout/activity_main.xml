@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_standard"
+    tools:context=".gui.MainActivity">
+
+
+    <FrameLayout
+        android:id="@+id/FL_Activity_TopBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/TopBar_Height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/FL_Activity_PH" />
+
+    <View
+        android:id="@+id/VI_Activity_Line"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/bg_emphasis"
+
+        app:layout_constraintTop_toBottomOf="@id/FL_Activity_TopBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/FL_Activity_PH"
+        />
+
+    <FrameLayout
+        android:id="@+id/FL_Activity_PH"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/VI_Activity_Line" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

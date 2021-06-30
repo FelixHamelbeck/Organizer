@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/CL_RowMusicDirectoryPairingSub"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicDirectoryPairingSub_Dummy"
+        style="@style/Data_Textview"
+        android:layout_height="0dp"
+        android:text=""
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintEnd_toStartOf="@id/TV_RowMusicDirectoryPairingSub_Artist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicDirectoryPairingSub_Artist"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintEnd_toStartOf="@id/TV_RowMusicDirectoryPairingSub_Score"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toEndOf="@id/TV_RowMusicDirectoryPairingSub_Dummy"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicDirectoryPairingSub_Score"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintEnd_toStartOf="@id/TV_RowMusicDirectoryPairingSub_Album"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/TV_RowMusicDirectoryPairingSub_Artist"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicDirectoryPairingSub_Album"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintEnd_toStartOf="@id/FL_RowMusicDirectoryPairingSub_PairingStatus"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toEndOf="@id/TV_RowMusicDirectoryPairingSub_Score"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicDirectoryPairingSub_PairingStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintEnd_toStartOf="@id/FL_RowMusicDirectoryPairingSub_Pairing"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/TV_RowMusicDirectoryPairingSub_Album"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowMusicDirectoryPairingSub_PairingStatus"
+            android:layout_gravity="center"
+            style="@style/Data_Icon"
+            android:src="@drawable/ic_link_create" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicDirectoryPairingSub_Pairing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintEnd_toStartOf="@id/FL_RowMusicDirectoryPairingSub_Caret"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowMusicDirectoryPairingSub_PairingStatus"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowMusicDirectoryPairingSub_Pairing"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_playlist" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/FL_RowMusicDirectoryPairingSub_Caret"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintEnd_toStartOf="@id/TV_RowMusicDirectoryPairingSub_Count"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowMusicDirectoryPairingSub_Pairing"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/IV_RowMusicDirectoryPairingSub_Caret"
+            style="@style/Data_Icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_caret_down" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicDirectoryPairingSub_Count"
+        style="@style/Data_Textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/empty"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/FL_RowMusicDirectoryPairingSub_Caret"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_RowMusicDirectoryPairingSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="TV_RowMusicDirectoryPairingSub_Dummy,
+            TV_RowMusicDirectoryPairingSub_Artist,TV_RowMusicDirectoryPairingSub_Score,
+            TV_RowMusicDirectoryPairingSub_Album,TV_RowMusicDirectoryPairingSub_Count,
+            FL_RowMusicDirectoryPairingSub_PairingStatus,FL_RowMusicDirectoryPairingSub_Pairing,
+            FL_RowMusicDirectoryPairingSub_Caret" />
+
+
+
+<!--    <View-->
+<!--        android:id="@+id/BV_RowMusicDirectoryPairingSub"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="1dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/TV_RowMusicDirectoryPairingSub_Album"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/RV_RowMusicDirectoryPairingSub_Track"-->
+<!--        />-->
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_RowMusicDirectoryPairingSub_Track"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="120dp"
+        android:scrollbarSize="@dimen/ScrollBarSize"
+        android:scrollbarThumbVertical="@color/bg_light"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BV_RowMusicDirectoryPairingSub"
+        app:layout_constraintVertical_bias="0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

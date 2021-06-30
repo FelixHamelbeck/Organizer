@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/Dialog_width"
+    android:layout_height="@dimen/Dialog_height"
+    android:background="@color/bg_light"
+    android:minHeight="@dimen/Dialog_height"
+    android:minWidth="@dimen/Dialog_height">
+
+
+    <TextView
+        android:id="@+id/TV_DialogHeader"
+        style="@style/Header_Textview"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="xxxx"
+        app:layout_constraintBottom_toTopOf="@id/FL_DialogHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/FI_DialogHeader"
+        android:layout_width="@dimen/Head_icon_size"
+        android:layout_height="@dimen/Head_icon_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/IV_DialogHeader_Confirm"
+            style="@style/Data_Icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_confirm"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/FL_DialogHeader"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TV_DialogHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
