@@ -7,6 +7,7 @@ import org.pochette.data_library.scddb_objects.SlimDance;
 import org.pochette.organizer.app.DataServiceSingleton;
 import org.pochette.organizer.app.MyPreferences;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
+import org.pochette.organizer.gui_assist.My_ViewModel;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.search.SearchCriteria;
@@ -207,13 +208,11 @@ public class SlimDance_ViewModel extends My_ViewModel {
         DataService tDataService = tDataServiceSingleton.getDataService();
         tA = tDataService.readArray(tSearchPattern);
         Logg.i(TAG, "tAR" + tA.length);
-
         Logg.i(TAG, "Model to Adapter" + tA.length);
-
         Thread tThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                DanceCache.preread(tA);
+                Dance_Cache.preread(tA);
             }
         }, "DanceCachePreRead" );
         if (Looper.getMainLooper() == Looper.myLooper()) {

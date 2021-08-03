@@ -14,13 +14,12 @@ import org.json.JSONObject;
 import org.pochette.data_library.scddb_objects.Crib;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.data_library.scddb_objects.DanceClassification;
-import org.pochette.data_library.scddb_objects.SlimDance;
 import org.pochette.organizer.R;
 import org.pochette.organizer.diagram.DiagramManager;
 import org.pochette.organizer.gui_assist.BitmapView;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.organizer.music.MusicFile_Action;
-import org.pochette.organizer.playlist.Playlist_Action;
+import org.pochette.organizer.requestlist.Requestlist_Action;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
@@ -41,11 +40,7 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
     // , DiagramBitmapCallback
     private final String TAG = "FEHA (SlimDance_ViewHolder)";
 
-    public final static int VARIANT_MAX = 1;
-    /**
-     * Very Wided: Top row text and icon, second row with diagramn and crib side by side
-     */
-    public final static int VARIANT_STACK = 2;
+
     /**
      * Stacked: Top row text, 2nd row icons, 3rd diagram and bottom crib
      */
@@ -60,7 +55,7 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
 
     TextView mTV_Name;
     ImageView mIV_Favourite;
-    ImageView mIV_Playlist;
+    ImageView mIV_Requestlist;
     TextView mTV_Type;
     TextView mTV_Shape;
     TextView mTV_Couples;
@@ -99,7 +94,7 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
         mLayout = iView;
         mTV_Name = mLayout.findViewById(R.id.TV_RowScddbDance_Name);
         mIV_Favourite = mLayout.findViewById(R.id.IV_RowScddbDance_Favourite);
-        mIV_Playlist = mLayout.findViewById(R.id.IV_RowScddbDance_Playlist);
+        mIV_Requestlist = mLayout.findViewById(R.id.IV_RowScddbDance_Requestlist);
         mTV_Type = mLayout.findViewById(R.id.TV_RowScddbDance_Type);
         mTV_Shape = mLayout.findViewById(R.id.TV_RowScddbDance_Shape);
         mTV_Couples = mLayout.findViewById(R.id.TV_RowScddbDance_Couples);
@@ -135,10 +130,10 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
         try {
             //    mDance = new Dance(iSlimDance.mId);
             Logg.i(TAG, "setDanceID " + iId);
-            mDance = DanceCache.getInstance().getById(iId);
+            mDance = Dance_Cache.getById(iId);
             if (mDance == null) {
                 Logg.w(TAG, "error for ID " + iId);
-                mDance = DanceCache.getInstance().getById(iId);
+                mDance = Dance_Cache.getById(iId);
                 throw new RuntimeException("No Dance found");
             }
 
@@ -211,7 +206,6 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
         // set the basic data
         try {
             if (mTV_Name != null) {
-                Logg.w(TAG, "SetName");
                 mTV_Name.setText(mDance.mName.trim());
             }
             if (mIV_Favourite != null) {
@@ -225,9 +219,7 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
             }
             if (mTV_Couples != null) {
                 if (mDance.mCouples != null) {
-                    //mTV_Couples.setText(mDance.mCouples.trim());
-                    mTV_Couples.setText("Slim");
-                    //todo rm
+                    mTV_Couples.setText(mDance.mCouples.trim());
                 } else {
                     mTV_Couples.setText(R.string.NotAvailable);
                 }
@@ -366,21 +358,21 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
                 callEditFavourite(tLocation);
             });
         }
-        if (mIV_Playlist != null) {
-            mIV_Playlist.setOnClickListener(iView -> {
-                Logg.k(TAG, "IV_Playlist OnClick");
+        if (mIV_Requestlist != null) {
+            mIV_Requestlist.setOnClickListener(iView -> {
+                Logg.k(TAG, "IV_Requestlist OnClick");
                 if (mDance != null && mDance.mCountofRecordings > 0) {
-                    Playlist_Action.callExecute(mLayout, this,
-                            Playlist_Action.CLICK_TYPE_SHORT, Playlist_Action.CLICK_ICON_PLAYLIST,
-                            null, mDance, null);
+                    Requestlist_Action.callExecute(mLayout, this,
+                            Requestlist_Action.CLICK_TYPE_SHORT, Requestlist_Action.CLICK_ICON_REQUESTLIST,
+                            null, mDance, null,null);
                 }
             });
-            mIV_Playlist.setOnLongClickListener(iView -> {
-                Logg.k(TAG, "IV_Playlist OnLongClick");
+            mIV_Requestlist.setOnLongClickListener(iView -> {
+                Logg.k(TAG, "IV_Requestlist OnLongClick");
                 if (mDance != null && mDance.mCountofRecordings > 0) {
-                    Playlist_Action.callExecute(mLayout, this,
-                            Playlist_Action.CLICK_TYPE_LONG, Playlist_Action.CLICK_ICON_PLAYLIST,
-                            null, mDance, null);
+                    Requestlist_Action.callExecute(mLayout, this,
+                            Requestlist_Action.CLICK_TYPE_LONG, Requestlist_Action.CLICK_ICON_REQUESTLIST,
+                            null, mDance, null,null);
                 }
                 return true;
             });
@@ -405,6 +397,7 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
 
         }
         if (mIV_MusicFile != null) {
+            
             mIV_MusicFile.setOnClickListener(view -> {
                 Logg.k(TAG, "IV_MusicFile OnClick");
                 MusicFile_Action.callExecute(mLayout, this,
@@ -445,13 +438,17 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
                 Logg.k(TAG, "IV_Info OnClick");
                 Context tContext = view.getContext();
                 FragmentManager tFragmentManager = ((FragmentActivity) Objects.requireNonNull(tContext)).getSupportFragmentManager();
-
                 DialogFragment_DanceInfo.show(tFragmentManager, mDance);
             });
         }
     }
 
     private void displayBitmap() {
+        if (1 == 1) {
+            return;
+        }
+
+        //todo
         Bitmap tBitmap;
         tBitmap = mDiagramManager.getBitmap(mDance);
         if (tBitmap != null) {
@@ -595,7 +592,7 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
 
     @Override
     public void shoutUp(Shout tShoutToCeiling) {
-        Logg.w(TAG, tShoutToCeiling.toString());
+        Logg.i(TAG, tShoutToCeiling.toString());
         mGlassFloor = tShoutToCeiling;
         process_shouting();
     }

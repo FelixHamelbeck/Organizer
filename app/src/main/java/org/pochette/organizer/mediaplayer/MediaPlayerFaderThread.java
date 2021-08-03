@@ -125,7 +125,7 @@ class MediaPlayerFaderThread extends Thread {
         mFadeIsRunning = true;
         mStartAction = "play";
         mFinishAction = "";
-        this.mCurrentDirection = "full";
+        mCurrentDirection = "full";
         mCurrentVolume = mStandardVolume;
         //mFEHA_MediaPlayer.setVolume(mCurrentVolume);
         Logg.i(TAG, "setFullAndPlay");
@@ -140,7 +140,7 @@ class MediaPlayerFaderThread extends Thread {
             mStartAction = "play";
         }
         mFinishAction = "";
-        this.mCurrentDirection = "up";
+        mCurrentDirection = "up";
         Logg.i(TAG, "setFadeInAndPlay");
     }
 
@@ -149,7 +149,7 @@ class MediaPlayerFaderThread extends Thread {
         mFadeIsRunning = true;
         mStartAction = "";
         mFinishAction = "pause";
-        this.mCurrentDirection = "down";
+        mCurrentDirection = "down";
         Logg.i(TAG, "setFadeOutAndPause");
     }
 
@@ -157,7 +157,31 @@ class MediaPlayerFaderThread extends Thread {
         mFadeIsRunning = true;
         mStartAction = "";
         mFinishAction = "pause";
-        this.mCurrentDirection = "quiet";
+        mCurrentDirection = "quiet";
+        Logg.i(TAG, "setQuietAndPause");
+    }
+
+    void setTogglePause() {
+        Logg.i(TAG, "setTogglePause");
+        if (mFadeIsRunning) {
+            if (mFinishAction.equals("pause")) {
+                mStartAction = "";
+                mFinishAction = "";
+                mCurrentDirection = "up";
+                Logg.i(TAG, "And up again");
+            } else {
+                mStartAction = "";
+                mFinishAction = "pause";
+                mCurrentDirection = "up";
+                Logg.i(TAG, "And down again");
+            }
+        } else {
+            if (mMediaPlayerStateful.isPlaying()) {
+                setFadeOutAndPause();
+            } else {
+                setFadeInAndPlay();
+            }
+        }
         Logg.i(TAG, "setQuietAndPause");
     }
 

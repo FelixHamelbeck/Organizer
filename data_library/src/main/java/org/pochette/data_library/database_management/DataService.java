@@ -7,13 +7,14 @@ import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Binder;
-import android.util.ArraySet;
 
 import com.google.android.gms.security.ProviderInstaller;
 
 import org.pochette.data_library.BuildConfig;
+import org.pochette.data_library.music.MusicFile;
 import org.pochette.data_library.music.MusicScan;
 import org.pochette.data_library.pairing.PairingProcess;
+import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.search.SearchPattern;
 import org.pochette.utils_lib.shouting.Shout;
@@ -55,7 +56,7 @@ import javax.net.ssl.SSLContext;
  * take Pairing and write MusicDirectory and Musicfile, then shoutUp<br>
  */
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "unused"})
 public class DataService implements Shouting {
 
     private static final String TAG = "FEHA (DataService)";
@@ -118,9 +119,8 @@ public class DataService implements Shouting {
 //        return mBinder;
 //    }
 
+    @SuppressWarnings("unused")
     public class LocalBinder extends Binder {
-
-
         public DataService getService() {
             Logg.i(TAG, "getService (return LocalBinder)");
             return DataService.this;
@@ -154,6 +154,20 @@ public class DataService implements Shouting {
 
 
     private void prepSSL(Context iContext) {
+//        try {
+//            ProviderInstaller.installIfNeeded(iContext);
+//            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+//            sslContext.init(null, null, null);
+//            sslContext.createSSLEngine();
+//        } catch(Exception e) {
+//            Logg.w(TAG, e.toString());
+//        }
+        prepSslStatic(iContext);
+    }
+
+
+    // static
+    public static void prepSslStatic(Context iContext) {
         try {
             ProviderInstaller.installIfNeeded(iContext);
             SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
@@ -165,7 +179,7 @@ public class DataService implements Shouting {
     }
 
 
-    // static
+    @SuppressWarnings("unused")
     public static boolean isRunning(Application iApplication) {
         ActivityManager am = (ActivityManager) iApplication.getSystemService(Activity.ACTIVITY_SERVICE);
         List<ActivityManager.RunningServiceInfo> rs = Objects.requireNonNull(am).getRunningServices(150);
@@ -217,6 +231,7 @@ public class DataService implements Shouting {
         Logg.i(TAG, "Finished downloadScddb (Thread might still be running)");
     }
 
+    @SuppressWarnings("unused")
     public Date getLocalScddbDate() {
         return Scddb_File.getInstance().getLocalScddbDate();
     }
@@ -227,6 +242,7 @@ public class DataService implements Shouting {
      *
      * @return the last webdate received from the web as currently known.
      */
+    @SuppressWarnings("unused")
     public Date getLastWebdate() {
         return Scddb_File.getInstance().getLastWebdate();
     }
@@ -489,13 +505,52 @@ public class DataService implements Shouting {
             }
             Logg.i(TAG, "Start readCursor");
             tA= new Integer[tCursor.getCount()] ;
-            int tIndex = tCursor.getColumnIndex("D_ID");
+            String tColumnIdName = null;
+            if (iSearchPattern.getSearchClass() == Dance.class) {
+                tColumnIdName = "D_ID";
+            } else if (iSearchPattern.getSearchClass() == MusicFile.class) {
+                tColumnIdName = "MF_ID";
+            }
+            if (tColumnIdName == null || tColumnIdName.isEmpty()) {
+                Logg.w(TAG, "read Array of Integer Id not available for class " +
+                        iSearchPattern.getSearchClass().getSimpleName());
+                tA = null;
+                return tA;
+            }
+            int tIndex = tCursor.getColumnIndex(tColumnIdName);
             int i = 0;
             while (tCursor.moveToNext()) {
                 tA[i] = tCursor.getInt(tIndex);
                 i++;
             }
             return tA;
+        } catch(RuntimeException e) {
+            Logg.w(TAG, e.toString());
+            return null;
+        } finally {
+            if (tCursor != null) {
+                tCursor.close();
+            }
+        }
+    }
+
+
+    public Cursor readCursor(SearchPattern iSearchPattern) {
+        SearchCall tSearchCall = new SearchCall(iSearchPattern.getSearchClass(), iSearchPattern, null);
+        Cursor tCursor = null;
+        Integer[] tA;
+        try {
+            if (BuildConfig.DEBUG) {
+                Logg.d(TAG, "readArrayList: Call createCursor");
+            }
+            tCursor = tSearchCall.createCursor();
+            if (tCursor == null) {
+                return null;
+            }
+            if (BuildConfig.DEBUG) {
+                Logg.d(TAG, "readArrayList: cursor size = " + tCursor.getCount());
+            }
+            return  tCursor;
         } catch(RuntimeException e) {
             Logg.w(TAG, e.toString());
             return null;
@@ -556,6 +611,30 @@ public class DataService implements Shouting {
         return tSearchRetrieval;
     }
 
+//    public Scddb_Helper getScddb_Helper() {
+//        if (mDatabaseReady) {
+//            return Scddb_Helper.getInstance().getSize()
+//        }
+//    }
+
+    public SearchRetrieval requestHashSet(Class iObjectClass, String iMethod, String iValue, Shouting iShouting) {
+        if (iShouting == null) {
+            throw new RuntimeException("Shouting must be available for async");
+        }
+        final SearchRetrieval tSearchRetrieval = new SearchRetrieval(iObjectClass, iMethod, iValue, iShouting);
+        Runnable tRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Logg.i(TAG, "Call SearchRetrieval.execute");
+                tSearchRetrieval.execute();
+                Logg.i(TAG, "Past SearchRetrieval.execute");
+            }
+        };
+        Thread tThread = new Thread(tRunnable, "requestHashSet");
+        tThread.start();
+        return tSearchRetrieval;
+    }
+
     public SearchRetrieval requestTreeSet(Class iObjectClass, String iMethod, String iValue, Shouting iShouting) {
         if (iShouting == null) {
             throw new RuntimeException("Shouting must be available for async");
@@ -573,6 +652,8 @@ public class DataService implements Shouting {
         tThread.start();
         return tSearchRetrieval;
     }
+
+
 
 
     // Media

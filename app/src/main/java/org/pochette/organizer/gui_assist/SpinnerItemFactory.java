@@ -15,9 +15,11 @@ public class SpinnerItemFactory {
     public static final String FIELD_DANCE_FAVOURITE = "DANCE_FAVOURITE";
     public static final String FIELD_MUSIC_PREFERENCE = "MUSIC_PREFERENCE";
     public static final String FIELD_SHAPE = "SHAPE";
-    public static final String FIELD_PLAYLIST_PURPOSE = "PLAYLIST_PURPOSE";
+  //  public static final String FIELD_PLAYLIST_PURPOSE = "PLAYLIST_PURPOSE";
+    public static final String FIELD_REQUESTLIST_PURPOSE = "REQUESTLIST_PURPOSE";
     public static final String FIELD_MUSICDIRECTORY_PURPOSE = "MUSICDIRECTORY_PURPOSE";
     public static final String FIELD_MUSICFILE_PURPOSE = "MUSICFILE_PURPOSE";
+    public static final String FIELD_MUSICFILE_SIGNATURE = "MUSICFILE_SIGNATURE";
     public static final String FIELD_PAIRING_STATUS = "PAIRING_STATUS";
     // variables
     // constructor
@@ -218,19 +220,36 @@ public class SpinnerItemFactory {
             //</editor-fold>
 
             //<editor-fold desc="DANCELIST_PURPOSE">
-            case FIELD_PLAYLIST_PURPOSE:
+//            case FIELD_PLAYLIST_PURPOSE:
+//                if (iSearch) {
+//                    tAL_CustomSpinnerItem.add(
+//                            new CustomSpinnerItem("All", "SALL", "", 50, R.drawable.ic_asterix));
+//                }
+//                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+//                        "Unknown", "DANCELIST_PURPOSE_SINGLE", "UNDEFINED",
+//                        0, R.drawable.ic_listpurpose_unkown));
+//                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+//                        "Theme", "DANCELIST_PURPOSE_SINGLE", "THEME",
+//                        2, R.drawable.ic_listpurpose_theme));
+//                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+//                        "Event", "DANCELIST_PURPOSE_SINGLE", "EVENT",
+//                        3, R.drawable.ic_listpurpose_event));
+//                break;
+            //</editor-fold>
+            //<editor-fold desc="DANCELIST_PURPOSE">
+            case FIELD_REQUESTLIST_PURPOSE:
                 if (iSearch) {
                     tAL_CustomSpinnerItem.add(
                             new CustomSpinnerItem("All", "SALL", "", 50, R.drawable.ic_asterix));
                 }
                 tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
-                        "Unknown", "DANCELIST_PURPOSE_SINGLE", "UNDEFINED",
+                        "Unknown", "REQUESTLIST_PURPOSE_SINGLE", "UNDEFINED",
                         0, R.drawable.ic_listpurpose_unkown));
                 tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
-                        "Theme", "DANCELIST_PURPOSE_SINGLE", "THEME",
+                        "Theme", "REQUESTLIST_PURPOSE_SINGLE", "THEME",
                         2, R.drawable.ic_listpurpose_theme));
                 tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
-                        "Event", "DANCELIST_PURPOSE_SINGLE", "EVENT",
+                        "Event", "REQUESTLIST_PURPOSE_SINGLE", "EVENT",
                         3, R.drawable.ic_listpurpose_event));
                 break;
             //</editor-fold>
@@ -293,6 +312,46 @@ public class SpinnerItemFactory {
                 tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
                         "Unkown", "MUSICFILE_PURPOSE_SINGLE", "UNKN",
                         90, R.drawable.ic_favourite_unknown));
+                break;
+            //</editor-fold>
+
+            //<editor-fold desc="MUSICFILE_SIGNATURE">
+
+            case FIELD_MUSICFILE_SIGNATURE:
+                if (iSearch) {
+                    tAL_CustomSpinnerItem.add(
+                            new CustomSpinnerItem("All", "SALL", "", 0, R.drawable.ic_asterix));
+                }
+
+
+                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+                        "EMPTY", "MUSICFILE_SIGNATURE_EMPTY", "",
+                        5, 0));
+
+                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+                        "R8x32", "MUSICFILE_SIGNATURE_SINGLE", "R8x32",
+                        11, 0));
+                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+                        "J8x32", "MUSICFILE_SIGNATURE_SINGLE", "J8x32",
+                        12, 0));
+                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+                        "S8x32", "MUSICFILE_SIGNATURE_SINGLE", "S8x32",
+                        13, 0));
+
+                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+                        "R ", "MUSICFILE_SIGNATURE_RHYTHM", "R",
+                        21, 0));
+                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+                        "J ", "MUSICFILE_SIGNATURE_RHYTHM", "J",
+                        22, 0));
+                tAL_CustomSpinnerItem.add(new CustomSpinnerItem(
+                        "S ", "MUSICFILE_SIGNATURE_RHYTHM", "S",
+                        23, 0));
+
+
+
+
+
                 break;
             //</editor-fold>
             default:

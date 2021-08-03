@@ -2,7 +2,7 @@ package org.pochette.organizer.music;
 
 import org.pochette.data_library.music.MusicDirectory;
 import org.pochette.organizer.app.MyPreferences;
-import org.pochette.organizer.dance.My_ViewModel;
+import org.pochette.organizer.gui_assist.My_ViewModel;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.utils_lib.logg.Logg;

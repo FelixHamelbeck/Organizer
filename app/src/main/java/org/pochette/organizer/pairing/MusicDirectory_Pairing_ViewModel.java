@@ -3,7 +3,7 @@ package org.pochette.organizer.pairing;
 
 import org.pochette.data_library.pairing.MusicDirectory_Pairing;
 import org.pochette.organizer.app.MyPreferences;
-import org.pochette.organizer.dance.My_ViewModel;
+import org.pochette.organizer.gui_assist.My_ViewModel;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.utils_lib.logg.Logg;
@@ -11,8 +11,6 @@ import org.pochette.utils_lib.search.SearchCriteria;
 import org.pochette.utils_lib.search.SearchPattern;
 
 import java.util.ArrayList;
-
-import javax.security.auth.login.LoginException;
 
 import static java.lang.Thread.sleep;
 

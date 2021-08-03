@@ -2,6 +2,8 @@ package org.pochette.data_library.database_management;
 
 import org.pochette.data_library.pairing.MusicDirectory_Pairing;
 import org.pochette.data_library.pairing.Pairing;
+import org.pochette.data_library.pairing.Signature;
+import org.pochette.data_library.requestlist.Requestlist;
 import org.pochette.data_library.scddb_objects.Album;
 import org.pochette.data_library.scddb_objects.Crib;
 import org.pochette.data_library.scddb_objects.Dance;
@@ -9,8 +11,6 @@ import org.pochette.data_library.diagram.Diagram;
 import org.pochette.data_library.music.MusicDirectory;
 import org.pochette.data_library.music.MusicFile;
 import org.pochette.data_library.music.MusicPreference;
-import org.pochette.data_library.playlist.Playinstruction;
-import org.pochette.data_library.playlist.Playlist;
 import org.pochette.data_library.scddb_objects.DanceClassification;
 import org.pochette.data_library.scddb_objects.Danceinfo;
 import org.pochette.data_library.scddb_objects.Formation;
@@ -80,6 +80,7 @@ public class SqlContract {
         defineFormationModifier();
         defineFormationRoot();
         defineRecording();
+        defineRequestlist();
 
         // LDB Tables
         defineDanceClassification();
@@ -88,8 +89,8 @@ public class SqlContract {
         defineMusicFile();
         defineMusicPreference();
         definePairing();
-        definePlayinstruction();
-        definePlaylist();
+//        definePlayinstruction();
+//        definePlaylist();
 
         // extended LDB Tables
         definePairingDetail();
@@ -101,12 +102,16 @@ public class SqlContract {
     // setter and getter
     // lifecylce and override
     // internal
-    void addWhereMethod(Class iClass, String iMethod,
+    void addWhereMethod(Class iClass,
+                        String iMethod,
                         String iDescription,
-                        String iSelect, boolean iFlagQuestionMark,
+                        String iSelect,
+                        boolean iFlagQuestionMark,
                         boolean iFlagAtSign,
-                        boolean iFlagEscape, boolean iFlagWildcard,
-                        boolean iFlagTrim, boolean iFlagLower
+                        boolean iFlagEscape,
+                        boolean iFlagWildcard,
+                        boolean iFlagTrim,
+                        boolean iFlagLower
     ) {
         DictionaryWhereMethod tDictionaryWhereMethod;
         tDictionaryWhereMethod = new DictionaryWhereMethod(iClass, iMethod,
@@ -118,12 +123,16 @@ public class SqlContract {
     }
 
     @SuppressWarnings("SameParameterValue")
-    void addWhereMethod(Class iClass, String iMethod,
+    void addWhereMethod(Class iClass,
+                        String iMethod,
                         String iDescription,
                         String iSelect,
-                        boolean iFlagQuestionMark, boolean iFlagAtSign,
-                        boolean iFlagEscape, boolean iFlagWildcard,
-                        boolean iFlagTrim, boolean iFlagLower,
+                        boolean iFlagQuestionMark,
+                        boolean iFlagAtSign,
+                        boolean iFlagEscape,
+                        boolean iFlagWildcard,
+                        boolean iFlagTrim,
+                        boolean iFlagLower,
                         String iIdSelect) {
         DictionaryWhereMethod tDictionaryWhereMethod;
         tDictionaryWhereMethod = new DictionaryWhereMethod(iClass, iMethod,
@@ -177,8 +186,6 @@ public class SqlContract {
                 "LMD.C AS A_COUNT_LDB_DIRECTORIES",
                 "CASE WHEN LMD.C IS NULL THEN 'N' WHEN LMD.C = 0 THEN 'N' ELSE 'J' END AS A_PAIRING ",
                 " IFNULL(PRINTF(\"%0.3d,\",ARM.C)|| ARM.SIGNATURE , '000,') AS A_SIGNATURE "
-
-
         };
 
         addWhereMethod(tClass, "ID",
@@ -306,6 +313,10 @@ public class SqlContract {
                         " WHERE P.NAME LIKE ? )",
                 true, false, false, true, true, true,
                 tIdSelect);
+
+
+
+
 
         tIdSelect = "Select DISTINCT DRM.DANCE_ID AS D_ID " +
                 " FROM ALBUM AS A " +
@@ -463,8 +474,8 @@ public class SqlContract {
 
         mHM_JoinString.put(tClass, tJoinString);
         mHM_ColumnArray.put(tClass, tColumnArray);
-
     }
+
     void defineSlimDance() {
         Class tClass = SlimDance.class;
         String tJoinString;
@@ -1176,7 +1187,9 @@ public class SqlContract {
                 " GAIN_AVG REAL  ,  " +
                 " GAIN_MAX REAL ,   " +
                 " DURATION INT ,   " +
-                " FAVOURITE DISPLAY_TEXT  " +
+                " FAVOURITE DISPLAY_TEXT,  " +
+                " SIGNATURE DISPLAY_TEXT,  " +
+                " DISAPPEARED DATETIME  " +
                 " ) ";
 
 
@@ -1216,6 +1229,7 @@ public class SqlContract {
                 "MF.GAIN_AVG AS MF_GAIN_AVG",
                 "MF.DURATION AS MF_DURATION",
                 "MF.FAVOURITE AS MF_FAVOURITE",
+                "MF.SIGNATURE AS MF_SIGNATURE",
                 "CASE WHEN MF.RECORDING_ID IS NULL THEN 'N' WHEN MF.RECORDING_ID = 0 THEN 'N' ELSE 'J' END AS MF_MATCH",
                 "CASE WHEN IFNULL(SCDDB.COUNT_OF_CRIBS, 0)  > 0 THEN 'Y' ELSE 'N' END AS MF_CRIBS_YN",
                 "CASE WHEN IFNULL(SCDDB.COUNT_OF_DIAGRAMS, 0)  > 0 THEN 'Y' ELSE 'N' END AS MF_DIAGRAMS_YN",
@@ -1238,6 +1252,19 @@ public class SqlContract {
         addWhereMethod(tClass, "ARTIST",
                 "Search by approx artist ",
                 "LOWER(MD.T2) LIKE ?", true, false, false, true, true, true);
+
+        addWhereMethod(tClass, "MUSICFILE_SIGNATURE_SINGLE",
+                "Search by signature ",
+                "MF.SIGNATURE = ?", true, false, false, false, false, false);
+
+        addWhereMethod(tClass, "MUSICFILE_SIGNATURE_EMPTY",
+                "Search for empty signature ",
+                "MF.SIGNATURE = '"+ Signature.getEmpty()+"'", false, false, false, false, false, false);
+
+        addWhereMethod(tClass, "MUSICFILE_SIGNATURE_RHYTHM",
+                "Search for rhythm signature ",
+                "MF.SIGNATURE LIKE ? ", true, false, false, true, false, false);
+
 
         addWhereMethod(tClass, "MEDIA_ID",
                 "Search by media id ",
@@ -1286,8 +1313,8 @@ public class SqlContract {
 
         addWhereMethod(tClass, "LIST_OF_ID",
                 "search those with the listed ids  ",
-                 " MF._ID IN ( ? ) ",
-                true, false, false, false, false, false);
+                 " MF._ID IN ( @ ) ",
+                true, true , false, false, false, false);
 
         addWhereMethod(tClass, "MUSICFILE_PURPOSE_SINGLE",
                 "Search Musicfile with given purpose",
@@ -1437,165 +1464,231 @@ public class SqlContract {
 
     }
 
-    void definePlayinstruction() {
-        Class tClass = Playinstruction.class;
+//    void definePlayinstruction() {
+//        Class tClass = Playinstruction.class;
+//        String tTableName;
+//        String tCreateString;
+//        String tJoinString;
+//        String[] tColumnArray;
+//        String tWhereIdString;
+//
+//        tTableName = "PLAY_INSTRUCTION";
+//
+//        tCreateString = "CREATE TABLE PLAY_INSTRUCTION (" +
+//                " _id INTEGER PRIMARY KEY AUTOINCREMENT ,  " +
+//                " MUSICFILE_ID INTEGER , " +
+//                " RECORDING_ID INTEGER  ,  " +
+//                " DANCE_ID INTEGER ,   " +
+//                " VOLUME_FACTOR REAL ," +
+//                " START_MS INTEGER , " +
+//                " END_MS INTEGER,  " +
+//                " PLAYLIST_ID INTEGER, " +
+//                " PLAYLIST_POS INTEGER, " +
+//                " UNIQUE(PLAYLIST_ID, PLAYLIST_POS)  " +
+//                " ) ";
+//
+//
+//        tWhereIdString = "_id = ? ";
+//
+//        tJoinString = " LDB.PLAY_INSTRUCTION AS PI " +
+//                " INNER JOIN LDB.MUSICFILE AS MF ON MF._ID = PI.MUSICFILE_ID " +
+//                " LEFT OUTER JOIN LDB.MUSICDIRECTORY  AS MD ON MF.MUSICDIRECTORY_ID = MD._ID" +
+//                " LEFT OUTER JOIN DANCE AS D ON D.ID = PI.DANCE_ID" +
+//                " LEFT OUTER JOIN (	" +
+//                "       SELECT R.ID AS RECORDING_ID, SDC.C AS COUNT_OF_CRIBS, " +
+//                "       SDI.C AS COUNT_OF_DIAGRAMS, " +
+//                "       CASE WHEN SUM(P.RSCDS) > 0 THEN 'Y' ELSE 'N' END AS RSCDS_YN " +
+//                "     FROM RECORDING AS R " +
+//                "       INNER JOIN DANCESRECORDINGSMAP AS DRM ON DRM.RECORDING_ID = R.ID " +
+//                "       LEFT OUTER JOIN ( SELECT DC.DANCE_ID, COUNT(*) AS C FROM DANCECRIB AS DC " +
+//                "               GROUP BY DC.DANCE_ID )  as SDC ON SDC.DANCE_ID = DRM.DANCE_ID " +
+//                "       LEFT OUTER JOIN DANCESPUBLICATIONSMAP AS DPM ON DPM.DANCE_ID = DRM.DANCE_ID	" +
+//                "       LEFT OUTER JOIN PUBLICATION AS P ON P.ID = DPM.PUBLICATION_ID " +
+//                "       LEFT OUTER JOIN ( SELECT DI.DANCE_ID, COUNT(*) AS C  " +
+//                "           FROM LDB.DIAGRAM AS DI GROUP BY DI.DANCE_ID )  as SDI ON SDI.DANCE_ID = DRM.DANCE_ID " +
+//                "       GROUP BY R.ID  ) AS SCDDB ON SCDDB.RECORDING_ID = MF.RECORDING_ID";
+//
+//
+//        tColumnArray = new String[]{
+//                "PI._id AS ID",
+//                "PI.MUSICFILE_ID AS MUSICFILE_ID",
+//                "PI.RECORDING_ID AS RECORDING_ID",
+//                "PI.DANCE_ID AS DANCE_ID",
+//                "PI.VOLUME_FACTOR AS VOLUME_FACTOR",
+//                "PI.START_MS AS START_MS",
+//                "PI.END_MS AS END_MS",
+//                "PI.PLAYLIST_ID AS PLAYLIST_ID",
+//                "PI.PLAYLIST_POS AS PLAYLIST_POS",
+//                "MD.T2 AS MF_T2",
+//                "MD.T1 AS MF_T1",
+//                "MF._ID AS MF_ID",
+//                "MF.PATH AS MF_PATH",
+//                "MF.NAME AS MF_NAME",
+//                "MF.TRACK_NO AS MF_TRACK_NO",
+//                "MF.MUSICDIRECTORY_ID AS MF_MUSICDIRECTORY_ID",
+//                "MD.T2 AS MF_T2",
+//                "MD.T1 AS MF_T1",
+//                "MF.MEDIA_ID AS MF_MEDIA_ID",
+//                "MF.FILETYPE AS MF_FILETYPE",
+//                "MF.MUSIC_PURPOSE AS MF_MUSIC_PURPOSE",
+//                "MF.RECORDING_ID AS MF_RECORDING_ID",
+//                "MF.DANCE_ID AS MF_DANCE_ID",
+//                "MF.GAIN_MAX AS MF_GAIN_MAX",
+//                "MF.GAIN_AVG AS MF_GAIN_AVG",
+//                "MF.DURATION AS MF_DURATION",
+//                "MF.FAVOURITE AS MF_FAVOURITE",
+//                "MF.SIGNATURE AS MF_SIGNATURE",
+//                "CASE WHEN MF.RECORDING_ID IS NULL THEN 'N' WHEN MF.RECORDING_ID = 0 THEN 'N' ELSE 'J' END AS MF_MATCH",
+//                "CASE WHEN IFNULL(SCDDB.COUNT_OF_CRIBS, 0)  > 0 THEN 'Y' ELSE 'N' END AS MF_CRIBS_YN",
+//                "CASE WHEN IFNULL(SCDDB.COUNT_OF_DIAGRAMS, 0)  > 0 THEN 'Y' ELSE 'N' END AS MF_DIAGRAMS_YN",
+//                "IFNULL( SCDDB.RSCDS_YN, 'N') AS MF_RSCDS_YN",
+//                "IFNULL(D.NAME, '') AS DANCE_NAME"};
+//
+//        addWhereMethod(tClass, "PLAYLIST_ID",
+//                "Search by playlist id ",
+//                "PI.PLAYLIST_ID = ? ", true, false, false, false, false, false);
+//
+//        addWhereMethod(tClass, "PLAYLIST_POS",
+//                "Search by playlist pos ",
+//                "PI.PLAYLIST_POS = ? ", true, false, false, false, false, false);
+//
+//        mAR_LdbClass.add(tClass);
+//        mHM_LdbTableString.put(tClass, tTableName);
+//
+//        mHM_WhereIdString.put(tClass, tWhereIdString);
+//        mHM_CreateString.put(tClass, tCreateString);
+//        mHM_JoinString.put(tClass, tJoinString);
+//        mHM_ColumnArray.put(tClass, tColumnArray);
+//
+//    }
+
+//    void definePlaylist() {
+//        Class tClass = Playlist.class;
+//        String tTableName;
+//        String tCreateString;
+//        String tJoinString;
+//        String[] tColumnArray;
+//        String tWhereIdString;
+//
+//        tTableName = "PLAYLIST";
+//
+//        tCreateString = "CREATE TABLE PLAYLIST (" +
+//                " _id INTEGER PRIMARY KEY AUTOINCREMENT ,  " +
+//                " NAME STRING UNIQUE, " +
+//                " PRIORITY INTEGER , " +
+//                " LAST_EDIT_DATE DATE , " +
+//                " LAST_DATE_USED DATE , " +
+//                " STATUS STRING " +
+//                " ) ";
+//
+//
+//        tWhereIdString = "_id = ? ";
+//
+//        tJoinString = " LDB.PLAYLIST AS PL" +
+//                " LEFT OUTER JOIN ( SELECT PLAYLIST_ID , COUNT(*) AS C " +
+//                " FROM LDB.PLAY_INSTRUCTION GROUP BY PLAYLIST_ID ) AS SPL ON SPL.PLAYLIST_ID = PL._ID ";
+//
+//
+//        tColumnArray = new String[]{
+//                "PL._ID as ID",
+//                "PL.NAME AS NAME",
+//                "PL.LAST_EDIT_DATE AS LAST_EDIT_DATE",
+//                "PL.LAST_DATE_USED AS LAST_DATE_USED",
+//                "PL.STATUS AS STATUS",
+//                "IFNULL(SPL.C, 0) AS COUNT_PLAY_INSTRUCTION"};
+//
+//
+//        addWhereMethod(tClass, "ID",
+//                "Search by Database ID",
+//                "PL._ID = ?", true, false, false, false, false, false);
+//
+//        addWhereMethod(tClass, "NAME",
+//                "Search by name",
+//                "PL.NAME = ? ", true, false, false, false, false, false);
+//
+//        addWhereMethod(tClass, "DANCELIST_PURPOSE_SINGLE",
+//                "Search by purpose",
+//                "PL.STATUS = ?", true, false, false, false, false, false);
+//
+//
+//        addWhereMethod(tClass, "OTHER_PURPOSE",
+//                "Search by purpose undefined",
+//                "PL.STATUS IN ('TMP', 'UNDEFINED' , '')", false, false, false, false, false, false);
+//
+//        addWhereMethod(tClass, "PURPOSE",
+//                "Search by name",
+//                "LOWER(PL.NAME) LIKE  ? ", true, false, false, false, false, false);
+//
+//
+//
+//        mAR_LdbClass.add(tClass);
+//        mHM_LdbTableString.put(tClass, tTableName);
+//
+//        mHM_WhereIdString.put(tClass, tWhereIdString);
+//        mHM_CreateString.put(tClass, tCreateString);
+//        mHM_JoinString.put(tClass, tJoinString);
+//        mHM_ColumnArray.put(tClass, tColumnArray);
+//
+//    }
+
+    void defineRequestlist() {
+        Class tClass = Requestlist.class;
         String tTableName;
         String tCreateString;
         String tJoinString;
         String[] tColumnArray;
         String tWhereIdString;
 
-        tTableName = "PLAY_INSTRUCTION";
+        tTableName = "REQUESTLIST";
 
-        tCreateString = "CREATE TABLE PLAY_INSTRUCTION (" +
-                " _id INTEGER PRIMARY KEY AUTOINCREMENT ,  " +
-                " MUSICFILE_ID INTEGER , " +
-                " RECORDING_ID INTEGER  ,  " +
-                " DANCE_ID INTEGER ,   " +
-                " VOLUME_FACTOR REAL ," +
-                " START_MS INTEGER , " +
-                " END_MS INTEGER,  " +
-                " PLAYLIST_ID INTEGER, " +
-                " PLAYLIST_POS INTEGER, " +
-                " UNIQUE(PLAYLIST_ID, PLAYLIST_POS)  " +
-                " ) ";
-
-
-        tWhereIdString = "_id = ? ";
-
-        tJoinString = " LDB.PLAY_INSTRUCTION AS PI " +
-                " INNER JOIN LDB.MUSICFILE AS MF ON MF._ID = PI.MUSICFILE_ID " +
-                " LEFT OUTER JOIN LDB.MUSICDIRECTORY  AS MD ON MF.MUSICDIRECTORY_ID = MD._ID" +
-                " LEFT OUTER JOIN DANCE AS D ON D.ID = PI.DANCE_ID" +
-                " LEFT OUTER JOIN (	" +
-                "       SELECT R.ID AS RECORDING_ID, SDC.C AS COUNT_OF_CRIBS, " +
-                "       SDI.C AS COUNT_OF_DIAGRAMS, " +
-                "       CASE WHEN SUM(P.RSCDS) > 0 THEN 'Y' ELSE 'N' END AS RSCDS_YN " +
-                "     FROM RECORDING AS R " +
-                "       INNER JOIN DANCESRECORDINGSMAP AS DRM ON DRM.RECORDING_ID = R.ID " +
-                "       LEFT OUTER JOIN ( SELECT DC.DANCE_ID, COUNT(*) AS C FROM DANCECRIB AS DC " +
-                "               GROUP BY DC.DANCE_ID )  as SDC ON SDC.DANCE_ID = DRM.DANCE_ID " +
-                "       LEFT OUTER JOIN DANCESPUBLICATIONSMAP AS DPM ON DPM.DANCE_ID = DRM.DANCE_ID	" +
-                "       LEFT OUTER JOIN PUBLICATION AS P ON P.ID = DPM.PUBLICATION_ID " +
-                "       LEFT OUTER JOIN ( SELECT DI.DANCE_ID, COUNT(*) AS C  " +
-                "           FROM LDB.DIAGRAM AS DI GROUP BY DI.DANCE_ID )  as SDI ON SDI.DANCE_ID = DRM.DANCE_ID " +
-                "       GROUP BY R.ID  ) AS SCDDB ON SCDDB.RECORDING_ID = MF.RECORDING_ID";
-
-
-        tColumnArray = new String[]{
-                "PI._id AS ID",
-                "PI.MUSICFILE_ID AS MUSICFILE_ID",
-                "PI.RECORDING_ID AS RECORDING_ID",
-                "PI.DANCE_ID AS DANCE_ID",
-                "PI.VOLUME_FACTOR AS VOLUME_FACTOR",
-                "PI.START_MS AS START_MS",
-                "PI.END_MS AS END_MS",
-                "PI.PLAYLIST_ID AS PLAYLIST_ID",
-                "PI.PLAYLIST_POS AS PLAYLIST_POS",
-                "MD.T2 AS MF_T2",
-                "MD.T1 AS MF_T1",
-                "MF._ID AS MF_ID",
-                "MF.PATH AS MF_PATH",
-                "MF.NAME AS MF_NAME",
-                "MF.TRACK_NO AS MF_TRACK_NO",
-                "MF.MUSICDIRECTORY_ID AS MF_MUSICDIRECTORY_ID",
-                "MD.T2 AS MF_T2",
-                "MD.T1 AS MF_T1",
-                "MF.MEDIA_ID AS MF_MEDIA_ID",
-                "MF.FILETYPE AS MF_FILETYPE",
-                "MF.MUSIC_PURPOSE AS MF_MUSIC_PURPOSE",
-                "MF.RECORDING_ID AS MF_RECORDING_ID",
-                "MF.DANCE_ID AS MF_DANCE_ID",
-                "MF.GAIN_MAX AS MF_GAIN_MAX",
-                "MF.GAIN_AVG AS MF_GAIN_AVG",
-                "MF.DURATION AS MF_DURATION",
-                "MF.FAVOURITE AS MF_FAVOURITE",
-                "CASE WHEN MF.RECORDING_ID IS NULL THEN 'N' WHEN MF.RECORDING_ID = 0 THEN 'N' ELSE 'J' END AS MF_MATCH",
-                "CASE WHEN IFNULL(SCDDB.COUNT_OF_CRIBS, 0)  > 0 THEN 'Y' ELSE 'N' END AS MF_CRIBS_YN",
-                "CASE WHEN IFNULL(SCDDB.COUNT_OF_DIAGRAMS, 0)  > 0 THEN 'Y' ELSE 'N' END AS MF_DIAGRAMS_YN",
-                "IFNULL( SCDDB.RSCDS_YN, 'N') AS MF_RSCDS_YN",
-                "IFNULL(D.NAME, '') AS DANCE_NAME"};
-
-        addWhereMethod(tClass, "PLAYLIST_ID",
-                "Search by playlist id ",
-                "PI.PLAYLIST_ID = ? ", true, false, false, false, false, false);
-
-        addWhereMethod(tClass, "PLAYLIST_POS",
-                "Search by playlist pos ",
-                "PI.PLAYLIST_POS = ? ", true, false, false, false, false, false);
-
-        mAR_LdbClass.add(tClass);
-        mHM_LdbTableString.put(tClass, tTableName);
-
-        mHM_WhereIdString.put(tClass, tWhereIdString);
-        mHM_CreateString.put(tClass, tCreateString);
-        mHM_JoinString.put(tClass, tJoinString);
-        mHM_ColumnArray.put(tClass, tColumnArray);
-
-    }
-
-    void definePlaylist() {
-        Class tClass = Playlist.class;
-        String tTableName;
-        String tCreateString;
-        String tJoinString;
-        String[] tColumnArray;
-        String tWhereIdString;
-
-        tTableName = "PLAYLIST";
-
-        tCreateString = "CREATE TABLE PLAYLIST (" +
+        tCreateString = "CREATE TABLE REQUESTLIST (" +
                 " _id INTEGER PRIMARY KEY AUTOINCREMENT ,  " +
                 " NAME STRING UNIQUE, " +
-                " PRIORITY INTEGER , " +
+                " PURPOSE STRING, " +
+                " COUNT_REQUEST INTEGER , " +
                 " LAST_EDIT_DATE DATE , " +
                 " LAST_DATE_USED DATE , " +
-                " STATUS STRING " +
+                " JSON_STRING STRING " +
                 " ) ";
 
 
         tWhereIdString = "_id = ? ";
 
-        tJoinString = " LDB.PLAYLIST AS PL" +
-                " LEFT OUTER JOIN ( SELECT PLAYLIST_ID , COUNT(*) AS C " +
-                " FROM LDB.PLAY_INSTRUCTION GROUP BY PLAYLIST_ID ) AS SPL ON SPL.PLAYLIST_ID = PL._ID ";
+        tJoinString = " LDB.REQUESTLIST AS RL" ;
 
 
         tColumnArray = new String[]{
-                "PL._ID as ID",
-                "PL.NAME AS NAME",
-                "PL.LAST_EDIT_DATE AS LAST_EDIT_DATE",
-                "PL.LAST_DATE_USED AS LAST_DATE_USED",
-                "PL.STATUS AS STATUS",
-                "IFNULL(SPL.C, 0) AS COUNT_PLAY_INSTRUCTION"};
-
+                "RL._ID as ID",
+                "RL.NAME AS NAME",
+                "RL.PURPOSE AS PURPOSE",
+                "RL.COUNT_REQUEST AS COUNT_REQUEST",
+                "RL.LAST_EDIT_DATE AS LAST_EDIT_DATE",
+                "RL.LAST_DATE_USED AS LAST_DATE_USED",
+                "RL.JSON_STRING AS JSON_STRING"
+        };
 
         addWhereMethod(tClass, "ID",
                 "Search by Database ID",
-                "PL._ID = ?", true, false, false, false, false, false);
+                "RL._ID = ?", true, false, false, false, false, false);
 
-        addWhereMethod(tClass, "NAME",
+        addWhereMethod(tClass, "NAME_EXACT",
                 "Search by name",
-                "PL.NAME = ? ", true, false, false, false, false, false);
+                "RL.NAME = ? ", true, false, false, false, false, false);
 
-        addWhereMethod(tClass, "DANCELIST_PURPOSE_SINGLE",
+        addWhereMethod(tClass, "REQUESTLIST_PURPOSE_SINGLE",
                 "Search by purpose",
-                "PL.STATUS = ?", true, false, false, false, false, false);
-
+                "RL.PURPOSE = ?", true, false, false, false, false, false);
 
         addWhereMethod(tClass, "OTHER_PURPOSE",
                 "Search by purpose undefined",
-                "PL.STATUS IN ('TMP', 'UNDEFINED' , '')", false, false, false, false, false, false);
+                "RL.PURPOSE IN ('TMP', 'UNDEFINED' , '')", false, false, false, false, false, false);
 
-        addWhereMethod(tClass, "PURPOSE",
-                "Search by name",
-                "LOWER(PL.NAME) LIKE  ? ", true, false, false, false, false, false);
-
-
+        addWhereMethod(tClass, "NAME",
+                "Search by name ",
+                "LOWER(RL.NAME) LIKE  ? ", true, false, false, false, false, false);
 
         mAR_LdbClass.add(tClass);
         mHM_LdbTableString.put(tClass, tTableName);
-
         mHM_WhereIdString.put(tClass, tWhereIdString);
         mHM_CreateString.put(tClass, tCreateString);
         mHM_JoinString.put(tClass, tJoinString);

@@ -2,6 +2,7 @@ package org.pochette.organizer.dance;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -70,7 +71,6 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
 
     RecyclerView mRecyclerView;
 
-
     private boolean mAR_Any_Lock = false; // internal flag, to control workings on the mAR* take place only once at a time.
 
     //  Timer mAdapterTimer;
@@ -112,9 +112,13 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
 
 
     public void setAR_DANCE(ArrayList<Dance> AR_DANCE) {
+
         mAR_DANCE = AR_DANCE;
+        Logg.i(TAG, "set " + AR_DANCE.size());
         sort();
         requestDiagramCaching();
+        notifyDataSetChanged();
+        refresh();
     }
 
     public ArrayList<Dance> getAR_DANCE() {
@@ -196,23 +200,29 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
         View tView;
         Dance_ViewHolder tViewHolder;
         //Logg.w(TAG, " ViewType" + iViewType);
+        String tVariant;
         switch (iViewType) {
 
             case Dance_ViewHolder.VARIANT_MAX:
                 tView = inflater.inflate(R.layout.row_dance_broad, iParent, false);
                 tViewHolder = new Dance_ViewHolder(tView);
+                tVariant = "broad";
+
                 break;
             case Dance_ViewHolder.VARIANT_STACK:
                 tView = inflater.inflate(R.layout.row_dance_stack, iParent, false);
                 tViewHolder = new Dance_ViewHolder(tView);
+                tVariant = "stack";
                 break;
             default:
                 Logg.e(TAG, "should not be here");
                 tView = inflater.inflate(R.layout.row_dance_broad, iParent, false);
                 tViewHolder = new Dance_ViewHolder(tView);
+                tVariant = "broad";
                 break;
         }
-       // tViewHolder.setDisplayVariant(iViewType);
+        Logg.w(TAG, tVariant);
+        // tViewHolder.setDisplayVariant(iViewType);
         return tViewHolder;
     }
 
@@ -222,7 +232,7 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
         int tViewType;
         switch (mLayoutMode) {
             case Dance_Adapter.LAYOUT_MODE_COMPACT:
-                tViewType = Dance_ViewHolder.VARIANT_STACK ;
+                tViewType = Dance_ViewHolder.VARIANT_STACK;
                 break;
             default:
                 tViewType = Dance_ViewHolder.VARIANT_MAX;
@@ -234,11 +244,15 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull Dance_ViewHolder iDance_ViewHolder, int iDoNotUsePosition) {
+        Logg.i(TAG, "onBind");
         if (iDance_ViewHolder.getAdapterPosition() > mAR_DANCE.size()) {
             return;
         }
         int tPosition = iDance_ViewHolder.getAdapterPosition();
-        Dance tDance = mAR_DANCE.get(tPosition);
+        Dance tDance;
+
+        tDance = mAR_DANCE.get(tPosition);
+
         if (tDance != null) {
             iDance_ViewHolder.setDance(tDance);
 //            int tWidth = 0;
@@ -246,7 +260,7 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
 //                tWidth = mRecyclerView.getWidth();
 //                requestDiagramCaching();
 //            }
-         //   iDance_ViewHolder.setLayoutWidth(tWidth);
+            //   iDance_ViewHolder.setLayoutWidth(tWidth);
             iDance_ViewHolder.setShouting(this);
             iDance_ViewHolder.setDance_Adapter(this);
         }
@@ -417,7 +431,7 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
                 Logg.e(TAG, e.toString());
             }
             if ((tCount % 100) == 0) {
-                Logg.d(TAG, "waitAndLock: " + tCount);
+                Logg.w(TAG, "waitAndLock: " + tCount+ " Thread "+Thread.currentThread().getId());
             }
         }
         // as it become available wait is over and lock starts
@@ -431,13 +445,14 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
     //Interface
 
     public void refresh() {
-        if (mAR_DANCE != null) {
+        if (mAR_DANCE != null ) {
             //Logg.i(TAG, "size" + mAR_DANCE.size());
             if (mRecyclerView.getVisibility() != View.VISIBLE) {
                 return;
             }
             //Logg.i(TAG, "size" + mAR_DANCE.size());
         }
+
 
         new Handler(Looper.getMainLooper()).post(() -> {
             //noinspection Convert2MethodRef
@@ -474,6 +489,7 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
     public int getItemCount() {
         int tResult;
         waitAndLock();
+
         if (mAR_DANCE == null) {
             tResult = 0;
         } else {
@@ -485,6 +501,7 @@ public class Dance_Adapter extends RecyclerView.Adapter<Dance_ViewHolder>
 
     @Override
     public long getItemId(int position) {
+
         return mAR_DANCE.get(position).mId;
         //return super.getItemId(position);
     }

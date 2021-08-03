@@ -17,7 +17,7 @@
     <string name="TV_Speed">Speed</string>
     <string name="Play_PB_raiseVolume_text">Volume +</string>
     <string name="Play_PB_lowerVolume_text">Volume -</string>
-    <string name="Play_PB_playlist_text">Playlist</string>
+    <string name="Play_PB_Requestlist_text">Requestlist</string>
     <string name="Play_PB_raiseSpeed_text" tools:ignore="StringFormatInvalid">+1% Spe</string>
     <string name="Play_PB_lowerSpeed_text" tools:ignore="StringFormatInvalid">-1% Spe</string>
     <string name="Play_PB_normalSpeed_text">100% </string>
@@ -53,9 +53,9 @@
     <string name="NotAvailable">N A</string>
     <string name="event">Event</string>
     <string name="other">Other</string>
-    <string name="SelectPlaylist">Select Playlist</string>
+    <string name="SelectRequestlist">Select Requestlist</string>
     <string name="Dance">Dance</string>
-    <string name="Playlist">Playlist</string>
+    <string name="Requestlist">Requestlist</string>
     <string name="Name">Name</string>
     <string name="EditClassification">Edit Classification</string>
     <string name="Theme">Theme</string>

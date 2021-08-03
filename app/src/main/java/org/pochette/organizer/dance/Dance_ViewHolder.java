@@ -5,22 +5,22 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.pochette.data_library.requestlist.Requestlist;
 import org.pochette.data_library.scddb_objects.Crib;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.data_library.scddb_objects.DanceClassification;
-import org.pochette.organizer.gui_assist.BitmapView;
 import org.pochette.organizer.R;
 import org.pochette.organizer.diagram.DiagramManager;
+import org.pochette.organizer.gui_assist.BitmapView;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.organizer.music.MusicFile_Action;
-import org.pochette.organizer.playlist.Playlist_Action;
+import org.pochette.organizer.requestlist.Requestlist_Action;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
@@ -31,11 +31,11 @@ import java.util.TimerTask;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-
 import androidx.fragment.app.FragmentManager;
-//import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+//import androidx.fragment.app.FragmentManager;
 
 public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shouting {
     // , DiagramBitmapCallback
@@ -59,7 +59,7 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
 
     TextView mTV_Name;
     ImageView mIV_Favourite;
-    ImageView mIV_Playlist;
+    ImageView mIV_Requestlist;
     TextView mTV_Type;
     TextView mTV_Shape;
     TextView mTV_Couples;
@@ -93,12 +93,11 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
     public Dance_ViewHolder(View iView) {
 
         super(iView);
-
         //mDisplayVariant = VARIANT_MAX;
         mLayout = iView;
         mTV_Name = mLayout.findViewById(R.id.TV_RowScddbDance_Name);
         mIV_Favourite = mLayout.findViewById(R.id.IV_RowScddbDance_Favourite);
-        mIV_Playlist = mLayout.findViewById(R.id.IV_RowScddbDance_Playlist);
+        mIV_Requestlist = mLayout.findViewById(R.id.IV_RowScddbDance_Requestlist);
         mTV_Type = mLayout.findViewById(R.id.TV_RowScddbDance_Type);
         mTV_Shape = mLayout.findViewById(R.id.TV_RowScddbDance_Shape);
         mTV_Couples = mLayout.findViewById(R.id.TV_RowScddbDance_Couples);
@@ -168,16 +167,11 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
     //Internal Organs
 
     void resetValues() {
-
         if (mIV_DisplayDiagram != null) {
             mIV_DisplayDiagram.setVisibility(View.INVISIBLE);
             mIV_DisplayDiagram.setImageResource(android.R.color.transparent);
             mIV_DisplayDiagram.getLayoutParams().height = 10;
         }
-//        if (mCrib_Adapter != null) {
-//            mCrib_Adapter.setCrib(null);
-//        }
-
     }
 
 
@@ -194,7 +188,6 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
         // set the basic data
         try {
             if (mTV_Name != null) {
-                Log.w(TAG, "SetName");
                 mTV_Name.setText(mDance.mName.trim());
             }
             if (mIV_Favourite != null) {
@@ -206,13 +199,7 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
             if (mTV_Type != null) {
                 mTV_Type.setText(mDance.mType.trim());
             }
-            if (mTV_Couples != null) {
-                if (mDance.mCouples != null) {
-                    mTV_Couples.setText(mDance.mCouples.trim());
-                } else {
-                    mTV_Couples.setText(R.string.NotAvailable);
-                }
-            }
+
             if (mTV_Shape != null) {
                 if (mDance.mShape != null) {
                     mTV_Shape.setText(mDance.mShape.trim());
@@ -220,12 +207,21 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
                     mTV_Shape.setText(R.string.NotAvailable);
                 }
             }
-            if (mTV_Progression != null) {
-                if (mDance.mProgression != null) {
-                    mTV_Progression.setText(mDance.mProgression.trim());
+            if (mTV_Couples != null) {
+                if (mDance.mCouples != null) {
+                    mTV_Couples.setText(mDance.mCouples.trim());
                 } else {
-                    mTV_Progression.setText(R.string.NotAvailable);
+                    mTV_Couples.setText(R.string.NotAvailable);
                 }
+            }
+            if (mTV_Progression != null) {
+//                if (mDance.mProgression != null) {
+//                    mTV_Progression.setText(mDance.mProgression.trim());
+//                } else {
+//                    mTV_Progression.setText(R.string.NotAvailable);
+//                }
+                mTV_Progression.setText(mDance.getSignature());
+
             }
         } catch(Exception e) {
             Logg.e(TAG, e.toString());
@@ -334,6 +330,8 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
     }
 
     private void setListener() {
+
+
         mLayout.setOnClickListener(xView -> {
             Logg.k(TAG, "View OnClick");
             toggleSelect();
@@ -346,21 +344,19 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
                 callEditFavourite(tLocation);
             });
         }
-        if (mIV_Playlist != null) {
-            mIV_Playlist.setOnClickListener(iView -> {
-                Logg.k(TAG, "IV_Playlist OnClick");
-                if (mDance != null && mDance.mCountofRecordings > 0) {
-                    Playlist_Action.callExecute(mLayout, this,
-                            Playlist_Action.CLICK_TYPE_SHORT, Playlist_Action.CLICK_ICON_PLAYLIST,
-                            null, mDance, null);
-                }
+        if (mIV_Requestlist != null) {
+            mIV_Requestlist.setOnClickListener(iView -> {
+                Logg.k(TAG, "IV_Requestlist OnClick");
+                Requestlist tRequestlist = Requestlist.getDefaultRequestlist();
+                tRequestlist.add(mDance);
+                //Logg.w(TAG, "Dance added" + mDance.toString());
             });
-            mIV_Playlist.setOnLongClickListener(iView -> {
-                Logg.k(TAG, "IV_Playlist OnLongClick");
+            mIV_Requestlist.setOnLongClickListener(iView -> {
+                Logg.k(TAG, "IV_Requestlist OnLongClick");
                 if (mDance != null && mDance.mCountofRecordings > 0) {
-                    Playlist_Action.callExecute(mLayout, this,
-                            Playlist_Action.CLICK_TYPE_LONG, Playlist_Action.CLICK_ICON_PLAYLIST,
-                            null, mDance, null);
+                    Requestlist_Action.callExecute(mLayout, this,
+                            Requestlist_Action.CLICK_TYPE_LONG, Requestlist_Action.CLICK_ICON_REQUESTLIST,
+                            null, mDance, null, null);
                 }
                 return true;
             });
@@ -575,7 +571,6 @@ public class Dance_ViewHolder extends RecyclerView.ViewHolder implements Shoutin
 
     @Override
     public void shoutUp(Shout tShoutToCeiling) {
-        Logg.w(TAG, tShoutToCeiling.toString());
         mGlassFloor = tShoutToCeiling;
         process_shouting();
     }

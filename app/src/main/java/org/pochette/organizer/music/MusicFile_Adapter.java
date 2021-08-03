@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.pochette.data_library.database_management.DataService;
 import org.pochette.data_library.database_management.Refreshable;
 import org.pochette.data_library.music.MusicFile;
 import org.pochette.data_library.music.MusicPreference;
 import org.pochette.data_library.scddb_objects.Dance;
-import org.pochette.data_library.database_management.DataService;
-import org.pochette.organizer.app.DataServiceSingleton;
 import org.pochette.organizer.R;
+import org.pochette.organizer.app.DataServiceSingleton;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.search.SearchCriteria;
 import org.pochette.utils_lib.search.SearchPattern;
@@ -23,7 +23,6 @@ import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -46,10 +45,11 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
     public final static int MODE_PREFERENCE = 2;
 
     private int mMode = MODE_STANDARD;
-    private ArrayList<MusicFile> mAR_MusicFile;
+   // private ArrayList<MusicFile> mAR_MusicFile;
     private Dance mDanceForPreference;
-    public MusicFile mSelectedMusicFile = null;
-    private ArrayList<MusicPreference> mAL_MusicPreference = null;
+    public Integer mSelectedMusicFileId = 0;
+    private Integer[] mA;
+   private ArrayList<MusicPreference> mAL_MusicPreference = null;
     // if this adapter is used in connection with music preference an additional array is used
 
 
@@ -72,7 +72,8 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
         mShouting = upstairs;
         mShoutToCeiling = new Shout(getClass().getSimpleName());
         waitAndLock();
-        mAR_MusicFile = new ArrayList<>(0);
+        //mAR_MusicFile = new ArrayList<>(0);
+        mA = null;
         unlock();
 
         if (iRecyclerView != null) {
@@ -101,12 +102,18 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
     }
 
     public MusicFile getSelectedMusicFile() {
-        return mSelectedMusicFile;
+        if (mSelectedMusicFileId == 0) {
+            return null;
+        }
+        return MusicFile_Cache.getById(mSelectedMusicFileId);
     }
 
     @SuppressWarnings("unused")
-    public void setSelectedMusicFile(MusicFile selectedMusicFile) {
-        mSelectedMusicFile = selectedMusicFile;
+    public void setSelectedMusicFile(MusicFile  iSelectedMusicFile) {
+        if (iSelectedMusicFile == null) {
+            mSelectedMusicFileId = 0;
+        }
+        mSelectedMusicFileId =  iSelectedMusicFile.mId;
     }
     public Dance getDanceForPreference() {
         return mDanceForPreference;
@@ -124,34 +131,16 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
             SearchPattern tSearchPattern = new SearchPattern(MusicPreference.class);
             tSearchPattern.addSearch_Criteria(
                     new SearchCriteria("DANCE_ID",""+ mDanceForPreference.mId));
-
-
             DataServiceSingleton tDataServiceSingleton = DataServiceSingleton.getInstance();
             DataService tDataService = tDataServiceSingleton.getDataService();
             mAL_MusicPreference = tDataService.readArrayList(tSearchPattern);
-//            Logg.i(TAG, "found Preferences " + mAL_MusicPreference.size());
-//            for (MusicPreference lMusicPreference : mAL_MusicPreference) {
-//                Logg.i(TAG, String.format(Locale.ENGLISH,
-//                        "dance id %d, musicfile id %d, code %s",
-//                        lMusicPreference.getDance().mId,
-//                        lMusicPreference.getMusicFile().mId,
-//                        lMusicPreference.getMusicPreferenceFavourite().getCode()));
-//            }
         }
     }
 
-
-    public void setAR(ArrayList<MusicFile> iAR_MusicFile) {
-        waitAndLock();
-        mAR_MusicFile = iAR_MusicFile;
-        unlock();
-        getItemCount();
-        this.notifyDataSetChanged();
+    public void setA(Integer[] iA) {
+        mA = iA;
     }
 
-//    public ArrayList<MusicFile> getAR() {
-//        return mAR_MusicFile;
-//    }
 
     public void setFragmentManager(FragmentManager iFragmentManager) {
         mFragmentManager = iFragmentManager;
@@ -175,10 +164,10 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
         tView.setOnClickListener(iView -> {
             Logg.k(TAG, "OnClick ");
             toggleSelect(tViewHolder.mMusicFile);
-            if (mSelectedMusicFile == null) {
+            if (mSelectedMusicFileId == 0) {
                 Logg.i(TAG, " nothing selected");
             } else {
-                Logg.i(TAG, mSelectedMusicFile.toString());
+                Logg.i(TAG, MusicFile_Cache.getById( mSelectedMusicFileId).toString());
             }
         });
         return tViewHolder;
@@ -188,21 +177,16 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MusicFile_ViewHolder iViewHolder, int iDoNotUsePosition) {
-        if (iViewHolder.getAdapterPosition() > mAR_MusicFile.size()) {
+        if (mA == null || iViewHolder.getAdapterPosition() > mA.length) {
             return;
         }
         int tPosition = iViewHolder.getAdapterPosition();
+        int tId = mA[tPosition];
         final MusicFile tMusicFile;
-        tMusicFile = mAR_MusicFile.get(tPosition);
-        iViewHolder.setMusicFile( tMusicFile);
-
-//
-//        int tBg_Background = ContextCompat.getColor(iViewHolder.mLayout.getContext(), R.color.bg_list_standard);
-//        if (this.mSelectedMusicFile != null &&
-//                tMusicFile.mId == this.mSelectedMusicFile.mId) {
-//            tBg_Background = ContextCompat.getColor(iViewHolder.mLayout.getContext(), R.color.bg_list_selected);
-//        }
-//        iViewHolder.mLayout.setBackgroundColor(tBg_Background);
+        tMusicFile =   MusicFile_Cache.getById(tId);
+        if (tMusicFile != null) {
+            iViewHolder.setMusicFile( tMusicFile);
+        }
     }
     //</editor-fold>
 
@@ -235,18 +219,18 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
 
 
     private void toggleSelect(MusicFile tMusicFile) {
-        if (mSelectedMusicFile == null) {
-            mSelectedMusicFile = tMusicFile;
+        if (mSelectedMusicFileId == 0) {
+            mSelectedMusicFileId = tMusicFile.mId;
             mShoutToCeiling.mLastAction = "select";
-            mShoutToCeiling.storeObject(mSelectedMusicFile);
-        } else if (mSelectedMusicFile.mId == tMusicFile.mId) {
-            mSelectedMusicFile = null;
+            mShoutToCeiling.storeObject(tMusicFile);
+        } else if (mSelectedMusicFileId == tMusicFile.mId) {
+            mSelectedMusicFileId = 0;
             mShoutToCeiling.mLastAction = "unselect";
             mShoutToCeiling.removeObject();
         } else {
-            mSelectedMusicFile = tMusicFile;
+            mSelectedMusicFileId = tMusicFile.mId;
             mShoutToCeiling.mLastAction = "select";
-            mShoutToCeiling.storeObject(mSelectedMusicFile);
+            mShoutToCeiling.storeObject(tMusicFile);
         }
         if (mShouting != null) {
             mShoutToCeiling.mLastObject = "MusicFile";
@@ -258,27 +242,17 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
 
     @SuppressWarnings("unused")
     private void setSelect(int tPosition) {
-        mSelectedMusicFile = mAR_MusicFile.get(tPosition);
+        if (mA != null && mA.length > 0) {
+            mSelectedMusicFileId = mA[tPosition];
+        } else {
+            mSelectedMusicFileId =0;
+        }
         refresh();
     }
 
 
-    @SuppressWarnings("unused")
-    private void sort() {
-        if (mAR_MusicFile == null) {
-            return;
-        }
-        if (mAR_MusicFile.size() > 1) {
-            Collections.sort(mAR_MusicFile, (o1, o2) -> {
-                        if (o1.mT2.equals(o2.mT2)) {
-                            return o1.mT1.compareToIgnoreCase(o2.mT1);
-                        } else {
-                            return o1.mT2.compareToIgnoreCase(o2.mT1);
-                        }
-                    }
-            );
-        }
-    }
+
+
 
 
     void process_shouting() {
@@ -313,8 +287,8 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
 
     //Interface
     public void refresh() {
-        if (mAR_MusicFile != null) {
-            Logg.i(TAG, "size" + mAR_MusicFile.size());
+        if (mA != null && mA.length >0) {
+            Logg.i(TAG, "size" + mA.length);
         }
         new Handler(Looper.getMainLooper()).post(this::notifyDataSetChanged);
     }
@@ -334,10 +308,10 @@ public class MusicFile_Adapter extends RecyclerView.Adapter<MusicFile_ViewHolder
         int tResult;
         //  Logg.i(TAG, "start itemCoun");
         waitAndLock();
-        if (mAR_MusicFile == null) {
+        if (mA == null) {
             tResult = 0;
         } else {
-            tResult = mAR_MusicFile.size();
+            tResult = mA.length;
         }
         unlock();
         //       Logg.i(TAG, "GetItemCount: " + tResult);

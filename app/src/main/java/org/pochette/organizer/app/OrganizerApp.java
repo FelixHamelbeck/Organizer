@@ -2,6 +2,7 @@ package org.pochette.organizer.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import org.pochette.data_library.database_management.DataService;
 import org.pochette.data_library.database_management.Scddb_Helper;
@@ -31,6 +32,7 @@ import static org.pochette.organizer.app.OrganizerStatus.STATUS_SUCCESS;
 public class OrganizerApp extends Application implements Shouting {
 
     private static final String TAG = "FEHA (OrganizerApp)";
+
     // variables
     private final OrganizerThread mOrganizerThread;
     private DiagramThread mDiagramThread;
@@ -43,14 +45,15 @@ public class OrganizerApp extends Application implements Shouting {
     public OrganizerApp() {
         // this method fires only once per application start.
         // getApplicationContext returns null here
-        Logg.i(TAG, "Constructor fired");
-        mHoldPreparation = false;
+        Log.i(TAG, "Time: Constructor fired");
 
+        mHoldPreparation = false;
         PreparationOfLogg.execute(BuildConfig.DEBUG);
-        Logg.i(TAG, this.toString());
+        OrganizerStatus.createInstance(this, this);
         mOrganizerThread = new OrganizerThread();
         mOrganizerThread.mOrganizerApp = this;
         mOrganizerThread.start();
+        Logg.d(TAG, "Time: end of constructor");
     }
 //    @Override
 //    void attachBaseContext(Context iBase) {
@@ -62,10 +65,10 @@ public class OrganizerApp extends Application implements Shouting {
 
     @Override
     public void onCreate() {
+        Logg.d(TAG, "Time: onCreate starte");
         super.onCreate();
-        OrganizerStatus.createInstance(this, this);
         startEverything();
-        Logg.i(TAG, "onCreate finished");
+        Logg.d(TAG, "Time: onCreate finished");
     }
 
     @Override
@@ -74,6 +77,7 @@ public class OrganizerApp extends Application implements Shouting {
         LoggFile.initialize(this);
         LoggFile.startLoggFile(this);
         Logg.i(TAG, "attachBaseContext");
+        Logg.d(TAG, "Time: attachBaseContext finished");
     }
 
     public String toString() {
@@ -94,6 +98,9 @@ public class OrganizerApp extends Application implements Shouting {
             mThreadCreateCalls = new Thread(tRunnable, "onCreateCalls");
             mThreadCreateCalls.start();
         }
+
+        Logg.d(TAG, "Time: startEverything finished");
+     //   PreparationOfBluetooth.execute(this);
     }
 
 
@@ -117,6 +124,7 @@ public class OrganizerApp extends Application implements Shouting {
             OrganizerStatus.getInstance().setStatus(PAIRING_SYNCHRONOISATION, STATUS_SUCCESS);
             OrganizerStatus.getInstance().setStatus(DIAGRAM, STATUS_SUCCESS);
         }
+        Logg.d(TAG, "Time: initStatus finished");
     }
 
 
@@ -129,7 +137,7 @@ public class OrganizerApp extends Application implements Shouting {
         OrganizerStatus.getInstance().setStatus(PAIRING_IDENTIFICATION, STATUS_OPEN);
         OrganizerStatus.getInstance().setStatus(PAIRING_SYNCHRONOISATION, STATUS_OPEN);
         OrganizerStatus.getInstance().setStatus(DIAGRAM, STATUS_OPEN);
-        executeNextAction();
+     //   executeNextAction();
     }
 
     public void holdPreparation() {
@@ -244,6 +252,7 @@ public class OrganizerApp extends Application implements Shouting {
             Logg.w(TAG, e.toString());
             tAttachWorked = false;
         }
+        Logg.d(TAG, "Time: attached="+tAttachWorked);
         if (tAttachWorked) {
             OrganizerStatus.getInstance().setStatus(DATABASE, STATUS_SUCCESS);
             Logg.w(TAG, "DataBase -> Success");
@@ -251,8 +260,16 @@ public class OrganizerApp extends Application implements Shouting {
             OrganizerStatus.getInstance().setStatus(DATABASE, STATUS_FAILED);
         }
 
+
         Logg.i(TAG, "finished requestDatabse with status " + OrganizerStatus.getInstance().getStatus(DATABASE));
-        executeNextAction();
+        Logg.d(TAG, "Time: RequestDatabase finished" + OrganizerStatus.getInstance().getStatus(DATABASE));
+
+//        DataService sDataService = DataServiceSingleton.getInstance().getDataService();
+//
+//        int tSize= Scddb_Helper.getInstance().getSize("Dance");
+//        Logg.d(TAG, "Time: past size" + tSize);
+
+     //   executeNextAction();
 //        if (OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_SUCCESS)) {
 //            Logg.i(TAG, "call DB Prep from request DB");
         //  processDatabasePrepared();
@@ -274,17 +291,18 @@ public class OrganizerApp extends Application implements Shouting {
         OrganizerStatus.getInstance().setStatus(DIAGRAM, STATUS_SUCCESS);
 
         Logg.w(TAG, "Diagram -> Success");
-        executeNextAction();
+     //   executeNextAction();
     }
 
     void requestFormationData() {
         if (OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_SUCCESS)) {
             OrganizerStatus.getInstance().setStatus(FORMATION, STATUS_SETUP_RUNNING);
-            new FormationData();
+          //  new FormationData();
+            // todo reactivate
             OrganizerStatus.getInstance().setStatus(FORMATION, STATUS_SUCCESS);
             Logg.w(TAG, "Formation-> Success");
             Logg.i(TAG, "Past new FormationData");
-            executeNextAction();
+       //     executeNextAction();
         }
     }
 
@@ -298,38 +316,53 @@ public class OrganizerApp extends Application implements Shouting {
      * hence the status changes must be done before hand
      */
 
-    void executeNextAction() {
+    boolean executeNextAction() {
         if (mHoldPreparation) {
             Logg.i(TAG, "onHold");
-            return;
+            return false;
         }
+        boolean tAnyAction = false;
         //Logg.i(TAG, "exec-> "+this.toString());
         // the dataService becomes available
         if (OrganizerStatus.getInstance().getStatus(DATA_SERVICE).equals(STATUS_SUCCESS) &&
                 OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_OPEN)) {
+            Logg.d(TAG, "Time: call requestDatabase");
             requestDatabase();
+            tAnyAction = true;
+            Logg.d(TAG, "Time: past call requestDatabase");
         }
         if (OrganizerStatus.getInstance().getStatus(DATA_SERVICE).equals(STATUS_SUCCESS) &&
                 OrganizerStatus.getInstance().getStatus(MEDIA_PLAYER).equals(STATUS_OPEN)) {
+
+            Logg.d(TAG, "Time: call requestMediaplayer");
             requestMediaPlayer();
+            tAnyAction = true;
+            Logg.d(TAG, "Time: past call requestMediaplayer");
             // return immediately
         }
         // the dataBase becomes available
         if (OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_SUCCESS) &&
                 OrganizerStatus.getInstance().getStatus(FORMATION).equals(STATUS_OPEN)) {
+            Logg.d(TAG, "Time: call requestFormayionData");
             requestFormationData();
+            tAnyAction = true;
+            Logg.d(TAG, "Time: past call requestFormationDate");
             // return immediately
         }
         if (OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_SUCCESS) &&
                 OrganizerStatus.getInstance().getStatus(MUSIC_SCAN).equals(STATUS_OPEN)) {
 
+            Logg.d(TAG, "Time: call MusicScan");
             Logg.i(TAG, "Call MusicScan.excute");
 
             OrganizerStatus.getInstance().setStatus(MUSIC_SCAN, STATUS_SETUP_RUNNING);
             MusicScan tMusicScan = new MusicScan(this);
             tMusicScan.setShouting(this);
             tMusicScan.execute(); // this starts a separate thread
+            tAnyAction = true;
             Logg.i(TAG, "Past MusicScan.execute (Thread may be running");
+
+            Logg.d(TAG, "Time: past call requestMusicsacn");
             // continued in shouting
         }
         if (OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_SUCCESS) &&
@@ -337,7 +370,11 @@ public class OrganizerApp extends Application implements Shouting {
                 OrganizerStatus.getInstance().getStatus(PAIRING_IDENTIFICATION).equals(STATUS_OPEN)) {
             OrganizerStatus.getInstance().setStatus(PAIRING_IDENTIFICATION, STATUS_SETUP_RUNNING);
             DataService tDataService = DataServiceSingleton.getInstance().getDataService();
+
+            Logg.d(TAG, "Time: call identify Pairing");
             tDataService.executeIdentifyPairing(this);
+            tAnyAction = true;
+            Logg.d(TAG, "Time: past call identify Pairing");
             Logg.i(TAG, "Past Pairing Ident (Thread may be running");
         }
 
@@ -348,17 +385,22 @@ public class OrganizerApp extends Application implements Shouting {
             OrganizerStatus.getInstance().setStatus(PAIRING_SYNCHRONOISATION, STATUS_SETUP_RUNNING);
             DataService tDataService = DataServiceSingleton.getInstance().getDataService();
             tDataService.executeSynchronizePairing(this);
+            tAnyAction = true;
+            Logg.d(TAG, "Time: call synchronize Pairing");
             Logg.i(TAG, "Past Pairing Sync (Thread may be running");
+            Logg.d(TAG, "Time: past call synchronize Pairing");
         }
 
 
         if (OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_SUCCESS) &&
                 OrganizerStatus.getInstance().getStatus(PAIRING_IDENTIFICATION).equals(STATUS_SUCCESS) &&
                 OrganizerStatus.getInstance().getStatus(DIAGRAM).equals(STATUS_OPEN)) {
+            Logg.d(TAG, "Time: call Diagram");
             startDiagramThread();
+            tAnyAction = true;
+            Logg.d(TAG, "Time: past call Diagram");
         }
-
-
+        return tAnyAction;
     }
 
     void processShouting() {
@@ -398,7 +440,7 @@ public class OrganizerApp extends Application implements Shouting {
                     } else if (mGlassFloor.mLastObject.equals("PairingProcess.Synchronisation")) {
                         OrganizerStatus.getInstance().setStatus(PAIRING_SYNCHRONOISATION, STATUS_SUCCESS);
                         Logg.w(TAG, "PairingSynchronoisation-> Success");
-                        executeNextAction();
+      //                  executeNextAction();
                     }
                 }
                 break;
@@ -408,7 +450,7 @@ public class OrganizerApp extends Application implements Shouting {
                     //processMusicScanSuccess();
                     Logg.w(TAG, "MusicScan -> Success");
                     OrganizerStatus.getInstance().setStatus(MUSIC_SCAN, STATUS_SUCCESS);
-                    executeNextAction();
+      //              executeNextAction();
                 }
 
                 break;
@@ -457,4 +499,8 @@ public class OrganizerApp extends Application implements Shouting {
         mGlassFloor = iShoutToCeiling;
         processShouting();
     }
+
+
+
+
 }

@@ -65,7 +65,6 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:visibility="visible"
-        android:background="@color/scream_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintEnd_toStartOf="@+id/FL_RowMusicFile_Dance"
@@ -117,7 +116,7 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintEnd_toStartOf="@+id/FL_RowMusicFile_Playlist"
+        app:layout_constraintEnd_toStartOf="@+id/FL_RowMusicFile_Requestlist"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/TV_RowMusicFile_Name"
         app:layout_constraintTop_toTopOf="parent">
@@ -129,33 +128,57 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/FL_RowMusicFile_Playlist"
+        android:id="@+id/FL_RowMusicFile_Requestlist"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintEnd_toStartOf="@id/TV_RowMusicFile_Duration"
+        app:layout_constraintEnd_toStartOf="@id/BV_RowMusicFile_LeftofSignature"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/FL_RowMusicFile_Play"
         app:layout_constraintTop_toTopOf="parent">
         <ImageView
-            android:id="@+id/IV_RowMusicFile_Playlist"
+            android:id="@+id/IV_RowMusicFile_Requestlist"
             style="@style/Data_Icon"
             android:layout_gravity="center"
-            android:src="@drawable/ic_playlist" />
+            android:src="@drawable/ic_requestlist" />
     </FrameLayout>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/BV_RowMusicFile_LeftofSignature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="TV_RowMusicFile_Signature, TV_RowMusicFile_Duration"/>
+
+
+
+    <TextView
+        android:id="@+id/TV_RowMusicFile_Signature"
+        style="@style/Data_Textview"
+        android:layout_width="@dimen/RV_basic_width_threequarter"
+        android:layout_height="0dp"
+        android:text="@string/empty"
+        app:layout_constraintBottom_toTopOf="@id/TV_RowMusicFile_Duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/BV_RowMusicFile_LeftofSignature"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        />
 
     <TextView
         android:id="@+id/TV_RowMusicFile_Duration"
         style="@style/Data_Textview"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/RV_basic_width_threequarter"
         android:layout_height="0dp"
         android:text="@string/empty"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/FL_RowMusicFile_Playlist"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/BV_RowMusicFile_LeftofSignature"
+        app:layout_constraintTop_toBottomOf="@id/TV_RowMusicFile_Signature"
         app:layout_constraintVertical_bias="0.0"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

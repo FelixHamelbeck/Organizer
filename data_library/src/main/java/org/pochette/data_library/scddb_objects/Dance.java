@@ -46,13 +46,13 @@ public class Dance {
     //Constructor
 
     public Dance(int tID) throws Exception {
-        SearchPattern tSearchPattern = new SearchPattern(Dance.class);
-        tSearchPattern.addSearch_Criteria(
-                new SearchCriteria("ID",
-                        String.format(Locale.ENGLISH, "%d", tID)));
-        SearchCall tSearchCall =
-                new SearchCall(Dance.class, tSearchPattern, null);
-        Dance tDance = tSearchCall.produceFirst();
+//        SearchPattern tSearchPattern = new SearchPattern(Dance.class);
+//        tSearchPattern.addSearch_Criteria(
+//                new SearchCriteria("ID",
+//                        String.format(Locale.ENGLISH, "%d", tID)));
+//        SearchCall tSearchCall =
+//                new SearchCall(Dance.class, tSearchPattern, null);
+        Dance tDance = Dance.getById(tID);
         mId = tDance.mId;
         mName = tDance.mName;
         mType = tDance.mType;
@@ -266,6 +266,15 @@ public class Dance {
         );
     }
 
+    public static Dance getById(int iId) {
+        SearchPattern tSearchPattern = new SearchPattern(Dance.class);
+        tSearchPattern.addSearch_Criteria(
+                new SearchCriteria("ID",
+                        String.format(Locale.ENGLISH, "%d", iId)));
+        SearchCall tSearchCall =
+                new SearchCall(Dance.class, tSearchPattern, null);
+        return tSearchCall.produceFirst();
+    }
 
 //	public static HashSet<String> getCompleteHS() {
 //		if (mHS_Complete == null) {

@@ -73,7 +73,7 @@
             android:id="@+id/IV_RowMusicDirectory_Pairing"
             style="@style/Data_Icon"
             android:layout_gravity="center"
-            android:src="@drawable/ic_playlist" />
+            android:src="@drawable/ic_requestlist" />
     </FrameLayout>
 
     <TextView

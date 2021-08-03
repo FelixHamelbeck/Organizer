@@ -10,22 +10,22 @@
         style="@style/Data_Icon"
         android:contentDescription="Favourite"
         app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
-        app:layout_constraintEnd_toStartOf="@+id/IV_RowScddbDance_Playlist"
+        app:layout_constraintEnd_toStartOf="@+id/IV_RowScddbDance_Requestlist"
         app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toEndOf="@id/TV_RowScddbDance_Name"
         app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
         app:srcCompat="@drawable/ic_favourite_unknown" />
 
     <ImageView
-        android:id="@+id/IV_RowScddbDance_Playlist"
+        android:id="@+id/IV_RowScddbDance_Requestlist"
         style="@style/Data_Icon"
-        android:contentDescription="Playlist"
+        android:contentDescription="Requestlist"
         app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
         app:layout_constraintEnd_toStartOf="@+id/TV_RowScddbDance_Type"
         app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_Favourite"
         app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
-        app:srcCompat="@drawable/ic_playlist" />
+        app:srcCompat="@drawable/ic_requestlist" />
 
     <ImageView
         android:id="@+id/IV_RowScddbDance_MusicFile"
@@ -87,7 +87,7 @@
         style="@style/Data_Textview"
         android:layout_height="wrap_content"
         android:text="@string/empty"
-        app:layout_constraintBottom_toBottomOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintBottom_toBottomOf="@id/BV_RequestlistAction_TopOfThreeRV"
         app:layout_constraintEnd_toStartOf="@+id/IV_RowScddbDance_Favourite"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="4"
@@ -104,7 +104,7 @@
         app:layout_constraintEnd_toStartOf="@+id/TV_RowScddbDance_Shape"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toEndOf="@+id/IV_RowScddbDance_Playlist"
+        app:layout_constraintStart_toEndOf="@+id/IV_RowScddbDance_Requestlist"
         app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -125,6 +125,7 @@
         android:id="@+id/TV_RowScddbDance_Couples"
         style="@style/Data_Textview"
         android:text="@string/empty"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
         app:layout_constraintEnd_toStartOf="@+id/TV_RowScddbDance_Progression"
         app:layout_constraintHorizontal_bias="0.5"
@@ -140,7 +141,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/TV_RowScddbDance_Name"
         app:layout_constraintEnd_toStartOf="@id/IV_RowScddbDance_MusicFile"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/TV_RowScddbDance_Couples"
         app:layout_constraintTop_toTopOf="@+id/TV_RowScddbDance_Name"
         app:layout_constraintVertical_bias="0.0" />
@@ -156,7 +157,7 @@
 
 
     <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/BV_PlaylistAction_TopOfThreeRV"
+        android:id="@+id/BV_RequestlistAction_TopOfThreeRV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
@@ -180,7 +181,7 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toEndOf="@id/GL_RowScddbDance_vertical"
-        app:layout_constraintTop_toTopOf="@id/BV_PlaylistAction_TopOfThreeRV" />
+        app:layout_constraintTop_toTopOf="@id/BV_RequestlistAction_TopOfThreeRV" />
 
 
     <org.pochette.organizer.gui_assist.BitmapView
@@ -191,7 +192,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/GL_RowScddbDance_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/BV_PlaylistAction_TopOfThreeRV"
+        app:layout_constraintTop_toBottomOf="@id/BV_RequestlistAction_TopOfThreeRV"
         app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

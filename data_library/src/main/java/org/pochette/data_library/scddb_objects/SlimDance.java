@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 /**
  * Dance correspond to an dance as available on scddb
+ * This class should only be used in Matryoshka, basically it is only an Id
  */
 @SuppressWarnings("unused")
 public class SlimDance {

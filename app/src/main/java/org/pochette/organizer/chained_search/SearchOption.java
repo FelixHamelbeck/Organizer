@@ -115,6 +115,7 @@ public class SearchOption {
         mAR_SearchOptions.add(tSearchOption);
 
 
+
         tSearchOption = new SearchOption(Dance.class, "FORMATION", "Formation", R.drawable.ic_figures_popular, "Formation=%s",
                 "FORMATION", SearchOption.VALUE_TYPE_STRING, "");
         mAR_SearchOptions.add(tSearchOption);

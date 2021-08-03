@@ -16,7 +16,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.TreeSet;
 
 import androidx.annotation.NonNull;
 
@@ -37,8 +36,9 @@ public class SearchCall {
 
     //Constructor
     public SearchCall(Class iClass, SearchPattern iSearchPattern, Refreshable iRefreshable) {
-        Logg.i(TAG, "SearchCall: constructor for class " + iClass.getSimpleName());
         mClass = iClass;
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
+        Logg.i(TAG, "SearchCall: constructor for class " + iClass.getSimpleName());
         mSearchPattern = iSearchPattern;
         mRefreshable = iRefreshable;
     }
@@ -50,18 +50,21 @@ public class SearchCall {
     }
 
     public <T> T produceFirst() {
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
         Logg.i(TAG, "Start produceFirst");
         mFirstOnly = true;
         ArrayList<T> tAL = this.produceArrayList();
         if (tAL == null || tAL.size() < 1) {
             return null;
         }
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
         Logg.i(TAG, "Finished produceFirst");
         return tAL.get(0);
     }
 
 
     public ArraySet<Integer> produceSet() {
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
         Logg.i(TAG, "Start produceArraySet");
         if (mClass != SlimDance.class) {
             throw new RuntimeException("Only implemented tfor SlimDance");
@@ -74,8 +77,7 @@ public class SearchCall {
             throw new RuntimeException("Cursor could not be created for class " + mClass.getSimpleName());
         }
         if (tCursor.getCount() == 0) {
-            ArraySet<Integer> tResult = new ArraySet<>(0);
-            return tResult;
+            return new ArraySet<>(0);
         }
         ArraySet<Integer> tResult = new ArraySet<>(0);
         try {
@@ -86,12 +88,15 @@ public class SearchCall {
         } catch(Exception e) {
             Logg.w(TAG, e.toString());
         }
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
+        Logg.i(TAG, "Finished produceSet");
         return tResult;
 
     }
 
     public <T> ArrayList<T> produceArrayList() {
 
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
         Logg.i(TAG, "Start produceArrayList");
         T tT;
         ArrayList<T> tAL = new ArrayList<>(0);
@@ -135,44 +140,14 @@ public class SearchCall {
         if (!tCursor.isClosed()) {
             tCursor.close();
         }
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
         Logg.i(TAG, "Finished produceArrayList with size " + Objects.requireNonNull(tAL).size());
         return tAL;
     }
 
-//
-//    public Cursor createCursorForSingle() {
-//        String tSql = "";
-//        if (mSearchPattern.getAL_SearchCriteria().size() == 1) {
-//            SearchCriteria tSearchCriteria = mSearchPattern.getAL_SearchCriteria().get(0);
-//            if (tSearchCriteria != null) {
-//                if (tSearchCriteria.getMethod().equals("RSCDS_REQUIRED")) {
-//                    tSql = "Select DISTINCT D.ID AS D_ID " +
-//                            " FROM DANCE AS D " +
-//                            " INNER JOIN DANCESPUBLICATIONSMAP AS DPM ON DPM.DANCE_ID = D.ID" +
-//                            " INNER JOIN PUBLICATION AS P ON P.ID = DPM.PUBLICATION_ID AND P.RSCDS > 0 ";
-//
-//                }
-//            }
-//        }
-//        if (!tSql.isEmpty()) {
-//            try {
-//                Logg.i(TAG, tSql);
-//                SQLiteDatabase tSqLiteDatabase = Scddb_Helper.getInstance().getReadableDatabase();
-//                Cursor tCursor;
-//                tCursor = tSqLiteDatabase.rawQuery(tSql, null);
-//                Logg.i(TAG, "got " + tCursor.getCount());
-//                return tCursor;
-//            } catch(Exception e) {
-//                Logg.i(TAG, tSql);
-//                Logg.w(TAG, e.toString());
-//                return null;
-//            }
-//        }
-//
-//        return createCursor();
-//    }
 
     public Cursor createCursor() {
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
         Logg.i(TAG, "Start createCursor");
         String tJoin = "";
         String[] tColumns = new String[0];
@@ -210,6 +185,11 @@ public class SearchCall {
             String tText = String.format(Locale.ENGLISH,
                     "DB.Query for %s found %d rows", mClass.getSimpleName(), tCursor.getCount()
             );
+//            if (mClass == MusicFile.class && tCursor.getCount() == 0) {
+//                int i ;
+//                Logg.i(TAG, tText);
+//                Logg.i(TAG, mSearchPattern.toString());
+//            }
             Logg.i(TAG, tText);
         } catch(Exception e) {
             Logg.i(TAG, tJoin);
@@ -223,6 +203,8 @@ public class SearchCall {
             Logg.w(TAG, e.toString());
             return null;
         }
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
+        Logg.i(TAG, "Finished produceCursor " );
         return tCursor;
     }
 
@@ -236,10 +218,15 @@ public class SearchCall {
     public <T> T getDataObject(Cursor iCursor) {
         T tT;
         Method tMethod;
+
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
+    //    Logg.i(TAG, "Start getDataObject: "+ mClass.getSimpleName());
         try {
             tMethod = mClass.getMethod("convertCursor", Cursor.class);
             try {
                 tT = (T) tMethod.invoke(mClass, iCursor);
+                Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
+     //           Logg.i(TAG, "Finished getDataObject " + mClass.getSimpleName());
                 return tT;
             } catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 Logg.i(TAG, "getDataObject: " + mSearchPattern.getSearchClass().getSimpleName());
@@ -254,55 +241,18 @@ public class SearchCall {
             Logg.e(TAG, e.toString(), e);
             return null;
         } catch(Exception e) {
-            Logg.i(TAG, "getDataObject");
+            Logg.i(TAG, "getDataObject"+ mClass.getSimpleName());
             Logg.e(TAG, e.toString(), e);
             return null;
         }
     }
 
-//
-//    public HashSet<Integer> produceHashSet() {
-//
-//        HashSet<Integer> tHS = new HashSet<>(0);
-//        // Start Cursor
-//        Scddb_Helper scddb_helper = Scddb_Helper.getInstance();
-//        Cursor tCursor;
-//        tCursor = createCursor();
-//        if (tCursor == null) {
-//            Logg.i(TAG, "produceHashSet()");
-//            Logg.e(TAG, "Cursor == null");
-//            return null;
-//        }
-//        try {
-//            int tColumn4Id;
-//
-//            if (mClass == Dance.class) {
-//                tColumn4Id = tCursor.getColumnIndex("D_ID");
-//            } else {
-//                throw new RuntimeException("produceHashSet only available for dance");
-//            }
-//            while (tCursor.moveToNext()) {
-//                tHS.add(tCursor.getInt(tColumn4Id));
-//            }
-//            if (mRefreshable != null) {
-//                mRefreshable.refresh();
-//            }
-//
-//        } catch(Exception e) {
-//            Logg.i(TAG, "produceHashSet()");
-//            Logg.e(TAG, e.toString(), e);
-//            tHS = null;
-//        }
-//        //noinspection ConstantConditions
-//        if (tCursor != null && !tCursor.isClosed()) {
-//            tCursor.close();
-//        }
-//        return tHS;
-//    }
-
 
     public int produceCount() {
         int tResult;
+
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
+        Logg.i(TAG, "Start produceCount");
         // Start Cursor
         Cursor tCursor;
         try {
@@ -320,6 +270,8 @@ public class SearchCall {
         if (!tCursor.isClosed()) {
             tCursor.close();
         }
+        Logg.d(TAG, "this="+mClass.getSimpleName()+ this.hashCode());
+        Logg.i(TAG, "Finished gproduceCount " );
         return tResult;
     }
 

@@ -122,13 +122,9 @@ public class DialogFragment_MusicPreference extends DialogFragment implements Sh
         mTV_Dance = view.findViewById(R.id.DialogMusicPreference_TV_Dance);
         mIV_Pause = view.findViewById(R.id.DialogMusicPreference_IV_Pause);
         mIV_Exit = view.findViewById(R.id.DialogMusicPreference_IV_Exit);
-
         mRV = requireView().findViewById(R.id.DialogMusicPreference_RV);
-
         updateViews();
-
         updateRV();
-
     }
 
     @Override
@@ -176,22 +172,41 @@ public class DialogFragment_MusicPreference extends DialogFragment implements Sh
         mModel = ViewModelProvider.AndroidViewModelFactory.
                 getInstance(tApllication).create(MusicFile_ViewModel.class);
         mModel.setSearchDance(mDance);
-        mModel.mMLD_AR.observe(getViewLifecycleOwner(), iAR_Object -> {
-            if (iAR_Object != null) {
-                try {
-                    ArrayList<MusicFile> tAR_MusicFile = new ArrayList<>(0);
-                    for (Object lObject : iAR_Object) {
-                        MusicFile lMusicFile;
-                        lMusicFile = (MusicFile) lObject;
-                        tAR_MusicFile.add(lMusicFile);
-                    }
-                    mMusicFile_Adapter.setAR(tAR_MusicFile);
-                    mMusicFile_Adapter.notifyDataSetChanged();
-                } catch(Exception e) {
-                    Logg.w(TAG, e.toString());
-                }
-            }
+//        mModel.mMLD_AR.observe(getViewLifecycleOwner(), iAR_Object -> {
+//            if (iAR_Object != null) {
+//                try {
+//                    ArrayList<MusicFile> tAR_MusicFile = new ArrayList<>(0);
+//                    for (Object lObject : iAR_Object) {
+//                        MusicFile lMusicFile;
+//                        lMusicFile = (MusicFile) lObject;
+//                        tAR_MusicFile.add(lMusicFile);
+//                    }
+//                    mMusicFile_Adapter.setAR(tAR_MusicFile);
+//                    mMusicFile_Adapter.notifyDataSetChanged();
+//                } catch(Exception e) {
+//                    Logg.w(TAG, e.toString());
+//                }
+//            }
+//        });
+
+        mModel.mMLD_A.observe(getViewLifecycleOwner(), iAR_Object -> {
+            Logg.w(TAG, "obervce for A");
+            Integer[] tA = (Integer[]) iAR_Object;
+
+//            if (iAR_Object != null) {
+//                for (Object lObject : iAR_Object) {
+//                    Integer tId = (Integer) lObject;
+//                    Logg.i(TAG, "Observe Object " + lObject);
+//                }
+//            }
+//
+//            for (Integer lId : tA) {
+//                Logg.i(TAG, "Oberver " + lId);
+//            }
+            mMusicFile_Adapter.setA(tA);
+            mMusicFile_Adapter.notifyDataSetChanged();
         });
+
         mModel.forceSearch();
     }
 

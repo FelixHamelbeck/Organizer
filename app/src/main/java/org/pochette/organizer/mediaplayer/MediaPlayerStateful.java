@@ -4,16 +4,20 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.support.v4.media.session.MediaSessionCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.pochette.organizer.BuildConfig;
+import org.pochette.organizer.app.MyPreferences;
+import org.pochette.organizer.gui.MediaSessionService;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
 
 import java.io.IOException;
 import androidx.annotation.NonNull;
+import androidx.media.MediaSessionManager;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -69,6 +73,7 @@ public class MediaPlayerStateful
     private MediaPlayerFaderThread mMediaPlayerFaderThread;
     private Shouting mShouting;
     private Shout mGlassFloor;
+
 
 
     //Constructor
@@ -217,6 +222,8 @@ public class MediaPlayerStateful
             mMediaPlayerFaderThread = new MediaPlayerFaderThread(this);
             mMediaPlayerFaderThread.start();
         }
+
+
     }
 
 
@@ -600,6 +607,10 @@ public class MediaPlayerStateful
 
     void executePause() {
         this.getMediaPlayerFaderThread().setFadeOutAndPause();
+    }
+
+    void executeTogglePause() {
+        this.getMediaPlayerFaderThread().setTogglePause();
     }
 
     void executePauseNow() {

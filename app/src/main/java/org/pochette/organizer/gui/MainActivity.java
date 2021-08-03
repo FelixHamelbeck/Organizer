@@ -1,28 +1,31 @@
 package org.pochette.organizer.gui;
 
 
-import android.annotation.SuppressLint;
-//import android.content.Intent;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import org.pochette.organizer.R;
-import org.pochette.organizer.album.Album_Fragment;
+import org.pochette.organizer.app.DataServiceSingleton;
 import org.pochette.organizer.app.MediaPlayerServiceSingleton;
-import org.pochette.organizer.app.OrganizerApp;
 import org.pochette.organizer.app.OrganizerStatus;
-import org.pochette.organizer.chained_search.ChainedList_Fragment;
+import org.pochette.organizer.chained_search.Matryoshka_Fragment;
 import org.pochette.organizer.dance.Dance_Fragment;
 import org.pochette.organizer.dance.SlimDance_Fragment;
 import org.pochette.organizer.mediaplayer.DialogFragment_PlayerControl;
 import org.pochette.organizer.mediaplayer.MediaPlayerControl_Fragment;
-//import org.pochette.organizer.mediaplayer.MediaPlayerService;
 import org.pochette.organizer.mediaplayer.MediaPlayerService;
 import org.pochette.organizer.music.MusicDirectory_Fragment;
 import org.pochette.organizer.music.MusicFile_Fragment;
 import org.pochette.organizer.pairing.MusicDirectory_Pairing_Fragment;
-import org.pochette.organizer.playlist.Playlist_Fragment;
+import org.pochette.organizer.requestlist.Requestlist_Fragment;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
@@ -31,15 +34,22 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import static androidx.core.app.NotificationCompat.Builder;
+import static androidx.core.app.NotificationCompat.PRIORITY_MIN;
 import static java.lang.Thread.sleep;
+
 
 /**
  * This is the main application used for playing music and teaching the class
  */
+@SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity implements Shouting {
 
     private final String TAG = "FEHA (MainActivity)";
@@ -49,10 +59,10 @@ public class MainActivity extends AppCompatActivity implements Shouting {
     SlimDance_Fragment mSlimDance_Fragment;
     MusicFile_Fragment mMusicFile_Fragment;
     MusicDirectory_Fragment mMusicDirectory_Fragment;
-    Album_Fragment mAlbum_Fragment;
-    Playlist_Fragment mPlaylist_Fragment;
+    //Album_Fragment mAlbum_Fragment;
+    Requestlist_Fragment mRequestlist_Fragment;
     MusicDirectory_Pairing_Fragment mMusicDirectoryPairing_Fragment;
-    ChainedList_Fragment mChainedList_Fragment;
+    Matryoshka_Fragment mMatryoshka_Fragment;
     MediaPlayerControl_Fragment mMediaPlayerControl_Fragment;
     //  MediaPlayerService mMediaPlayerService;
 
@@ -61,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements Shouting {
     TopBar_Fragment mTopBar_Fragment;
 
     Shout mGlassFloor;
+
+
     //Constructor
     //Setter and Getter
     //Livecycle
@@ -68,35 +80,31 @@ public class MainActivity extends AppCompatActivity implements Shouting {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Logg.d(TAG, "Time: onCreate");
         super.onCreate(savedInstanceState);
         // all the database prep stuff is moved to OrganizerApp
         Logg.i(TAG, "OnCreate");
-
-
         // Start with UI
         setContentView(R.layout.activity_main);
 
-        // prep the mediaplayer and controls
-
-//        MediaPlayerServiceSingleton.createInstance(this);
-//        MediaPlayerServiceSingleton.getInstance().prepMediaPlayerService();
 
         // start the TopBar
         startFragmentTopBar();
         // start the Splas
         startFragmentSplash();
-        if (1 == 2) {
-            // stay on splash screen
-            return;
-        }
+
         // now show same usable data, once the DB is up and running
-        Thread tThread = new Thread(new Runnable() {
+        Thread tThread;
+        //noinspection Anonymous2MethodRef
+        tThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 startDataFragment();
             }
         });
         tThread.start();
+
+
 
     }
 
@@ -111,23 +119,29 @@ public class MainActivity extends AppCompatActivity implements Shouting {
 
 
         // only start once the database is ready
-        OrganizerApp tOrganizerApp = (OrganizerApp) getApplication();
+        //OrganizerApp tOrganizerApp = (OrganizerApp) getApplication();
         while (!OrganizerStatus.getInstance().isDbAvailable()) {
             try {
                 //noinspection BusyWait
-                sleep(5000);
+                sleep(51);
             } catch(InterruptedException e) {
                 Logg.w(TAG, e.toString());
             }
         }
+        Logg.d(TAG, "Time: call first real fragment");
+
+        connectFragmentTopBar();
+        //Log.
         Logg.i(TAG, "call the first dataFragement after waiting for database");
-        //startFragmentDance();
-//        startFragmentSlimDance();
-        startFragmentPlaylist();
+        startFragmentDance();
+      //  startFragmentSlimDance();
+
 //        startFragmentMusicDirectoryPairing();
-//                   // startFragmentChainedList();
-//                    //startFragmentMediaPlayerControl();
-        //startFragmentMusicFile();
+        //startFragmentMatryoshka();
+        // startFragmentRequestlist();
+        //startFragmentMediaPlayerControl();
+//        startDialogPlayerControl();
+        startFragmentMusicFile();
 //                    //   startFragmentMusicDirectory();
 //                    //startFragmentAlbum();
 //                }
@@ -136,42 +150,16 @@ public class MainActivity extends AppCompatActivity implements Shouting {
 
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Logg.i(TAG, "id = " + id);
-//        switch (item.getItemId()) {
-//            case R.id.action_bar_settings:
-//                startFragmentMyPreference();
-//                break;
-//            case R.id.action_bar_menu_dance:
-//                startFragmentDance();
-//                break;
-//            case R.id.action_bar_menu_musicfile:
-//                startFragmentMusicfile();
-//                break;
-//            case R.id.action_bar_menu_dynamic_search:
-//                startFragmentDynamicSearch();
-//                break;
-//            case R.id.action_bar_menu_playlist:
-//                startFragmentPlaylist();
-//                break;
-//            case R.id.action_bar_menu_play:
-//                startFragmentDiskjockey();
-//                break;
-//            case R.id.action_bar_match_process:
-//                startFragmentMatchProcess();
-//                break;
-//            case R.id.action_bar_match_edit:
-//                startFragmentMatchEdit();
-//                break;
-//            case R.id.action_bar_about:
-//                circuit();
-//                // about();
-//                break;
-//        }
-        return super.onOptionsItemSelected(item);
+    @SuppressWarnings("unused")
+    void startMedia() {
+
+        Logg.w(TAG, "startMedia");
+
+        ContextCompat.startForegroundService(
+                MainActivity.this.getApplicationContext(),
+                new Intent(MainActivity.this.getApplicationContext(), MediaSessionService.class));
+
+        Logg.w(TAG, "finished with startMedia");
     }
 
     @Override
@@ -214,58 +202,12 @@ public class MainActivity extends AppCompatActivity implements Shouting {
         super.onLowMemory();
     }
 
+    public TopBar_Fragment getTopBar_Fragment() {
+        return  mTopBar_Fragment;
+    }
 
-//    void connectWithMediaPlayerService() {
-//        Logg.i(TAG, "out" + Thread.currentThread().toString());
-//        final Context fContext = getApplicationContext();
-//        @SuppressWarnings("Convert2Lambda") Runnable tRunnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                Logg.i(TAG, "in" + Thread.currentThread().toString());
-//                Intent intent = new Intent(fContext, MediaPlayerService.class);
-//                startService(intent);
-//                Logg.i(TAG, "past start, per bind");
-//                bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
-////                try {
-////                    sleep(1000);
-////                } catch(InterruptedException e) {
-////                    e.printStackTrace();
-////                }
-//                Logg.i(TAG, " run finished");
-//            }
-//        };
-//        Thread tThread = new Thread(tRunnable);
-//        tThread.setName("connector");
-//        tThread.start();
-//        Logg.i(TAG, "out" + Thread.currentThread().toString());
-//        // make sure control GUI is running
-//        //  startFragmentMediaPlayerControl();
-//    }
-//
 
-    @SuppressWarnings("FieldMayBeFinal")
-//    private ServiceConnection mServiceConnection = new ServiceConnection() {
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//            mMediaPlayerServiceBound = false;
-//        }
-//
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            Logg.i(TAG, "onServiceConnected");
-//            MediaPlayerService.MyBinder myBinder = (MediaPlayerService.MyBinder) service;
-//            mMediaPlayerService = myBinder.getService();
-//            mMediaPlayerService.contextualize(getApplicationContext());
-//            mMediaPlayerServiceBound = true;
-//
-//            if (mMediaPlayerControl_Fragment != null) {
-//                mMediaPlayerControl_Fragment.setMediaPlayerService(mMediaPlayerService);
-//            }
-//
-//        }
-//    };
-
-        //<editor-fold desc="Start Fragments ">
+    //<editor-fold desc="Start Fragments ">
 
     void startFragmentDance() {
         if (mDance_Fragment == null) {
@@ -312,19 +254,18 @@ public class MainActivity extends AppCompatActivity implements Shouting {
     }
 
 
-    void startFragmentAlbum() {
-        if (mAlbum_Fragment == null) {
-            mAlbum_Fragment = new Album_Fragment();
-        }
-        mAlbum_Fragment.setShouting(this);
-        FragmentManager tFragementManager = getSupportFragmentManager();
-        FragmentTransaction tTransaction = tFragementManager.beginTransaction();
-        tTransaction.replace(R.id.FL_Activity_PH, mAlbum_Fragment);
-        tTransaction.commitAllowingStateLoss();
-    }
+//    void startFragmentAlbum() {
+//        if (mAlbum_Fragment == null) {
+//            mAlbum_Fragment = new Album_Fragment();
+//        }
+//        mAlbum_Fragment.setShouting(this);
+//        FragmentManager tFragementManager = getSupportFragmentManager();
+//        FragmentTransaction tTransaction = tFragementManager.beginTransaction();
+//        tTransaction.replace(R.id.FL_Activity_PH, mAlbum_Fragment);
+//        tTransaction.commitAllowingStateLoss();
+//    }
 
     void startFragmentSplash() {
-
         Splash_Fragment tSplash_Fragment = new Splash_Fragment();
         tSplash_Fragment.setShouting(this);
         FragmentManager tFragementManager = getSupportFragmentManager();
@@ -333,15 +274,14 @@ public class MainActivity extends AppCompatActivity implements Shouting {
         tTransaction.commitAllowingStateLoss();
     }
 
-
-    void startFragmentPlaylist() {
-        if (mPlaylist_Fragment == null) {
-            mPlaylist_Fragment = new Playlist_Fragment();
+    void startFragmentRequestlist() {
+        if (mRequestlist_Fragment == null) {
+            mRequestlist_Fragment = new Requestlist_Fragment();
         }
-        mPlaylist_Fragment.setShouting(this);
+        mRequestlist_Fragment.setShouting(this);
         FragmentManager tFragementManager = getSupportFragmentManager();
         FragmentTransaction tTransaction = tFragementManager.beginTransaction();
-        tTransaction.replace(R.id.FL_Activity_PH, mPlaylist_Fragment);
+        tTransaction.replace(R.id.FL_Activity_PH, mRequestlist_Fragment);
         tTransaction.commitAllowingStateLoss();
     }
 
@@ -356,14 +296,15 @@ public class MainActivity extends AppCompatActivity implements Shouting {
         tTransaction.commitAllowingStateLoss();
     }
 
-    void startFragmentChainedList() {
-        if (mChainedList_Fragment == null) {
-            mChainedList_Fragment = new ChainedList_Fragment();
+
+    void startFragmentMatryoshka() {
+        if (mMatryoshka_Fragment == null) {
+            mMatryoshka_Fragment = new Matryoshka_Fragment();
         }
-        mChainedList_Fragment.setShouting(this);
+        mMatryoshka_Fragment.setShouting(this);
         FragmentManager tFragementManager = getSupportFragmentManager();
         FragmentTransaction tTransaction = tFragementManager.beginTransaction();
-        tTransaction.replace(R.id.FL_Activity_PH, mChainedList_Fragment);
+        tTransaction.replace(R.id.FL_Activity_PH, mMatryoshka_Fragment);
         tTransaction.commitAllowingStateLoss();
     }
 
@@ -394,7 +335,18 @@ public class MainActivity extends AppCompatActivity implements Shouting {
         FragmentTransaction tTransaction = tFragementManager.beginTransaction();
         tTransaction.replace(R.id.FL_Activity_TopBar, mTopBar_Fragment);
         tTransaction.commitAllowingStateLoss();
-        mTopBar_Fragment.setupReceiver(this);
+    }
+
+    void connectFragmentTopBar() {
+        if (mTopBar_Fragment != null) {
+            mTopBar_Fragment.setupReceiver(this);
+        }
+    }
+
+
+    void startMusicScan() {
+        DataServiceSingleton.getInstance().getDataService().scanMusic(this, this);
+        Logg.i(TAG, "scanMusic called");
     }
 
 
@@ -407,10 +359,6 @@ public class MainActivity extends AppCompatActivity implements Shouting {
 
 
     void processShouting() {
-//        if (mGlassFloor.mLastAction.equals("resume") &&
-//                mGlassFloor.mLastObject.equals("Fragment")) {
-//            mToolbarUtils.setFragmentName(mGlassFloor.mActor);
-//        }
 
         if (mGlassFloor.mActor.equals("TopBar_Fragment") &&
                 mGlassFloor.mLastAction.equals("requested")) {
@@ -418,18 +366,17 @@ public class MainActivity extends AppCompatActivity implements Shouting {
                 case "Dance":
                     startFragmentDance();
                     break;
-//                case "Pairing":
-//                    startFragmentPairingDetail();
-//                    break;
                 case "MusicFile":
                     startFragmentMusicFile();
                     break;
+                case "MusicScan":
+                    startMusicScan();
+                    break;
                 case "MediaPlayer":
-                    //  startFragmentMediaPlayerControl();
                     startDialogPlayerControl();
                     break;
-                case "Playlist":
-                    startFragmentPlaylist();
+                case "Requestlist":
+                    startFragmentRequestlist();
                     break;
                 case "MusicDirectory":
                     startFragmentMusicDirectory();
@@ -437,9 +384,11 @@ public class MainActivity extends AppCompatActivity implements Shouting {
                 case "MusicDirectoryPairing":
                     startFragmentMusicDirectoryPairing();
                     break;
-                case "ChainedList":
-                    startFragmentChainedList();
+                case "Complex Search":
+                    startFragmentMatryoshka();
                     break;
+                default:
+                    Logg.w(TAG, "Fragement not available " + mGlassFloor.mLastObject);
             }
         }
         if (mGlassFloor.mActor.equals("DataServiceSingleton") &&
@@ -447,13 +396,6 @@ public class MainActivity extends AppCompatActivity implements Shouting {
                 mGlassFloor.mLastAction.equals("prepared")) {
             startDataFragment();
         }
-//        if (mGlassFloor.mActor.equals("ToolbarUtils") &&
-//                mGlassFloor.mLastAction.equals("changed") &&
-//                mGlassFloor.mLastObject.equals("Value")) {
-//            if (mSA_Fragment_Dance != null && mSA_Fragment_Dance.isVisible()) {
-//                mSA_Fragment_Dance.shoutUp(mGlassFloor);
-//            }
-//        }
     }
 
 
@@ -538,6 +480,92 @@ public class MainActivity extends AppCompatActivity implements Shouting {
 //
 //        Logg.i(TAG, "RequestCode " + iRequestCode);
 //        super.onActivityResult(iRequestCode, iResultCode, iIntentData);
+//    }
+
+    @Override
+    public boolean onKeyDown(int iKeyCode, KeyEvent iKeyEvent) {
+        Logg.i(TAG, iKeyEvent.toString());
+        if (MyInputManager.swallowKeyDown(iKeyCode, iKeyEvent)) {
+            return true;
+        } else {
+            Logg.i(TAG, "normal");
+            Logg.i(TAG, iKeyEvent.toString());
+            return super.onKeyDown(iKeyCode, iKeyEvent);
+        }
+
+    }
+
+    @Override
+    public boolean onKeyUp(int iKeyCode, KeyEvent iKeyEvent) {
+        Logg.i(TAG, iKeyEvent.toString());
+        if (MyInputManager.swallowKeyUp(iKeyCode, iKeyEvent)) {
+            return true;
+        } else {
+            Logg.i(TAG, "normal");
+            Logg.i(TAG, iKeyEvent.toString());
+            return super.onKeyDown(iKeyCode, iKeyEvent);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startMyOwnForeground() {
+        String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
+        String channelName = "My Background Service";
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
+        manager.createNotificationChannel(chan);
+
+        Builder notificationBuilder = new Builder(this, NOTIFICATION_CHANNEL_ID);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                .setContentTitle("App is running in background")
+                .setPriority(NotificationManager.IMPORTANCE_MIN)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .build();
+        startForeground(2, notification);
+    }
+
+    private void startForeground(int iInt, Notification iNotification) {
+        String channelId;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//             createNotificationChannel("my_service", "My Background Service")
+//        } else {
+//            // If earlier version channel ID is not used
+//            // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
+//            ""
+//        }
+        channelId = "2901";
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(PRIORITY_MIN)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .build();
+        startForeground(101, notification);
+    }
+
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private void startMyOwnForeground(){
+//        String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
+//        String channelName = "My Background Service";
+//        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, MediaNotificationManager.IMPORTANCE_NONE);
+//        chan.setLightColor(Color.BLUE);
+//        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+//        MediaNotificationManager manager = (MediaNotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        assert manager != null;
+//        manager.createNotificationChannel(chan);
+//
+//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+//        Notification notification = notificationBuilder.setOngoing(true)
+//                .setSmallIcon(R.drawable.ic_launcher)
+//                .setContentTitle("App is running in background")
+//                .setPriority(MediaNotificationManager.IMPORTANCE_MIN)
+//                .setCategory(Notification.CATEGORY_SERVICE)
+//                .build();
+//        startForeground(2, notification);
 //    }
 
 

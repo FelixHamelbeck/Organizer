@@ -10,8 +10,8 @@
 
     <item
         android:id="@+id/action_bar_menu_playlist"
-        android:icon="@drawable/ic_playlist"
-        android:title="@string/Playlist"
+        android:icon="@drawable/ic_requestlist"
+        android:title="@string/Requestlist"
         app:showAsAction="ifRoom"/>
 
     <item
@@ -23,7 +23,7 @@
     <item
         android:id="@+id/action_bar_menu_chained_list"
         android:icon="@drawable/ic_dynamicfilter"
-        android:title="ChainedList"
+        android:title="Complex Search"
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_bar_musicdirectory"
@@ -33,8 +33,5 @@
     <item android:id="@+id/action_bar_musicdirectory_pairing"
         android:title="MusicDirectoryPairing"
         app:showAsAction="never"/>
-
-
-
 
 </menu>

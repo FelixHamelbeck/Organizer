@@ -3,6 +3,7 @@ package org.pochette.data_library.database_management;
 
 import org.pochette.data_library.BuildConfig;
 import org.pochette.utils_lib.logg.Logg;
+import org.pochette.utils_lib.report.ReportSystem;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
 
@@ -107,6 +108,7 @@ public class Scddb_File {
         } catch(Exception e) {
             Logg.w(TAG, e.toString());
             Logg.w(TAG, "download failed");
+            reportReadFailed();
             return;
         }
         Logg.i(TAG, "download succeeded");
@@ -136,12 +138,24 @@ public class Scddb_File {
             if (mDatabaseFile.isFile()) {
                 Logg.i(TAG, "Database size (kB): " + mDatabaseFile.length() / 1024);
                 Logg.i(TAG, "Database location " + mDatabaseFile.getAbsolutePath());
+                reportReadSuccess();
             } else {
                 Logg.w(TAG, "Download failed");
+                reportReadFailed();
             }
         } else {
             Logg.w(TAG, "No temp copy available, continue with old file");
+            reportReadFailed();
         }
+    }
+
+    private void reportReadSuccess() {
+        ReportSystem.receive("Download of Scddb succeeded");
+    }
+
+    private void reportReadFailed() {
+        ReportSystem.receive("Download of Scddb failed");
+        ReportSystem.receive(Scddb_File.SCDDB_URL_STRING);
     }
 
     private void getDateFromWeb() {

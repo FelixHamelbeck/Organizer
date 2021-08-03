@@ -19,7 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 /**
- * DialogFragment to work with Playlist Header
+ * DialogFragment to work with Requestlist Header
  */
 public class DialogFragment_MusicDirectory extends DialogFragment implements Shouting {
 
@@ -39,7 +39,7 @@ public class DialogFragment_MusicDirectory extends DialogFragment implements Sho
     //Constructor
     public DialogFragment_MusicDirectory() {
         //mMode = SEARCH_MODE;
-        //mPlaylist_Purpose = Playlist_Purpose.UNDEFINED;
+        //mRequestlist_Purpose = Requestlist_Purpose.UNDEFINED;
     }
 
     public static DialogFragment_MusicDirectory newInstance(String title) {
@@ -109,11 +109,11 @@ public class DialogFragment_MusicDirectory extends DialogFragment implements Sho
 
 
     public static void create(View iView, Shouting iShouting) {
-        DialogFragment_MusicDirectory t_DialogFragmentPlaylist =
+        DialogFragment_MusicDirectory t_DialogFragment_MusicDirectory =
                 DialogFragment_MusicDirectory.newInstance("Some Title");
-        t_DialogFragmentPlaylist.mShoutingCaller = iShouting;
+        t_DialogFragment_MusicDirectory.mShoutingCaller = iShouting;
         AppCompatActivity tActivity = ((AppCompatActivity)iView.getContext());
-        t_DialogFragmentPlaylist.show(tActivity.getSupportFragmentManager(),null);
+        t_DialogFragment_MusicDirectory.show(tActivity.getSupportFragmentManager(),null);
     }
 
     @Override

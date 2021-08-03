@@ -27,7 +27,7 @@ import org.pochette.organizer.diagram.DiagramManager;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.organizer.music.MusicFile_Action;
-import org.pochette.organizer.playlist.Playlist_Action;
+import org.pochette.organizer.requestlist.Requestlist_Action;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
@@ -53,7 +53,7 @@ public class DialogFragment_DanceInfo extends DialogFragment
         implements Shouting {
 
     //  private static final android.R.attr R = ;
-    private final String TAG = "FEHA (DialogFragment_CreatePlaylist)";
+    private final String TAG = "FEHA (DialogFragment_CreateRequestlist)";
     //Variables
     //   DialogFragment_DanceInfo m_DialogFragement_DanceInfo;
     Shout mGlassFloor;
@@ -62,7 +62,7 @@ public class DialogFragment_DanceInfo extends DialogFragment
     private ScrollView mScrolView;
     private TextView mTV_Name;
     private ImageView mIV_Favourite;
-    private ImageView mIV_Playlist;
+    private ImageView mIV_Requestlist;
     private ImageView mIV_MusicFile;
     private ImageView mIV_Rscds;
     private ImageView mDiagram;
@@ -153,7 +153,7 @@ public class DialogFragment_DanceInfo extends DialogFragment
         mScrolView = requireView().findViewById(R.id.DanceInfo_SC);
         mTV_Name = requireView().findViewById(R.id.DanceInfo_TV_Name);
         mIV_Favourite = requireView().findViewById(R.id.DanceInfo_IV_Favourite);
-        mIV_Playlist = requireView().findViewById(R.id.DanceInfo_IV_Dancelist);
+        mIV_Requestlist = requireView().findViewById(R.id.DanceInfo_IV_Dancelist);
         mIV_MusicFile = requireView().findViewById(R.id.DanceInfo_IV_Musicfile);
         mIV_Rscds = requireView().findViewById(R.id.DanceInfo_IV_RSCDS);
         mDiagram = requireView().findViewById(R.id.DanceInfo_IV_DisplayDiagram);
@@ -206,19 +206,21 @@ public class DialogFragment_DanceInfo extends DialogFragment
                 t_dialogFragmentEditFavourite.show(mFragmentManager, "EditFavourite");
             });
         }
-        if (mIV_Playlist != null) {
-            mIV_Playlist.setOnClickListener(view -> {
-                Logg.k(TAG, "IV_Playlist OnClick");
+        if (mIV_Requestlist != null) {
+            mIV_Requestlist.setOnClickListener(view -> {
+                Logg.k(TAG, "IV_Requestlist OnClick");
                 if (mDance != null && mDance.mCountofRecordings > 0) {
-                    Playlist_Action.callExecute(mView, this,
-                            Playlist_Action.CLICK_TYPE_SHORT, Playlist_Action.CLICK_ICON_PLAYLIST, null, mDance, null);
+                    Requestlist_Action.callExecute(mView, this,
+                            Requestlist_Action.CLICK_TYPE_SHORT, Requestlist_Action.CLICK_ICON_REQUESTLIST,
+                            null, mDance, null, null);
                 }
             });
-            mIV_Playlist.setOnLongClickListener(view -> {
-                Logg.k(TAG, "IV_Playlist OnLongClick");
+            mIV_Requestlist.setOnLongClickListener(view -> {
+                Logg.k(TAG, "IV_Requestlist OnLongClick");
                 if (mDance != null && mDance.mCountofRecordings > 0) {
-                    Playlist_Action.callExecute(mView, this,
-                            Playlist_Action.CLICK_TYPE_LONG, Playlist_Action.CLICK_ICON_PLAYLIST, null, mDance, null);
+                    Requestlist_Action.callExecute(mView, this,
+                            Requestlist_Action.CLICK_TYPE_LONG, Requestlist_Action.CLICK_ICON_REQUESTLIST,
+                            null, mDance, null,null);
 
                 }
                 return true;

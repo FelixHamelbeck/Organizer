@@ -3,7 +3,7 @@ package org.pochette.organizer.album;
 import org.pochette.data_library.pairing.Signature;
 import org.pochette.data_library.scddb_objects.Album;
 import org.pochette.organizer.app.MyPreferences;
-import org.pochette.organizer.dance.My_ViewModel;
+import org.pochette.organizer.gui_assist.My_ViewModel;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.utils_lib.logg.Logg;
@@ -11,7 +11,6 @@ import org.pochette.utils_lib.search.SearchCriteria;
 import org.pochette.utils_lib.search.SearchPattern;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;

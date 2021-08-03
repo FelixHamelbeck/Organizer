@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import org.pochette.data_library.music.MusicFile;
 import org.pochette.organizer.R;
 import org.pochette.organizer.gui_assist.CustomSpinnerAdapter;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
@@ -43,6 +42,8 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
 
     Spinner mSP_Purpose;
     CustomSpinnerAdapter mCSA_Purpose;
+    Spinner mSP_Signature;
+    CustomSpinnerAdapter mCSA_Signature;
     @SuppressWarnings("FieldCanBeLocal")
     private RecyclerView mRV;
 
@@ -88,6 +89,7 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
         mET_Album = requireView().findViewById(R.id.ET_Musicfile_Album);
         mET_Name = requireView().findViewById(R.id.ET_Musicfile_Name);
         mSP_Purpose= requireView().findViewById(R.id.SP_Musicfile_Purpose);
+        mSP_Signature= requireView().findViewById(R.id.SP_Musicfile_Signature);
 
         mRV = requireView().findViewById(R.id.RV_Musicfile);
 
@@ -183,6 +185,34 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
                 }
             });
         }
+        if (mSP_Signature != null) {
+            tAL_Custom_SpinnerItem = tSpinnerItemFactory.
+                    getSpinnerItems(SpinnerItemFactory.FIELD_MUSICFILE_SIGNATURE, true);
+            mCSA_Signature = new CustomSpinnerAdapter(this.getContext(), tAL_Custom_SpinnerItem);
+            mCSA_Signature.setTitleMode(CustomSpinnerAdapter.MODE_TEXT_ONLY);
+            mCSA_Signature.setDropdownMode(CustomSpinnerAdapter.MODE_TEXT_ONLY);
+            mSP_Signature.setAdapter(mCSA_Signature);
+
+         //   mSP_Signature.setSelection(mCSA_Signature.getPosition(getModel().getCsiSignature().mKey));
+            mSP_Signature.setSelection(mCSA_Signature.getPosition("SALL"));
+
+            mSP_Signature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent,
+                                           View view, int position, long id) {
+                    Logg.k(TAG, "SP_Signature: " +
+                            parent.getItemAtPosition(position).toString());
+                    CustomSpinnerItem tCustomSpinnerItem = (CustomSpinnerItem) mCSA_Signature.getItem(position);
+                    mModel.setCsiSignature(tCustomSpinnerItem);
+                    mModel.forceSearch();
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        }
+
+
         drawHeader();
     }
 
@@ -203,22 +233,9 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
         mModel = ViewModelProvider.AndroidViewModelFactory.
                 getInstance(tApllication).create(MusicFile_ViewModel.class);
 
-        mModel.mMLD_AR.observe(getViewLifecycleOwner(), iAR_Object -> {
-
-            if (iAR_Object != null) {
-                try {
-                    ArrayList<MusicFile> tAR_MusicFile = new ArrayList<>(0);
-                    for (Object lObject : iAR_Object) {
-                        MusicFile lMusicFile;
-                        lMusicFile = (MusicFile) lObject;
-                        tAR_MusicFile.add(lMusicFile);
-                    }
-                    mMusicFile_Adapter.setAR(tAR_MusicFile);
-                    mMusicFile_Adapter.notifyDataSetChanged();
-                } catch(Exception e) {
-                    Logg.w(TAG, e.toString());
-                }
-            }
+        mModel.mMLD_A.observe(getViewLifecycleOwner(), iAR_Object -> {
+            mMusicFile_Adapter.setA((Integer[]) iAR_Object);
+            mMusicFile_Adapter.notifyDataSetChanged();
         });
         mModel.forceSearch();
     }

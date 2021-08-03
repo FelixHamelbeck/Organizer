@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 /**
- * DialogFragment to work with Playlist Header
+ * DialogFragment to work with
  */
 
 public class DialogFragment_MusicFile extends DialogFragment implements Shouting {
@@ -186,12 +186,12 @@ public class DialogFragment_MusicFile extends DialogFragment implements Shouting
     //Interface
     public static void create(View iView, String iTitle, Shouting iShouting) {
 
-        DialogFragment_MusicFile t_DialogFragmentPlaylist =
+        DialogFragment_MusicFile t_DialogFragment_MusicFile =
                 DialogFragment_MusicFile.newInstance("Some Title");
-        t_DialogFragmentPlaylist.mShouting = iShouting;
+        t_DialogFragment_MusicFile.mShouting = iShouting;
         AppCompatActivity tActivity = ((AppCompatActivity) iView.getContext());
-        t_DialogFragmentPlaylist.show(tActivity.getSupportFragmentManager(), null);
-        t_DialogFragmentPlaylist.setTitle(iTitle);
+        t_DialogFragment_MusicFile.show(tActivity.getSupportFragmentManager(), null);
+        t_DialogFragment_MusicFile.setTitle(iTitle);
     }
 
     @Override

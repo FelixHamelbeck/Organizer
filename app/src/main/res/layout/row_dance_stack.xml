@@ -25,21 +25,21 @@
         android:id="@+id/IV_RowScddbDance_Favourite"
         style="@style/Data_Icon"
         app:layout_constraintTop_toBottomOf="@id/TV_RowScddbDance_Name"
-        app:layout_constraintEnd_toStartOf="@id/IV_RowScddbDance_Playlist"
+        app:layout_constraintEnd_toStartOf="@id/IV_RowScddbDance_Requestlist"
         app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/BV_RowScddbDance_Belowicon"
         app:srcCompat="@drawable/ic_favourite_unknown" />
 
     <ImageView
-        android:id="@+id/IV_RowScddbDance_Playlist"
+        android:id="@+id/IV_RowScddbDance_Requestlist"
         style="@style/Data_Icon"
         app:layout_constraintBottom_toTopOf="@id/BV_RowScddbDance_Belowicon"
         app:layout_constraintEnd_toStartOf="@id/TV_RowScddbDance_Type"
         app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_Favourite"
         app:layout_constraintTop_toTopOf="@id/IV_RowScddbDance_Favourite"
-        app:srcCompat="@drawable/ic_playlist"
+        app:srcCompat="@drawable/ic_requestlist"
         />
 
     <ImageView
@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toStartOf="@id/TV_RowScddbDance_Shape"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_Playlist"
+        app:layout_constraintStart_toEndOf="@id/IV_RowScddbDance_Requestlist"
         app:layout_constraintTop_toTopOf="@id/IV_RowScddbDance_Favourite"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -150,7 +150,7 @@
         app:constraint_referenced_ids="TV_RowScddbDance_Couples, TV_RowScddbDance_Progression,TV_RowScddbDance_Progression,
             TV_RowScddbDance_Shape,TV_RowScddbDance_Type,
             IV_RowScddbDance_Crib,IV_RowScddbDance_Diagram,IV_RowScddbDance_Favourite,IV_RowScddbDance_Info,
-            IV_RowScddbDance_MusicFile,IV_RowScddbDance_Playlist,IV_RowScddbDance_RSCDS" />
+            IV_RowScddbDance_MusicFile,IV_RowScddbDance_Requestlist,IV_RowScddbDance_RSCDS" />
 
 
 

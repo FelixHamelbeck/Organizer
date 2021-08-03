@@ -59,9 +59,9 @@
 
 
     <Button
-        android:id="@+id/PB_player_playlist"
+        android:id="@+id/PB_player_requestlist"
         style="@style/Label_Array_Button"
-        android:text="@string/Play_PB_playlist_text"
+        android:text="@string/Play_PB_Requestlist_text"
         app:layout_constraintBottom_toBottomOf="@id/PB_player_lowerSpeed"
         app:layout_constraintEnd_toStartOf="@id/GL_player_vertical"
         app:layout_constraintStart_toStartOf="parent"

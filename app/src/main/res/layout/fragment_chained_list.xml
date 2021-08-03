@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ChainedList_FAB_Playlist"
+        android:id="@+id/ChainedList_FAB_Requestlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -71,6 +71,6 @@
         app:maxImageSize="56dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ChainedList_GL_Vertical_BC"
-        app:srcCompat="@drawable/ic_playlist_save"/>
+        app:srcCompat="@drawable/ic_requestlist_save"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

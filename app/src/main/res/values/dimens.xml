@@ -21,6 +21,8 @@
     <dimen name="RV_row_height">44dp</dimen>
     <dimen name="RV_icon_size">40dp</dimen>
     <dimen name="RV_basic_width_quarter">30dp</dimen>
+    <dimen name="RV_basic_width_threequarter">90dp</dimen>
+    <dimen name="RV_basic_width_half">60dp</dimen>
     <dimen name="RV_basic_width_01">120dp</dimen>
     <dimen name="RV_basic_width_02">240dp</dimen>
 

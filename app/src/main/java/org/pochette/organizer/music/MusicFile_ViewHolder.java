@@ -11,13 +11,14 @@ import org.pochette.data_library.music.MusicFile;
 import org.pochette.data_library.music.MusicFilePurpose;
 import org.pochette.data_library.music.MusicPreference;
 import org.pochette.data_library.music.MusicPreferenceFavourite;
+import org.pochette.data_library.pairing.Signature;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.organizer.R;
 import org.pochette.organizer.app.MediaPlayerServiceSingleton;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.organizer.mediaplayer.MediaPlayerService;
-import org.pochette.organizer.playlist.Playlist_Action;
+import org.pochette.organizer.requestlist.Requestlist_Action;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
@@ -44,8 +45,9 @@ public class MusicFile_ViewHolder extends RecyclerView.ViewHolder implements Sho
     TextView mTV_Album;
     ImageView mIV_Purpose;
     TextView mTV_Name;
+    TextView mTV_Signature;
     TextView mTV_Duration;
-    ImageView mIV_Playlist;
+    ImageView mIV_Requestlist;
     ImageView mIV_Play;
     FrameLayout mFL_Preference;
     ImageView mIV_Preference;
@@ -67,8 +69,9 @@ public class MusicFile_ViewHolder extends RecyclerView.ViewHolder implements Sho
 
         mIV_Dance = mLayout.findViewById(R.id.IV_RowMusicFile_Dance);
         mTV_Name = mLayout.findViewById(R.id.TV_RowMusicFile_Name);
+        mTV_Signature = mLayout.findViewById(R.id.TV_RowMusicFile_Signature);
         mTV_Duration = mLayout.findViewById(R.id.TV_RowMusicFile_Duration);
-        mIV_Playlist = mLayout.findViewById(R.id.IV_RowMusicFile_Playlist);
+        mIV_Requestlist = mLayout.findViewById(R.id.IV_RowMusicFile_Requestlist);
         mIV_Play = mLayout.findViewById(R.id.IV_RowMusicFile_Play);
 
         mFL_Preference = mLayout.findViewById(R.id.FL_RowMusicFile_Preference);
@@ -121,6 +124,14 @@ public class MusicFile_ViewHolder extends RecyclerView.ViewHolder implements Sho
             }
             if (mTV_Duration != null) {
                 mTV_Duration.setText(getDurationString());
+            }
+            if (mTV_Signature != null) {
+                if (mMusicFile.mSignature.equals(Signature.getEmpty())) {
+                    mTV_Signature.setVisibility(View.INVISIBLE);
+                } else {
+                    mTV_Signature.setVisibility(View.VISIBLE);
+                }
+                mTV_Signature.setText(mMusicFile.mSignature);
             }
         } catch(Exception e) {
             Logg.e(TAG, e.toString());
@@ -184,18 +195,18 @@ public class MusicFile_ViewHolder extends RecyclerView.ViewHolder implements Sho
     }
 
     public void setListener() {
-        if (mIV_Playlist != null) {
-            mIV_Playlist.setOnClickListener(iView -> {
-                Logg.k(TAG, "IV_Playlist OnClick");
-                    Playlist_Action.callExecute(mLayout, this,
-                            Playlist_Action.SHORT_CLICK, Playlist_Action.CLICK_ICON_PLAYLIST,
-                            null, null, mMusicFile);
+        if (mIV_Requestlist != null) {
+            mIV_Requestlist.setOnClickListener(iView -> {
+                Logg.k(TAG, "IV_Requestlist OnClick");
+                    Requestlist_Action.callExecute(mLayout, this,
+                            Requestlist_Action.CLICK_TYPE_SHORT, Requestlist_Action.CLICK_ICON_REQUESTLIST,
+                            null, null, mMusicFile,null);
             });
-            mIV_Playlist.setOnLongClickListener(iView -> {
-                Logg.k(TAG, "IV_Playlist OnLongClick");
-                Playlist_Action.callExecute(mLayout, this,
-                        Playlist_Action.LONG_CLICK, Playlist_Action.CLICK_ICON_PLAYLIST,
-                        null, null, mMusicFile);
+            mIV_Requestlist.setOnLongClickListener(iView -> {
+                Logg.k(TAG, "IV_Requestlist OnLongClick");
+                Requestlist_Action.callExecute(mLayout, this,
+                        Requestlist_Action.CLICK_TYPE_LONG, Requestlist_Action.CLICK_ICON_REQUESTLIST,
+                        null, null, mMusicFile,null);
                 return true;
             });
         }

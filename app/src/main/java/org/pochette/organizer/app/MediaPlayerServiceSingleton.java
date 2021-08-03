@@ -64,10 +64,17 @@ public class MediaPlayerServiceSingleton implements Shouting {
         return mInstance;
     }
 
+    public static boolean isAvailable() {
+        return mInstance != null;
+    }
     // setter and getter
 
     public void setShouting(Shouting iShouting) {
         mShouting = iShouting;
+    }
+
+    public boolean isServiceBound() {
+        return mServiceBound;
     }
 
     public MediaPlayerService getMediaPlayerService() {

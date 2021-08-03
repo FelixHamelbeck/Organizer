@@ -8,9 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import org.pochette.data_library.BuildConfig;
 import org.pochette.utils_lib.logg.Logg;
+import org.pochette.utils_lib.report.ReportSystem;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -139,6 +141,86 @@ public class Ldb_Helper extends SQLiteOpenHelper {
 
     }
 
+    public void purgeTables() {
+        Logg.i(TAG, "purgeTables");
+        SQLiteDatabase tSQLiteDatabase = Ldb_Helper.getInstance().getWritableDatabase();
+        SqlContract tSqlContract = new SqlContract();
+        String tDeleteString="";
+        ArrayList<Class> tAR_LdbClass;
+        tAR_LdbClass = tSqlContract.getAR_LdbClass();
+        for (Class lClass : tAR_LdbClass) {
+            try {
+                String tTableName = tSqlContract.getTableString(lClass);
+                boolean tTableExist = false;
+                Cursor tCursor = null;
+                try {
+                    String tSqlString = "select COUNT(*) AS COUNT FROM " + tTableName;
+                    tCursor = tSQLiteDatabase.rawQuery(tSqlString, null);
+                    tCursor.moveToFirst();
+                    tCursor.getInt(tCursor.getColumnIndex("COUNT"));
+                    tTableExist = true;
+                } catch(Exception e) {
+                    Logg.i(TAG, "purgeTables: Table does not yet exist "+ tTableName);
+                } finally {
+                    if (tCursor != null) {
+                        tCursor.close();
+                    }
+                }
+                if (tTableExist) {
+                    tDeleteString = "DELETE FROM "+ tSqlContract.getTableString(lClass);
+                    tSQLiteDatabase.execSQL(tDeleteString);
+                    Logg.i(TAG, "Table " + lClass.getSimpleName() + " purged");
+                }
+            } catch(SQLException e) {
+                Logg.w(TAG, "Table " + lClass.getSimpleName() + " not purged");
+                Logg.w(TAG, tDeleteString);
+                Logg.w(TAG, e.toString());
+                return;
+            }
+        }
+        String tText = "All Ldb Tables purged";
+        ReportSystem.receive(tText);
+    }
+
+    public void report() {
+        Logg.i(TAG, "executeReport");
+        SQLiteDatabase tSQLiteDatabase = Ldb_Helper.getInstance().getWritableDatabase();
+        SqlContract tSqlContract = new SqlContract();
+        String tSelectString="";
+        ArrayList<Class> tAR_LdbClass;
+        tAR_LdbClass = tSqlContract.getAR_LdbClass();
+        for (Class lClass : tAR_LdbClass) {
+            try {
+                String tTableName = tSqlContract.getTableString(lClass);
+                boolean tTableExist = false;
+                Cursor tCursor = null;
+                int tCount;
+                try {
+                    String tSqlString = "select COUNT(*) AS COUNT FROM " + tTableName;
+                    tCursor = tSQLiteDatabase.rawQuery(tSqlString, null);
+                    tCursor.moveToFirst();
+                    tCount = tCursor.getInt(tCursor.getColumnIndex("COUNT"));
+                    String tText = String.format(ENGLISH,
+                            "Table %s has %d rows",
+                            tTableName,tCount);
+                    ReportSystem.receive(tText);
+                    tTableExist = true;
+                } catch(Exception e) {
+                    Logg.i(TAG, "report: Table does not yet exist "+ tTableName);
+                } finally {
+                    if (tCursor != null) {
+                        tCursor.close();
+                    }
+                }
+
+            } catch(SQLException e) {
+                Logg.w(TAG, "Table " + lClass.getSimpleName() + " not reported");
+                Logg.w(TAG, tSelectString);
+                Logg.w(TAG, e.toString());
+                return;
+            }
+        }
+    }
 
     public void prepareTables() {
         Logg.i(TAG, "prepareTables");
@@ -177,8 +259,15 @@ public class Ldb_Helper extends SQLiteOpenHelper {
                 return;
             }
         }
+        String tText = "All Ldb Tables created";
+        ReportSystem.receive(tText);
 
 
+    }
+
+    public void deleteLdb(Context iContext) {
+        closeDB();
+        iContext.deleteDatabase(DATABASE_NAME);
     }
 
     public static String getFilePath() {
@@ -190,6 +279,11 @@ public class Ldb_Helper extends SQLiteOpenHelper {
 
     public File getLdbFile() {
         return mDb_File;
+    }
+
+
+    public static String getNameofDatabase() {
+        return DATABASE_NAME;
     }
 
 }

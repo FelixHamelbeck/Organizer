@@ -97,6 +97,7 @@ public class MusicFile {
         mId = tId;
     }
 
+    @SuppressWarnings("unused")
     public int getTrackNo() {
         return mTrackNo;
     }
@@ -166,6 +167,9 @@ public class MusicFile {
         if (mFavourite != null) {
             tContentValues.put("FAVOURITE", mFavourite.getCode());
         }
+        if (mSignature != null) {
+            tContentValues.put("SIGNATURE", mSignature);
+        }
         return tContentValues;
     }
 
@@ -185,6 +189,7 @@ public class MusicFile {
         result.mGainAvg = tCursor.getInt(tCursor.getColumnIndex("MF_GAIN_AVG"));
         result.mGainMax = tCursor.getInt(tCursor.getColumnIndex("MF_GAIN_MAX"));
         result.mDuration = tCursor.getInt(tCursor.getColumnIndex("MF_DURATION"));
+        result.mSignature = tCursor.getString(tCursor.getColumnIndex("MF_SIGNATURE"));
 
         if (tCursor.getString(tCursor.getColumnIndex("MF_FAVOURITE")) != null &&
                 !tCursor.getString(tCursor.getColumnIndex("MF_FAVOURITE")).equals("")) {

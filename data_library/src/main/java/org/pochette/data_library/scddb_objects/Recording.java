@@ -123,6 +123,17 @@ public class Recording {
 
     //Internal Organs
     //Interface
+    public static Recording getById(int iId) {
+        SearchPattern tSearchPattern = new SearchPattern(Recording.class);
+        tSearchPattern.addSearch_Criteria(
+                new SearchCriteria("ID",
+                        String.format(Locale.ENGLISH, "%d", iId)));
+        SearchCall tSearchCall =
+                new SearchCall(Recording.class, tSearchPattern, null);
+        return tSearchCall.produceFirst();
+    }
+
+
     public static Recording convertCursor(Cursor tCursor) {
         boolean tTwochords = false;
         if (tCursor.getInt(tCursor.getColumnIndex("R_TWOCHORDS")) == 1) {

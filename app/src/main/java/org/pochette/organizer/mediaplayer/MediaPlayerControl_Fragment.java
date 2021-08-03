@@ -17,9 +17,13 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.pochette.data_library.database_management.SearchCall;
 import org.pochette.data_library.music.MusicFile;
 import org.pochette.organizer.R;
+import org.pochette.organizer.app.MyPreferences;
 import org.pochette.utils_lib.logg.Logg;
+import org.pochette.utils_lib.search.SearchCriteria;
+import org.pochette.utils_lib.search.SearchPattern;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
 
@@ -49,7 +53,7 @@ public class MediaPlayerControl_Fragment extends Fragment implements Shouting {
     TextView mTV_Speed;
     Button mPB_raiseVolume;
     Button mPB_lowerVolume;
-    Button mPB_playlist;
+    Button mPB_requestlist;
     Button mPB_raiseSpeed;
     Button mPB_normalSpeed;
     Button mPB_lowerSpeed;
@@ -132,7 +136,7 @@ public class MediaPlayerControl_Fragment extends Fragment implements Shouting {
         mTV_Speed = mView.findViewById(R.id.TV_speed);
         mPB_raiseVolume = mView.findViewById(R.id.PB_player_raiseVolume);
         mPB_lowerVolume = mView.findViewById(R.id.PB_player_lowerVolume);
-        mPB_playlist = mView.findViewById(R.id.PB_player_playlist);
+        mPB_requestlist = mView.findViewById(R.id.PB_player_requestlist);
         mPB_raiseSpeed = mView.findViewById(R.id.PB_player_raiseSpeed);
         mPB_normalSpeed = mView.findViewById(R.id.PB_player_normalSpeed);
         mPB_lowerSpeed = mView.findViewById(R.id.PB_player_lowerSpeed);
@@ -147,8 +151,21 @@ public class MediaPlayerControl_Fragment extends Fragment implements Shouting {
             mPB_play.setOnClickListener(v -> {
                 Logg.k(TAG, "Play_Button OnClick");
                 MusicFile tMusicFile = mMediaPlayerService.getLastMusicFile();
-                if (tMusicFile != null) {
-                    if (mMediaPlayerService != null) {
+
+                if (mMediaPlayerService != null) {
+                    if (tMusicFile == null) {
+                        int tMediaId;
+                        tMediaId = MyPreferences.getPreferenceInt("LastMediaId", 0);
+                        Logg.i(TAG, "no current last musicfile, use MediaId from previous execution: " + tMediaId);
+                        if (tMediaId > 0) {
+                            SearchPattern tSearchPattern = new SearchPattern(MusicFile.class);
+                            SearchCriteria tSearchCriteria = new SearchCriteria("MEDIA_ID", ""+tMediaId);
+                            tSearchPattern.addSearch_Criteria(tSearchCriteria);
+                            SearchCall tSearchCall = new SearchCall(MusicFile.class, tSearchPattern, null);
+                            tMusicFile = tSearchCall.produceFirst();
+                        }
+                    }
+                    if (tMusicFile != null) {
                         mMediaPlayerService.play(tMusicFile);
                     }
                 }
@@ -163,9 +180,7 @@ public class MediaPlayerControl_Fragment extends Fragment implements Shouting {
         if (mPB_continue != null) {
             mPB_continue.setOnClickListener(v -> {
                 Logg.k(TAG, "Continue_Button OnClick");
-                if (!mMediaPlayerService.isPlaying()) {
-                    mMediaPlayerService.resumePlay();
-                }
+                mMediaPlayerService.togglePause();
             });
         }
         if (mPB_choose != null) {
@@ -174,10 +189,10 @@ public class MediaPlayerControl_Fragment extends Fragment implements Shouting {
                 choose();
             });
         }
-        if (mPB_playlist != null) {
-            mPB_playlist.setOnClickListener(v -> {
-                Logg.k(TAG, "Playlist_Button OnClick");
-                mShoutToCeiling.mLastObject = "PB_Playlist";
+        if (mPB_requestlist != null) {
+            mPB_requestlist.setOnClickListener(v -> {
+                Logg.k(TAG, "Requestlist_Button OnClick");
+                mShoutToCeiling.mLastObject = "PB_Requestlist";
                 mShoutToCeiling.mLastAction = "clicked";
                 if (mShouting != null) {
                     mShouting.shoutUp(mShoutToCeiling);
@@ -295,7 +310,6 @@ public class MediaPlayerControl_Fragment extends Fragment implements Shouting {
                             tChangePossible = false;
                         }
                         if (tContext == null) {
-                            //noinspection ConstantConditions
                             tChangePossible = false;
                         }
                         if (tChangePossible) {
@@ -344,7 +358,6 @@ public class MediaPlayerControl_Fragment extends Fragment implements Shouting {
             tChangePossible = false;
         }
         if (tContext == null) {
-            //noinspection ConstantConditions
             tChangePossible = false;
         }
         if (mMediaPlayerService == null) {
@@ -484,32 +497,31 @@ public class MediaPlayerControl_Fragment extends Fragment implements Shouting {
     }
 
 
-    @SuppressWarnings("unused")
-    void changeButton(Button iButton, @SuppressWarnings("SameParameterValue") String iText,
-                      @SuppressWarnings("SameParameterValue") boolean iEnable) {
-        if (iButton == null) {
-            return;
-        }
-        int tBackgroundColor;
-        //tFontColor = ContextCompat.getColor(mContext, R.color.txt_standard);
-        if (iEnable) {
-            tBackgroundColor = ContextCompat.getColor(Objects.requireNonNull(this.getContext()),
-                    R.color.bg_pushbutton_standard);
-            iButton.setEnabled(true);
-        } else {
-            tBackgroundColor = ContextCompat.getColor(this.requireContext(),
-                    R.color.bg_pushbutton_inactive);
-            iButton.setEnabled(false);
-        }
-        iButton.setBackgroundColor(tBackgroundColor);
-    }
+//    void changeButton(Button iButton, @SuppressWarnings("SameParameterValue") String iText,
+//                      @SuppressWarnings("SameParameterValue") boolean iEnable) {
+//        if (iButton == null) {
+//            return;
+//        }
+//        int tBackgroundColor;
+//        //tFontColor = ContextCompat.getColor(mContext, R.color.txt_standard);
+//        if (iEnable) {
+//            tBackgroundColor = ContextCompat.getColor(Objects.requireNonNull(this.getContext()),
+//                    R.color.bg_pushbutton_standard);
+//            iButton.setEnabled(true);
+//        } else {
+//            tBackgroundColor = ContextCompat.getColor(this.requireContext(),
+//                    R.color.bg_pushbutton_inactive);
+//            iButton.setEnabled(false);
+//        }
+//        iButton.setBackgroundColor(tBackgroundColor);
+//    }
 
     //Interface
     public void publish() {
         fromService();
     }
 
-      public void setShouting(Shouting tShouting) {
+    public void setShouting(Shouting tShouting) {
         mShouting = tShouting;
     }
 

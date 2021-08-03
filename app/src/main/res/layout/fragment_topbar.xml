@@ -100,6 +100,20 @@ android:backgroundTint="@color/bg_standard"
         />
 
 
+
+
+    <ImageView
+        android:id="@+id/IV_TopBar_PlayerControl"
+        style="@style/TopBar_Icon"
+        android:contentDescription="PlayerControl"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IV_TopBar_Dance"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_EmptySpace"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_action_play" />
+
     <ImageView
         android:id="@+id/IV_TopBar_Dance"
         style="@style/TopBar_Icon"
@@ -108,7 +122,7 @@ android:backgroundTint="@color/bg_standard"
         app:layout_constraintEnd_toStartOf="@id/IV_TopBar_MusicFile"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_weight="0.5"
-        app:layout_constraintStart_toEndOf="@id/IV_TopBar_EmptySpace"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_PlayerControl"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_allemande05_bw" />
 
@@ -119,7 +133,7 @@ android:backgroundTint="@color/bg_standard"
         style="@style/TopBar_Icon"
         android:contentDescription="MusicFile"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/IV_TopBar_Playlist"
+        app:layout_constraintEnd_toStartOf="@id/IV_TopBar_Requestlist"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toEndOf="@id/IV_TopBar_Dance"
@@ -128,16 +142,16 @@ android:backgroundTint="@color/bg_standard"
 
 
     <ImageView
-        android:id="@+id/IV_TopBar_Playlist"
+        android:id="@+id/IV_TopBar_Requestlist"
         style="@style/TopBar_Icon"
-        android:contentDescription="Playlist"
+        android:contentDescription="Requestlist"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/IV_TopBar_Player"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toEndOf="@id/IV_TopBar_MusicFile"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_playlist" />
+        app:srcCompat="@drawable/ic_requestlist" />
 
 
     <ImageView
@@ -148,7 +162,7 @@ android:backgroundTint="@color/bg_standard"
         app:layout_constraintEnd_toStartOf="@id/IV_TopBar_MenuIcon"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_weight="0.5"
-        app:layout_constraintStart_toEndOf="@id/IV_TopBar_Playlist"
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_Requestlist"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_director" />
 
@@ -164,6 +178,16 @@ android:backgroundTint="@color/bg_standard"
         app:layout_constraintStart_toEndOf="@id/IV_TopBar_Player"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_menudotdotdot" />
+
+
+    <TextView
+        android:id="@+id/TV_TopBar_Report"
+        style="@style/TopBar_Textview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0."
+        app:layout_constraintStart_toEndOf="@id/IV_TopBar_AppIcon"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

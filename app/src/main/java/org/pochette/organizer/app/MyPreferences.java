@@ -71,7 +71,8 @@ public class MyPreferences {
         }
         SharedPreferences.Editor tEditor = mSharedPreferences.edit();
         tEditor.putInt(iKey, iNewValue);
-        tEditor.apply();
+        //tEditor.apply();
+        tEditor.commit();
     }
 
     public static Integer getPreferenceInt(String iKey, int iDefault) {

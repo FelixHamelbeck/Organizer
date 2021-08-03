@@ -55,9 +55,6 @@ public class OrganizerStatus {
         mPairingSynchronisationStatus= STATUS_OPEN; // writhe the pairing date to musicdirectorz and musicfile
         mDiagramStatus= STATUS_OPEN;
         mFormationStatus= STATUS_OPEN;
-
-
-
     }
 
     public static void createInstance(Context iContext, OrganizerApp iOrganizerApp) {
@@ -77,8 +74,8 @@ public class OrganizerStatus {
         }
     }
 
-
     public void setStatus(String iObjectString, String iStatusString) {
+        Logg.d(TAG, "Time: Set " + iObjectString + " to " + iStatusString);
         switch (iObjectString) {
             case DATA_SERVICE:
                 mDataServiceStatus = iStatusString ;

@@ -2,6 +2,7 @@ package org.pochette.organizer.dance;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,8 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.organizer.gui_assist.CustomSpinnerAdapter;
 import org.pochette.organizer.R;
@@ -32,7 +31,6 @@ import java.util.Timer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
@@ -121,13 +119,12 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
             public void run() {
                 // for instance
                 setFragmentWidth(mView.getWidth());
-                Logg.i(TAG, String.format(Locale.ENGLISH, "IN POST plain %d x %d",mView.getWidth(),mView.getHeight() ));
-                Logg.i(TAG, String.format(Locale.ENGLISH, "IN POST masure %d x %d",mView.getMeasuredWidth(),mView.getMeasuredHeight() ));
-                mView.measure(View.MeasureSpec.AT_MOST,View.MeasureSpec.AT_MOST);
-                Logg.i(TAG, String.format(Locale.ENGLISH, "IN POST masure after at most %d x %d",mView.getMeasuredWidth(),mView.getMeasuredHeight() ));
+                Logg.i(TAG, String.format(Locale.ENGLISH, "IN POST plain %d x %d", mView.getWidth(), mView.getHeight()));
+                Logg.i(TAG, String.format(Locale.ENGLISH, "IN POST masure %d x %d", mView.getMeasuredWidth(), mView.getMeasuredHeight()));
+                mView.measure(View.MeasureSpec.AT_MOST, View.MeasureSpec.AT_MOST);
+                Logg.i(TAG, String.format(Locale.ENGLISH, "IN POST masure after at most %d x %d", mView.getMeasuredWidth(), mView.getMeasuredHeight()));
             }
         });
-
 
 
         return mView;
@@ -153,10 +150,10 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
     public void onViewCreated(@Nullable View view, @Nullable Bundle savedInstanceState) {
 
         if (view != null) {
-            Logg.i(TAG, String.format(Locale.ENGLISH, "plain %d x %d",view.getWidth(),view.getHeight() ));
-            Logg.i(TAG, String.format(Locale.ENGLISH, "masure %d x %d",view.getMeasuredWidth(),view.getMeasuredHeight() ));
-            view.measure(View.MeasureSpec.AT_MOST,View.MeasureSpec.AT_MOST);
-            Logg.i(TAG, String.format(Locale.ENGLISH, "masure after at most %d x %d",view.getMeasuredWidth(),view.getMeasuredHeight() ));
+            Logg.i(TAG, String.format(Locale.ENGLISH, "plain %d x %d", view.getWidth(), view.getHeight()));
+            Logg.i(TAG, String.format(Locale.ENGLISH, "masure %d x %d", view.getMeasuredWidth(), view.getMeasuredHeight()));
+            view.measure(View.MeasureSpec.AT_MOST, View.MeasureSpec.AT_MOST);
+            Logg.i(TAG, String.format(Locale.ENGLISH, "masure after at most %d x %d", view.getMeasuredWidth(), view.getMeasuredHeight()));
         }
         //<editor-fold desc="ET_RECORDING_Artist">
         mET_Dance_Name = requireView().findViewById(R.id.ET_Dance_Dancename);
@@ -165,9 +162,11 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 createModel();
@@ -196,13 +195,14 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
                 CustomSpinnerItem tCustomSpinnerItem = (CustomSpinnerItem) mCSA_Favourite.getItem(position);
                 mModel.setCsiFavourite(tCustomSpinnerItem);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
 
-        mSP_RhythmType = requireView().findViewById(R.id.SP_Dance_Playlist);
+        mSP_RhythmType = requireView().findViewById(R.id.SP_Dance_Requestlist);
         tAL_Custom_SpinnerItem = tSpinnerItemFactory.getSpinnerItems(SpinnerItemFactory.FIELD_RHYTHM, true);
         mCSA_RhythmType = new CustomSpinnerAdapter(this.getContext(), tAL_Custom_SpinnerItem);
 
@@ -336,7 +336,6 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
 //        }
 
 
-
         //</editor-fold>
         drawHeader();
 
@@ -400,7 +399,6 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
         mET_Dance_Name.setText(mModel.getDancename());
 
 
-
         if (mModel.getFlagMusic()) {
             tColor = tColorSelected;
         } else {
@@ -436,12 +434,9 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
             if (tSortMode == 1) {
                 mIV_Sort.setImageResource(R.drawable.ic_sort_byfavorite);
             } else {
-
                 mIV_Sort.setImageResource(R.drawable.ic_sort_byname);
             }
         }
-
-
     }
 
 
@@ -461,7 +456,10 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
 //            Logg.i(TAG, tMLD_AR.toString());
 //        }
 
+
+
         mModel.mMLD_AR.observe(getViewLifecycleOwner(), iAR_Object -> {
+
             if (iAR_Object != null) {
                 try {
                     ArrayList<Dance> tAR_Dance = new ArrayList<>(0);
@@ -470,9 +468,6 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
                         Dance lDance;
                         lDance = (Dance) lObject;
                         tAR_Dance.add(lDance);
-//                        if (i % 50 == 0) {
-//                            Logg.i(TAG, i + "->" + lDance.toString());
-//                        }
                         i++;
                     }
                     mDance_Adapter.setAR_DANCE(tAR_Dance);
@@ -484,7 +479,6 @@ public class Dance_Fragment extends Fragment implements Shouting, LifecycleOwner
         });
         mModel.forceSearch();
     }
-
 
 
     //Static Methods

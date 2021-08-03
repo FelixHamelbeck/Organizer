@@ -4,19 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.pochette.data_library.scddb_objects.Dance;
-import org.pochette.data_library.scddb_objects.SlimDance;
 import org.pochette.organizer.R;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -33,7 +30,7 @@ import static java.lang.Thread.sleep;
 /**
  * Adapterclass for ScddbRecording
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder>
         implements Shouting {
 
@@ -55,18 +52,17 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
     // Expansion in Adapter 0 = not allowed, 3 allowed, but not always; 9 = always, where available
 
     //Variables
-    private static String TAG = "FEHA (Dance_Adapter)";
+    private static final String TAG = "FEHA (Dance_Adapter)";
     @SuppressWarnings("unused")
     private static final String MAIN_CLASS = Dance.class.getName();
-
-
     Context mContext;
     Fragment mFragment; // needed for DialogCalls
 
-  //  private ArrayList<SlimDance> mAR_SlimDANCE;
- //   private ArraySet<Integer> mAS;
+    //  private ArrayList<SlimDance> mAR_SlimDANCE;
+    //   private ArraySet<Integer> mAS;
     private Integer[] mA;
     public int mSelectedDanceId;
+    @SuppressWarnings("FieldCanBeLocal")
     private int mAvailableWidth = 0;
 
     private int mLayoutMode;
@@ -91,7 +87,7 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
         mShouting = upstairs;
         mShoutToCeiling = new Shout(getClass().getSimpleName());
         waitAndLock();
-     //   mAS = new ArraySet<>(0);
+        //   mAS = new ArraySet<>(0);
         //mAR_SlimDANCE = new ArrayList<>(0);
         unlock();
         mRecyclerView = iRecyclerView;
@@ -225,7 +221,7 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
                 tViewHolder = new SlimDance_ViewHolder(tView);
                 break;
         }
-       // tViewHolder.setDisplayVariant(iViewType);
+        // tViewHolder.setDisplayVariant(iViewType);
         return tViewHolder;
     }
 
@@ -233,12 +229,10 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
     @Override
     public int getItemViewType(int position) {
         int tViewType;
-        switch (mLayoutMode) {
-            case SlimDance_Adapter.LAYOUT_MODE_COMPACT:
-                tViewType = Dance_ViewHolder.VARIANT_STACK ;
-                break;
-            default:
-                tViewType = Dance_ViewHolder.VARIANT_MAX;
+        if (mLayoutMode == SlimDance_Adapter.LAYOUT_MODE_COMPACT) {
+            tViewType = Dance_ViewHolder.VARIANT_STACK;
+        } else {
+            tViewType = Dance_ViewHolder.VARIANT_MAX;
         }
         //Logg.i(TAG, String.format(Locale.ENGLISH, "Mode %d, Type %d",mLayoutMode,tViewType ));
         return tViewType;
@@ -247,25 +241,22 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SlimDance_ViewHolder iDance_ViewHolder, int iDoNotUsePosition) {
-        if (iDance_ViewHolder.getAdapterPosition() > mA.length ) {
+        if (iDance_ViewHolder.getAdapterPosition() > mA.length) {
             return;
         }
         int tPosition = iDance_ViewHolder.getAdapterPosition();
-
         Integer tId = mA[tPosition];
-
-
-        Logg.i(TAG, String.format(Locale.ENGLISH, "Position %d, Id %d",tPosition,tId ));
+        Logg.i(TAG, String.format(Locale.ENGLISH, "Position %d, Id %d", tPosition, tId));
         //SlimDance tDance = mAR_SlimDANCE.get(tPosition);
         if (tId != null) {
-           // iDance_ViewHolder.setSlimDance(tDance);
+            // iDance_ViewHolder.setSlimDance(tDance);
             iDance_ViewHolder.setDanceId(tId);
 //            int tWidth = 0;
 //            if (mRecyclerView != null) {
 //                tWidth = mRecyclerView.getWidth();
 //                requestDiagramCaching();
 //            }
-         //   iDance_ViewHolder.setLayoutWidth(tWidth);
+            //   iDance_ViewHolder.setLayoutWidth(tWidth);
             iDance_ViewHolder.setShouting(this);
             iDance_ViewHolder.setDance_Adapter(this);
         }
@@ -312,10 +303,10 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
 //Static Methods
     //Internal Organs
 
-    private void requestDiagramCaching() {
-        if (1 == 1) {
-            return;
-        }
+//    private void requestDiagramCaching() {
+//        if (1 == 1) {
+//            return;
+//        }
 //        Logg.i(TAG, "requestDiagramCaching");
 //        int tWidth = 0;
 ////        if (mExample_ViewHolder != null) {
@@ -329,40 +320,52 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
 //        if (tWidth <= 0) {
 //            return;
 //        }
-//        for (Dance lDance : mAR_DANCE) {
-//
+//      //  for (Dance lDance : mAR_DANCE) {
+//        for (Integer lInteger : mA) {
+//            Dance lDance = Dance_Cache.getById(lInteger);
 //            //    Logg.i(TAG, "Loop DiagramCaching" + tWidth);
-////            if (lDance.mCountofDiagrams > 0) {
-////                DiagramCache.requestPreScaling(tWidth, lDance.mId);
-////            }
+//            if (lDance.mCountofDiagrams > 0) {
+//                DiagramCache.requestPreScaling(tWidth, lDance.mId);
+//            }
 //        }
-    }
+//    }
 
     private void sort() {
         Logg.i(TAG, "sort");
-//        if (mAR_SlimDANCE == null) {
-//            return;
-//        }
-//        if (mAR_SlimDANCE.size() > 1) {
-//            if (mSortMode == 1) {
-//                Logg.i(TAG, "sortorder Score/Name");
-//                Collections.sort(mAR_SlimDANCE, (o1, o2) -> {
-//                            if (o1.getScore() != o2.getScore()) {
-//                                return o2.getScore() - o1.getScore();
-//                            } else {
-//                                return o1.mName.compareToIgnoreCase(o2.mName);
-//                            }
-//                        }
-//                );
-//            } else {
-//                Logg.i(TAG, "sortorder Name");
-//                Collections.sort(mAR_SlimDANCE, (o1, o2) -> o1.mName.compareToIgnoreCase(o2.mName));
-//            }
-            //todo
-    //    }
-//        for (Dance lDance : mAR_DANCE) {
-//            //       Logg.i(TAG, lDance.toShortString());
-//        }
+        if (mA == null) {
+            return;
+        }
+        ArrayList<Dance> tAR_Dance = new ArrayList<>();
+        if (mA.length > 1) {
+            for (Integer lInteger : mA) {
+                tAR_Dance.add(Dance_Cache.getById(lInteger));
+            }
+            if (mSortMode == 1) {
+                Logg.i(TAG, "sortorder Score/Name");
+                Collections.sort(tAR_Dance, (o1, o2) -> {//
+                            if (o1.getScore() != o2.getScore()) {
+                                return o1.getScore() - o2.getScore();
+                            } else {
+                                return o1.mName.compareToIgnoreCase(o2.mName);
+                            }
+                        }
+                );
+            } else {
+                Logg.i(TAG, "sortorder Name");
+                Collections.sort(tAR_Dance, (o1, o2) -> {
+                    //noinspection CodeBlock2Expr
+                    return o1.mName.compareToIgnoreCase(o2.mName);
+                        }
+                );
+            }
+            Integer[] tAR = new Integer[tAR_Dance.size()];
+            int i = 0;
+            for (Dance lDance : tAR_Dance) {
+                tAR[i] = lDance.mId;
+                i++;
+            }
+            mA = tAR;
+        }
     }
 
     void process_shouting() {
@@ -376,6 +379,7 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
         while (mAR_Any_Lock) {
             tCount++;
             try {
+                //noinspection BusyWait
                 sleep(10);
             } catch(InterruptedException e) {
                 Logg.e(TAG, e.toString());

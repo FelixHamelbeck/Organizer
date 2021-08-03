@@ -6,6 +6,7 @@ import org.pochette.data_library.music.MusicDirectory;
 import org.pochette.data_library.music.MusicDirectoryPurpose;
 import org.pochette.data_library.scddb_objects.Album;
 import org.pochette.utils_lib.logg.Logg;
+import org.pochette.utils_lib.report.ReportSystem;
 import org.pochette.utils_lib.search.SearchPattern;
 
 import java.util.ArrayList;
@@ -41,8 +42,6 @@ public class PairingProcess {
 
     int mCountMusicFiles;
     int mCountMusicFilesPaired;
-
-
 
     private final float mScoreConfirmedLimit ;
     private final float mScoreCandiateLimit ;
@@ -395,6 +394,9 @@ public class PairingProcess {
         tPairingDB.updateMusicDirectory(null);
         tPairingDB.updateMusicFile(null);
         Logg.i(TAG, "Finished Synchronize");
+        String tText;
+        tText = "Synchronisation of pairs finished ";
+        ReportSystem.receive(tText);
     }
 
     public void executeIdentify() {
@@ -432,6 +434,8 @@ public class PairingProcess {
                 "%d Albums to be paired with %d directories, of which %d show a signature",
                 mCountAlbum, mCountMusicDirectory, mCountMusicDirectoryRelevantSignature);
         Logg.i(TAG, tText);
+
+        ReportSystem.receive(tText);
         tText = String.format(Locale.ENGLISH,
                 "%5d pairs by identical signatures (Confirmed), " +
                         "%5d pairs by very good fit (Confirmed) and %d pairs by score (Candidates)",
@@ -439,7 +443,9 @@ public class PairingProcess {
                 mCountMusicDirectoryByScoreConfirmed,
                 mCountMusicDirectoryByScoreCandiate);
         Logg.i(TAG, tText);
-
+        ReportSystem.receive(tText);
         Logg.i(TAG, "Start finished Identify");
+        tText = "Identification of pairs finished ";
+        ReportSystem.receive(tText);
     }
 }

@@ -3,8 +3,8 @@ package org.pochette.organizer.music;
 import org.pochette.data_library.music.MusicFile;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.organizer.app.MyPreferences;
-import org.pochette.organizer.dance.My_ViewModel;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
+import org.pochette.organizer.gui_assist.My_ViewSlimModel;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.search.SearchCriteria;
@@ -15,7 +15,7 @@ import org.pochette.utils_lib.search.SearchPattern;
  * The values for the searchCriteria are stored her and the execution of the search is organized, to avoid double execution at any time
  */
 @SuppressWarnings("unused")
-public class MusicFile_ViewModel extends My_ViewModel {
+public class MusicFile_ViewModel extends My_ViewSlimModel {
 
     @SuppressWarnings("FieldCanBeLocal")
     private final String TAG = "FEHA (MusicFile_ViewModel)";
@@ -26,6 +26,8 @@ public class MusicFile_ViewModel extends My_ViewModel {
     private Dance mSearchDance;
 
     private CustomSpinnerItem mCsiPurpose = null;
+    private CustomSpinnerItem mCsiSignature = null;
+
 
     boolean mWithSearchValueStorage; // use for testing
 
@@ -84,12 +86,20 @@ public class MusicFile_ViewModel extends My_ViewModel {
     public void setCsiPurpose(CustomSpinnerItem csiPurpose) {
         mCsiPurpose = csiPurpose;
     }
+    public CustomSpinnerItem getCsiSignature() {
+        return mCsiSignature;
+    }
+
+    public void setCsiSignature(CustomSpinnerItem csiSignature) {
+        mCsiSignature = csiSignature;
+    }
 //</editor-fold>
 
     //Livecycle
     //Static Methods
     //Internal Organs
     //Interface
+
 
 
     public SearchPattern getSearchPattern() {
@@ -119,6 +129,13 @@ public class MusicFile_ViewModel extends My_ViewModel {
                         new SearchCriteria(mCsiPurpose.mMethod, mCsiPurpose.mValue));
             }
         }
+
+        if (mCsiSignature != null) {
+            if (!mCsiSignature.mMethod.equals("SALL")) {
+                tSearchPattern.addSearch_Criteria(
+                        new SearchCriteria(mCsiSignature.mMethod, mCsiSignature.mValue));
+            }
+        }
         return tSearchPattern;
     }
 
@@ -141,8 +158,12 @@ public class MusicFile_ViewModel extends My_ViewModel {
                     SpinnerItemFactory.FIELD_MUSICFILE_PURPOSE, "SALL");
         }
         MyPreferences.savePreferenceString(tBasicKey + tKey, mCsiPurpose.mKey);
-
-
+        tKey = "Signature";
+        if (mCsiSignature == null) {
+            mCsiSignature = new SpinnerItemFactory().getSpinnerItem(
+                    SpinnerItemFactory.FIELD_MUSICFILE_SIGNATURE, "SALL");
+        }
+        MyPreferences.savePreferenceString(tBasicKey + tKey, mCsiSignature.mKey);
     }
 
     public void prepValues() {
@@ -163,6 +184,14 @@ public class MusicFile_ViewModel extends My_ViewModel {
             String tCode = MyPreferences.getPreferenceString(tBasicKey + tKey, "SALL");
             mCsiPurpose = new SpinnerItemFactory().getSpinnerItem(
                     SpinnerItemFactory.FIELD_MUSICFILE_PURPOSE, tCode);
+        } catch(Exception e) {
+            Logg.w(TAG, e.toString());
+        }
+        try {
+            tKey = "Signature";
+            String tCode = MyPreferences.getPreferenceString(tBasicKey + tKey, "SALL");
+            mCsiSignature = new SpinnerItemFactory().getSpinnerItem(
+                    SpinnerItemFactory.FIELD_MUSICFILE_SIGNATURE, tCode);
         } catch(Exception e) {
             Logg.w(TAG, e.toString());
         }

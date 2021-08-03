@@ -3,6 +3,7 @@ package org.pochette.organizer.dance;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.organizer.app.MyPreferences;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
+import org.pochette.organizer.gui_assist.My_ViewModel;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.search.SearchCriteria;

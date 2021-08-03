@@ -1,7 +1,5 @@
 package org.pochette.organizer.app;
 
-import android.app.Activity;
-
 import org.pochette.utils_lib.logg.Logg;
 
 @SuppressWarnings("unused")
@@ -17,9 +15,11 @@ public class PreparationOfLogg {
     // public methods
 
     public static void execute(boolean iDebug) {
+
+
         Logg.setDebug(iDebug);
         // todo reactivate after development is finished
-        Logg.setDebug(false);
+        Logg.setDebug(true);
 
         // always log e and w
         Logg.addControlLine("*", "*", "*", "e",
@@ -27,15 +27,24 @@ public class PreparationOfLogg {
         Logg.addControlLine("*", "*", "*", "w",
                 "*", true, true);
 
-        Logg.addControlLine("*", "MainActivity", "*", "i",
+
+        Logg.addControlLine("gui_assist", "*", "*", "i",
                 "*", true, true);
-        Logg.addControlLine("*", "LdbBackup", "*", "i",
-                "*", true, true);
-        Logg.addControlLine("gui", "*", "*", "i",
+        Logg.addControlLine("dance", "*", "*", "i",
                 "*", true, true);
 
-        Logg.addControlLine("app", "*", "*", "i",
+        Logg.addControlLine("*", "SearchCall", "*", "i",
                 "*", true, true);
+        Logg.addControlLine("*", "MainActivity", "*", "i",
+                "*", true, true);
+
+        Logg.addControlLine("*", "TopBar_Fragment", "*", "i",
+                "*", true, true);
+        Logg.addControlLine("*", "SearchCall", "*", "i",
+                "*", true, true);
+        Logg.addControlLine("music", "*", "*", "i",
+                "*", true, true);
+
 
 
         Logg.addControlLine("*", "*", "*", "k",
@@ -45,7 +54,6 @@ public class PreparationOfLogg {
         // last default: do not log
         Logg.addControlLine("*", "*", "*", "*",
                 "*", true, false);
-
 
     }
 

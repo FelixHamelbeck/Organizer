@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 /**
- * DialogFragment to work with Playlist Header
+ * DialogFragment to work with
  */
 
 public class DialogFragment_Album extends DialogFragment implements Shouting {
@@ -201,13 +201,13 @@ public class DialogFragment_Album extends DialogFragment implements Shouting {
     //Interface
     public static void create(View iView, String iTitle, String iSignatureString, Shouting iShouting) {
 
-        DialogFragment_Album t_DialogFragmentPlaylist =
+        DialogFragment_Album t_DialogFragmentAlbum =
                 DialogFragment_Album.newInstance("Some Title", iSignatureString);
-        t_DialogFragmentPlaylist.mShouting = iShouting;
+        t_DialogFragmentAlbum.mShouting = iShouting;
         AppCompatActivity tActivity = ((AppCompatActivity) iView.getContext());
-        t_DialogFragmentPlaylist.show(tActivity.getSupportFragmentManager(), null);
-        t_DialogFragmentPlaylist.setTitle(iTitle);
-        t_DialogFragmentPlaylist.setSignatureString(iSignatureString);
+        t_DialogFragmentAlbum.show(tActivity.getSupportFragmentManager(), null);
+        t_DialogFragmentAlbum.setTitle(iTitle);
+        t_DialogFragmentAlbum.setSignatureString(iSignatureString);
         Logg.i(TAG, "create: "+ iSignatureString);
     }
 

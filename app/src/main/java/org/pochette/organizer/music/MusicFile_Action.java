@@ -4,8 +4,8 @@ package org.pochette.organizer.music;
 import android.view.View;
 
 import org.pochette.data_library.music.MusicFile;
-import org.pochette.data_library.playlist.Playinstruction;
-import org.pochette.data_library.playlist.Playlist;
+import org.pochette.data_library.requestlist.Request;
+import org.pochette.data_library.requestlist.Requestlist;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.organizer.app.MediaPlayerServiceSingleton;
 import org.pochette.organizer.mediaplayer.MediaPlayerService;
@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 /**
- * This class implements the logic behind the playlist icon
+ * This class implements the logic behind the musicfile icon
  */
 public class MusicFile_Action implements Shouting {
 
@@ -85,9 +85,7 @@ public class MusicFile_Action implements Shouting {
     //Static Methods
     //Internal Organs
     private void execute() {
-
         switch (mClickIcon) {
-
             case CLICK_ICON_PLAY:
                 executePlay();
                 break;
@@ -107,19 +105,25 @@ public class MusicFile_Action implements Shouting {
 
     void executeSelect() {
         Logg.i(TAG, "executeSelect");
-        String tTitle = "Add to Playlist";
+        String tTitle = "Add to Requestlist";
         DialogFragment_MusicFile.create(mLayout,tTitle, this);
 
     }
 
 
     void executePlay() {
-        Playinstruction tPlayinstruction;
-        tPlayinstruction = Playinstruction.getPlayinstruction(mMusicFile, mDance);
-        if (tPlayinstruction != null) {
+        Request tRequest ;
+        MusicFile tMusicFile;
+        if (mMusicFile == null) {
+            tMusicFile = mDance.getMusicFile();
+        } else {
+            tMusicFile = mMusicFile;
+        }
+        tRequest = new Request(tMusicFile, mDance, null);
+        if (tRequest != null) {
             MediaPlayerService tMediaPlayerService =
                     MediaPlayerServiceSingleton.getInstance().getMediaPlayerService();
-            tMediaPlayerService.play(tPlayinstruction);
+            tMediaPlayerService.play(tRequest);
             shoutPlayStarted();
         }
     }
@@ -160,8 +164,8 @@ public class MusicFile_Action implements Shouting {
         if ("DialogFragment_MusicPreference".equals(mGlassFloor.mActor)) {
             if (mGlassFloor.mLastObject.equals("") && mGlassFloor.mLastAction.equals("performed")) {
                 if (mDance != null) {
-                    Playlist tPlaylist = mGlassFloor.returnObject();
-                    tPlaylist.add(mDance);
+                    Requestlist tRequestlist = mGlassFloor.returnObject();
+                    tRequestlist.add(mDance);
                 }
                 if (mShouting != null) {
                     Shout tShout = new Shout(mGlassFloor);

@@ -21,7 +21,7 @@
         android:id="@+id/FL_Dance_Favourite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Playlist"
+        app:layout_constraintEnd_toStartOf="@id/FL_Dance_Requestlist"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toEndOf="@id/ET_Dance_Dancename"
@@ -37,7 +37,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/FL_Dance_Playlist"
+        android:id="@+id/FL_Dance_Requestlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/BV_Dance"
@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="parent"
         >
     <Spinner
-        android:id="@+id/SP_Dance_Playlist"
+        android:id="@+id/SP_Dance_Requestlist"
         style="@style/Data_Edittext"
         android:dropDownWidth="@dimen/RV_basic_width_02"
         android:background="@color/scream_transparent"/>
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toStartOf="@id/FL_Dance_Shape"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toEndOf="@id/FL_Dance_Playlist"
+        app:layout_constraintStart_toEndOf="@id/FL_Dance_Requestlist"
         app:layout_constraintTop_toTopOf="parent"
         >
     <Spinner

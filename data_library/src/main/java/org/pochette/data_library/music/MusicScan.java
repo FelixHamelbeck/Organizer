@@ -11,9 +11,11 @@ import android.os.Looper;
 import android.provider.MediaStore;
 
 import org.pochette.data_library.BuildConfig;
+import org.pochette.data_library.database_management.DataService;
 import org.pochette.data_library.database_management.Scddb_Helper;
 import org.pochette.data_library.pairing.Signature;
 import org.pochette.utils_lib.logg.Logg;
+import org.pochette.utils_lib.report.ReportSystem;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
 
@@ -71,6 +73,7 @@ public class MusicScan {
             Logg.w(TAG, "Same as MainLooper Thread" + Looper.getMainLooper().toString());
             throw new RuntimeException("MusicScan may not run on main thread");
         }
+
         ArrayList<MusicFile> mAR_MusicFile;
         ArrayList<MusicDirectory> mAR_MusicDirectory = new ArrayList<>(0);
         mHM_DirectoryPath2MusicDirectory = new HashMap<>(0);
@@ -108,7 +111,7 @@ public class MusicScan {
                     tMetaRetriever = new MediaMetadataRetriever();
                 }
 
-                while (tCursor.moveToNext() && tCountFiles < 150 ) {
+                while (tCursor.moveToNext() && tCountFiles < 15000 ) {
                     int tId;
                     String tTitle;
                     String tPath;
@@ -152,6 +155,7 @@ public class MusicScan {
                     if (tSignatureString == null || Objects.requireNonNull(tSignatureString).isEmpty()) {
                         tSignatureString = Signature.getEmpty();
                     }
+
                     // if not track no is available from mediastore, try title
                     if (tTrack <= 0 && !tTitle.isEmpty()) {
                         String t;
@@ -166,7 +170,7 @@ public class MusicScan {
                             continue;
                         }
                     }
-                    // if mediastore title does not provide  trackno, try filename
+                    // if mediastore title does not provide trackno, try filename
                     if (tTrack <= 0) {
                         String t;
                         try {
@@ -183,6 +187,7 @@ public class MusicScan {
                     }
                     tMusicfile.mTrackNo = tTrack;
                     tMusicfile.mSignature = tSignatureString;
+                 //   Logg.i(TAG, tMusicfile.mName + "->" + tSignatureString);
                     String tDirectoryPath = tMusicfile.getDirectoryPath();
                     if (tDirectoryPath != null) {
                         if (!mHM_DirectoryPath2MusicDirectory.containsKey(tDirectoryPath)) {
@@ -201,6 +206,13 @@ public class MusicScan {
                     tCountFiles++;
                     if (tCountFiles % 150 == 0) {
                         Logg.i(TAG, "processed " + tCountFiles);
+                    }
+                    if (tMusicfile.mName.contains("Wee Cooper")) {
+                        if (tMusicfile.mPath.contains("2001")) {
+                            Logg.w(TAG, "Wee 2001: "+tId );
+
+
+                        }
                     }
                     if (BuildConfig.DEBUG) {
                         Logg.d(TAG, String.format(Locale.ENGLISH,
@@ -298,8 +310,10 @@ public class MusicScan {
             }
         }
         bulkInsertFile(mAR_MusicFile);
-        Logg.i(TAG, String.format(Locale.ENGLISH,
-                "%5d files in %3d directories scanned and saved to Ldb", tCountFiles, tCountDirectory));
+        String tText = String.format(Locale.ENGLISH,
+                "%5d files in %3d directories scanned and saved to Ldb", tCountFiles, tCountDirectory);
+        Logg.i(TAG, tText);
+        ReportSystem.receive(tText);
 
     }
 

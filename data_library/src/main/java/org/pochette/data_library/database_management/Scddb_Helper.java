@@ -192,7 +192,8 @@ public class Scddb_Helper extends SQLiteOpenHelper {
             tScddb.execSQL("attach database ? as ldb ", new String[]{tLdbPath,});
             Logg.i(TAG, "Ldb attached to Scddb");
         } catch (Exception e) {
-            Logg.w(TAG, "Ldb could not attached to Scddb: "+ tLdbPath);
+            Logg.w(TAG, e.toString());
+            Logg.w(TAG, "Ldb could not be attached to Scddb: "+ tLdbPath);
             throw new RuntimeException("could not attach Ldb to Scddb");
         }
         if (iShouting != null) {

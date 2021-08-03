@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import org.pochette.data_library.scddb_objects.SlimDance;
 import org.pochette.organizer.R;
 import org.pochette.organizer.gui_assist.CustomSpinnerAdapter;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
@@ -34,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -202,7 +199,7 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
         });
 
 
-        mSP_RhythmType = requireView().findViewById(R.id.SP_Dance_Playlist);
+        mSP_RhythmType = requireView().findViewById(R.id.SP_Dance_Requestlist);
         tAL_Custom_SpinnerItem = tSpinnerItemFactory.getSpinnerItems(SpinnerItemFactory.FIELD_RHYTHM, true);
         mCSA_RhythmType = new CustomSpinnerAdapter(this.getContext(), tAL_Custom_SpinnerItem);
 
