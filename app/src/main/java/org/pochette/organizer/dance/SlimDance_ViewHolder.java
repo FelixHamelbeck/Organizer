@@ -40,6 +40,14 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
     // , DiagramBitmapCallback
     private final String TAG = "FEHA (SlimDance_ViewHolder)";
 
+    public final static int VARIANT_MAX = 1;
+    /**
+     * Very Wided: Top row text and icon, second row with diagramn and crib side by side
+     */
+    public final static int VARIANT_STACK = 2;
+    /**
+     * Stacked: Top row text, 2nd row icons, 3rd diagram and bottom crib
+     */
 
     /**
      * Stacked: Top row text, 2nd row icons, 3rd diagram and bottom crib
@@ -195,6 +203,7 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
 
     @SuppressLint("SetTextI18n")
     void refreshDisplay() {
+        Logg.i(TAG, "refreshDisplay: " + mDance.toString());
         SpinnerItemFactory tSpinnerItemFactory = new SpinnerItemFactory();
         if (mDance_Adapter != null) {
             processExpansionCrib(mDance_Adapter.mExpansionCrib);
@@ -440,11 +449,18 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
                 FragmentManager tFragmentManager = ((FragmentActivity) Objects.requireNonNull(tContext)).getSupportFragmentManager();
                 DialogFragment_DanceInfo.show(tFragmentManager, mDance);
             });
+
+            mIV_Info.setOnLongClickListener(view -> {
+                Logg.k(TAG, "IV_LongInfo OnClick");
+                Context tContext = view.getContext();
+                mDance.openWebsite(tContext);
+                return true;
+            });
         }
     }
 
     private void displayBitmap() {
-        if (1 == 1) {
+        if (1 == 2) {
             return;
         }
 
@@ -553,13 +569,13 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
     void processExpansionCrib(int iExpansionCrib) {
         //   Logg.i(TAG, mDance.toShortString());
         switch (iExpansionCrib) {
-            case Dance_Adapter.EXPANSION_CRIB_NEVER:
+            case SlimDance_Adapter.EXPANSION_CRIB_NEVER:
                 mCribDesire = 0;
                 break;
-            case Dance_Adapter.EXPANSION_CRIB_REQUESTED:
+            case SlimDance_Adapter.EXPANSION_CRIB_REQUESTED:
                 mCribDesire = 9;
                 break;
-            case Dance_Adapter.EXPANSION_CRIB_ALLOWED:
+            case SlimDance_Adapter.EXPANSION_CRIB_ALLOWED:
             default:
                 if (mCribDesire != 4)
                     mCribDesire = 2;
@@ -569,18 +585,18 @@ public class SlimDance_ViewHolder extends RecyclerView.ViewHolder implements Sho
     void processExpansionDiagram(int iExpansionDiagram) {
         //  Logg.i(TAG, mDance.toShortString());
         switch (iExpansionDiagram) {
-            case Dance_Adapter.EXPANSION_DIAGRAM_NEVER:
+            case SlimDance_Adapter.EXPANSION_DIAGRAM_NEVER:
                 mDiagramDesire = 0;
                 break;
-            case Dance_Adapter.EXPANSION_DIAGRAM_CLOSE_ALL:
+            case SlimDance_Adapter.EXPANSION_DIAGRAM_CLOSE_ALL:
                 if (mDiagramDesire >= 4) {
                     mDiagramDesire = 1;
                 }
                 break;
-            case Dance_Adapter.EXPANSION_DIAGRAM_REQUESTED:
+            case SlimDance_Adapter.EXPANSION_DIAGRAM_REQUESTED:
                 mDiagramDesire = 9;
                 break;
-            case Dance_Adapter.EXPANSION_DIAGRAM_ALLOWED:
+            case SlimDance_Adapter.EXPANSION_DIAGRAM_ALLOWED:
             default:
                 if (mDiagramDesire == 1) {
                     mDiagramDesire = 4;

@@ -4,8 +4,10 @@ package org.pochette.data_library.music;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import org.pochette.data_library.database_management.DeleteCall;
 import org.pochette.data_library.database_management.SearchCall;
 import org.pochette.data_library.database_management.WriteCall;
+import org.pochette.data_library.requestlist.Requestlist;
 import org.pochette.utils_lib.search.SearchCriteria;
 import org.pochette.utils_lib.search.SearchPattern;
 
@@ -92,6 +94,17 @@ public class MusicDirectory {
         return this;
     }
 
+    public void delete() {
+        DeleteCall tDeleteCall;
+        for (MusicFile lMusicFile : getAL_MusicFile()) {
+            tDeleteCall = new DeleteCall(MusicFile.class, lMusicFile);
+            tDeleteCall.delete();
+        }
+        tDeleteCall = new DeleteCall(MusicDirectory.class, this);
+        tDeleteCall.delete();
+    }
+
+
     public ContentValues getContentValues() {
         ContentValues tContentValues = new ContentValues();
         tContentValues.put("PATH", mPath);
@@ -151,6 +164,18 @@ public class MusicDirectory {
         );
         SearchCall tSearchCall = new SearchCall(MusicFile.class, tSearchPattern, null);
         return tSearchCall.produceArrayList();
+    }
+
+
+    public static MusicDirectory getById(int iMusicDirectory_id) {
+        MusicDirectory tMusicDirectory;
+        SearchPattern tSearchPattern = new SearchPattern(MusicDirectory.class);
+        SearchCriteria tSearchCriteria = new SearchCriteria("ID", ""+iMusicDirectory_id);
+        tSearchPattern.addSearch_Criteria(tSearchCriteria);
+        SearchCall tSearchCall = new SearchCall(MusicDirectory.class, tSearchPattern, null);
+        tMusicDirectory = tSearchCall.produceFirst();
+        return tMusicDirectory;
+
     }
 
     @NonNull

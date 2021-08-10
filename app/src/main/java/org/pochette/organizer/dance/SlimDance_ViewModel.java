@@ -8,6 +8,7 @@ import org.pochette.organizer.app.DataServiceSingleton;
 import org.pochette.organizer.app.MyPreferences;
 import org.pochette.organizer.gui_assist.CustomSpinnerItem;
 import org.pochette.organizer.gui_assist.My_ViewModel;
+import org.pochette.organizer.gui_assist.My_ViewSlimModel;
 import org.pochette.organizer.gui_assist.SpinnerItemFactory;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.search.SearchCriteria;
@@ -21,7 +22,7 @@ import java.util.Locale;
  * The values for the searchCriteria are stored her and the execution of the search is organized, to avoid double execution at any time
  */
 @SuppressWarnings("unused")
-public class SlimDance_ViewModel extends My_ViewModel {
+public class SlimDance_ViewModel extends My_ViewSlimModel {
 
     private final String TAG = "FEHA (SlimDance_ViewModel)";
 
@@ -209,17 +210,18 @@ public class SlimDance_ViewModel extends My_ViewModel {
         tA = tDataService.readArray(tSearchPattern);
         Logg.i(TAG, "tAR" + tA.length);
         Logg.i(TAG, "Model to Adapter" + tA.length);
-        Thread tThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Dance_Cache.preread(tA);
-            }
-        }, "DanceCachePreRead" );
+
         if (Looper.getMainLooper() == Looper.myLooper()) {
             mMLD_A.setValue(tA);
         } else {
             mMLD_A.postValue(tA);
         }
+        Thread tThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Dance_Cache.preread(tA);
+            }
+        }, "DanceCachePreRead");
         tThread.setPriority(3);
         tThread.start();
     }

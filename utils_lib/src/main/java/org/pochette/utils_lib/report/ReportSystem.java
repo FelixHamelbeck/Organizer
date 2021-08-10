@@ -80,6 +80,16 @@ public class ReportSystem {
         //</editor-fold>
     }
 
+    public void stopThread() {
+        //<editor-fold desc="Report System Start">
+        // mReportThread = ReportThread.getInstance();
+        if (!ReportThread.isRunning()) {
+            ReportThread.stopThread();
+        }
+        //</editor-fold>
+    }
+
+
     //Internal Organs
     private Report getNextSync() {
         synchronized (mLock) {

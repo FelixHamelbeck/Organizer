@@ -127,9 +127,9 @@ public class Album_ViewModel extends My_ViewModel {
             Album lAlbum = (Album) lObject;
             Signature lSignature = new Signature(lAlbum.mSignature);
             Float tScore = tSignature.compare(lSignature);
-            if (tScore <= 0.3f) {
-                continue;
-            }
+//            if (tScore <= 0.3f) {
+//                continue;
+//            }
             //Logg.i(TAG, lAlbum.toString() + tScore);
             if (tHS.contains(tScore)) {
                 ArrayList<Album> tAL = tX.get(tScore);
@@ -140,9 +140,9 @@ public class Album_ViewModel extends My_ViewModel {
                 tX.put(tScore, tAL);
                 tHS.add(tScore);
             }
-            if (tHS.size() > 20) {
-                break;
-            }
+//            if (tHS.size() > 20) {
+//                break;
+//            }
         }
 
         TreeSet<Float> tHSorted = new TreeSet<>(Float::compareTo);
@@ -154,6 +154,9 @@ public class Album_ViewModel extends My_ViewModel {
             Logg.i(TAG, "sort " + lFloat);
             ArrayList<Album> tAL = tX.get(lFloat);
             jAR.addAll(Objects.requireNonNull(tAL));
+            if (jAR.size() > 20) {
+                break;
+            }
         }
         Logg.i(TAG, " HM " + jAR.size());
         return jAR;

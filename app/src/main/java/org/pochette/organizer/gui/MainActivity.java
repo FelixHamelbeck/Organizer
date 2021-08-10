@@ -12,13 +12,15 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 
+import org.pochette.data_library.music.MusicDirectory;
+import org.pochette.data_library.music.MusicScan;
 import org.pochette.organizer.R;
 import org.pochette.organizer.app.DataServiceSingleton;
 import org.pochette.organizer.app.MediaPlayerServiceSingleton;
 import org.pochette.organizer.app.OrganizerStatus;
 import org.pochette.organizer.chained_search.Matryoshka_Fragment;
-import org.pochette.organizer.dance.Dance_Fragment;
 import org.pochette.organizer.dance.SlimDance_Fragment;
+import org.pochette.organizer.diagram.DiagramManager;
 import org.pochette.organizer.mediaplayer.DialogFragment_PlayerControl;
 import org.pochette.organizer.mediaplayer.MediaPlayerControl_Fragment;
 import org.pochette.organizer.mediaplayer.MediaPlayerService;
@@ -31,6 +33,7 @@ import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
 
 import java.util.Locale;
+import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements Shouting {
     private final String TAG = "FEHA (MainActivity)";
 
 
-    Dance_Fragment mDance_Fragment;
+    // Dance_Fragment mDance_Fragment;
     SlimDance_Fragment mSlimDance_Fragment;
     MusicFile_Fragment mMusicFile_Fragment;
     MusicDirectory_Fragment mMusicDirectory_Fragment;
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements Shouting {
 
         // start the TopBar
         startFragmentTopBar();
-        // start the Splas
+        // start the Splash
         startFragmentSplash();
 
         // now show same usable data, once the DB is up and running
@@ -105,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements Shouting {
         tThread.start();
 
 
-
     }
 
     @Override
@@ -116,8 +118,6 @@ public class MainActivity extends AppCompatActivity implements Shouting {
 
 
     void startDataFragment() {
-
-
         // only start once the database is ready
         //OrganizerApp tOrganizerApp = (OrganizerApp) getApplication();
         while (!OrganizerStatus.getInstance().isDbAvailable()) {
@@ -129,25 +129,35 @@ public class MainActivity extends AppCompatActivity implements Shouting {
             }
         }
         Logg.d(TAG, "Time: call first real fragment");
-
+//        MusicDirectory tMusicDirectory;
+//        try {
+//`            tMusicDirectory = MusicDirectory.getById(219);
+//        } catch(Exception e) {
+//            Logg.w(TAG, e.toString());
+//        }
         connectFragmentTopBar();
         //Log.
         Logg.i(TAG, "call the first dataFragement after waiting for database");
-        startFragmentDance();
-      //  startFragmentSlimDance();
 
-//        startFragmentMusicDirectoryPairing();
+        startFragmentSlimDance();
+
+
+        //startFragmentMusicDirectoryPairing();
         //startFragmentMatryoshka();
         // startFragmentRequestlist();
         //startFragmentMediaPlayerControl();
 //        startDialogPlayerControl();
-        startFragmentMusicFile();
+//        startFragmentMusicFile();
 //                    //   startFragmentMusicDirectory();
 //                    //startFragmentAlbum();
-//                }
-//            });
-//        }
+//
+//        MusicScan tMusicScan = new MusicScan(this);
+//        tMusicScan.setShouting(this);
+//        tMusicScan.execute(); // this starts a separate thread
 
+//        Logg.i(TAG, "call download Diargam");
+//        DiagramManager tDiagramManager = new DiagramManager();
+//        tDiagramManager.downloadAbsentDiagrams();
     }
 
     @SuppressWarnings("unused")
@@ -175,6 +185,25 @@ public class MainActivity extends AppCompatActivity implements Shouting {
     @Override
     protected void onPause() {
         super.onPause();
+        Logg.i(TAG, "onPause");
+        performCleanUP();
+        Logg.i(TAG, "onPausefinsihed ");
+
+    }
+
+    void performCleanUP() {
+        if (mTopBar_Fragment != null) {
+            mTopBar_Fragment.stopThread();
+            mTopBar_Fragment.onStop();
+            mTopBar_Fragment.onDestroy();
+            mTopBar_Fragment.onDetach();
+            mTopBar_Fragment = null;
+        }
+//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+//
+//        for (Thread lThread : threadSet) {
+//            Logg.i(TAG, lThread.toString());
+//        }
     }
 
     @Override
@@ -203,22 +232,12 @@ public class MainActivity extends AppCompatActivity implements Shouting {
     }
 
     public TopBar_Fragment getTopBar_Fragment() {
-        return  mTopBar_Fragment;
+        return mTopBar_Fragment;
     }
 
 
     //<editor-fold desc="Start Fragments ">
 
-    void startFragmentDance() {
-        if (mDance_Fragment == null) {
-            mDance_Fragment = new Dance_Fragment();
-        }
-        mDance_Fragment.setShouting(this);
-        FragmentManager tFragementManager = getSupportFragmentManager();
-        FragmentTransaction tTransaction = tFragementManager.beginTransaction();
-        tTransaction.replace(R.id.FL_Activity_PH, mDance_Fragment);
-        tTransaction.commitAllowingStateLoss();
-    }
 
     void startFragmentSlimDance() {
         if (mSlimDance_Fragment == null) {
@@ -364,7 +383,7 @@ public class MainActivity extends AppCompatActivity implements Shouting {
                 mGlassFloor.mLastAction.equals("requested")) {
             switch (mGlassFloor.mLastObject) {
                 case "Dance":
-                    startFragmentDance();
+                    startFragmentSlimDance();
                     break;
                 case "MusicFile":
                     startFragmentMusicFile();

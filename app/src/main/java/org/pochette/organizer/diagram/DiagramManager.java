@@ -1,10 +1,7 @@
 package org.pochette.organizer.diagram;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.AndroidRuntimeException;
 
 import org.pochette.data_library.database_management.SearchCall;
@@ -12,9 +9,9 @@ import org.pochette.data_library.diagram.Diagram;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.organizer.BuildConfig;
 import org.pochette.organizer.app.DataServiceSingleton;
-import org.pochette.organizer.app.OrganizerApp;
 import org.pochette.organizer.app.OrganizerStatus;
 import org.pochette.utils_lib.logg.Logg;
+import org.pochette.utils_lib.report.ReportSystem;
 import org.pochette.utils_lib.search.SearchCriteria;
 import org.pochette.utils_lib.search.SearchPattern;
 
@@ -28,7 +25,6 @@ import java.util.Locale;
 /**
  * This class represents the dance diagrams as locally stored and provide downloads for strathspey.org
  */
-@SuppressWarnings("ConstantConditions")
 public class DiagramManager {
 
     private static final String TAG = "FEHA (DiagramManager)";
@@ -82,7 +78,7 @@ public class DiagramManager {
                 }
             } catch(IOException e) {
                 tDownloadFound = false;
-                Logg.i(TAG, "Diagram not available: " + tInputUrlString);
+                Logg.d(TAG, "Diagram not available: " + tInputUrlString);
             } catch(Exception e) {
                 tDownloadFound = false;
                 Logg.e(TAG, e.toString());
@@ -102,7 +98,7 @@ public class DiagramManager {
                     String tString = String.format(Locale.ENGLISH,
                             "Diagram for dance %s with id %d and author %s found and stored in DB",
                             iDance.mName, iDance.mId, lAuthor);
-                    Logg.d(TAG, tString);
+                    Logg.i(TAG, tString);
                 }
                 tDiagram.save();
                 break;
@@ -131,12 +127,18 @@ public class DiagramManager {
         SearchCall tSearchCall =
                 new SearchCall(Dance.class, tSearchPattern, null);
         tAR_Dance = tSearchCall.produceArrayList();
-        Logg.i(TAG, "found " + tAR_Dance.size());
+        String tText;
+        tText = String.format(Locale.ENGLISH,
+                "Reuqest diagrams for %d dances", tAR_Dance.size());
+        ReportSystem.receive(tText);
+        Logg.i(TAG,tText);
         for (Dance lDance : tAR_Dance) {
             Logg.i(TAG, "try download " + lDance.toShortString());
             download(lDance);
             if (!OrganizerStatus.getInstance().isOnline()) {
-                Logg.i(TAG, "Offline");
+              tText = "Offline, Download of diagrams not possible";
+                ReportSystem.receive(tText);
+                Logg.i(TAG,tText);
                 return;
             }
         }
@@ -155,5 +157,4 @@ public class DiagramManager {
                 DataServiceSingleton.getInstance().getDataService().readFirst(tSearchPattern);
         return tDiagam.getBitmap();
     }
-
 }

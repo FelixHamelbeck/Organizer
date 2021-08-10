@@ -229,7 +229,8 @@ public class MusicFile {
         if (tPosition <= 0) {
             return null;
         }
-        return mPath.substring(0, tPosition - 1);
+        String tDirectoryPath = mPath.substring(0, tPosition );
+        return tDirectoryPath;
     }
 
     public String getFilename() {

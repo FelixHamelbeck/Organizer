@@ -11,11 +11,13 @@ import android.os.Looper;
 import android.provider.MediaStore;
 
 import org.pochette.data_library.BuildConfig;
-import org.pochette.data_library.database_management.DataService;
 import org.pochette.data_library.database_management.Scddb_Helper;
+import org.pochette.data_library.database_management.SearchCall;
 import org.pochette.data_library.pairing.Signature;
 import org.pochette.utils_lib.logg.Logg;
+import org.pochette.utils_lib.report.Report;
 import org.pochette.utils_lib.report.ReportSystem;
+import org.pochette.utils_lib.search.SearchPattern;
 import org.pochette.utils_lib.shouting.Shout;
 import org.pochette.utils_lib.shouting.Shouting;
 
@@ -34,8 +36,8 @@ public class MusicScan {
 
     // variables
     Context mContext;
-    HashMap<String, MusicDirectory> mHM_DirectoryPath2MusicDirectory;
-    HashMap<String, ArrayList<MusicFile>> mHM_DirectoryPath2AR_MusicFile;
+    HashMap<String, MusicDirectory> tHM_DirectoryPath2MusicDirectory;
+    HashMap<String, ArrayList<MusicFile>> tHM_DirectoryPath2AR_MusicFile;
     Pattern mSignaturePattern;
     Pattern mTrackPattern;
     Comparator<MusicFile> mMusicFileComparator;
@@ -47,6 +49,7 @@ public class MusicScan {
         String tSignaturePatter = Signature.getPattern();
         mSignaturePattern = Pattern.compile(tSignaturePatter);
         mTrackPattern = Pattern.compile("^[0-9][ 0-9] ");
+
         mMusicFileComparator = new Comparator<MusicFile>() {
             @Override
             public int compare(MusicFile o1, MusicFile o2) {
@@ -74,19 +77,26 @@ public class MusicScan {
             throw new RuntimeException("MusicScan may not run on main thread");
         }
 
-        ArrayList<MusicFile> mAR_MusicFile;
-        ArrayList<MusicDirectory> mAR_MusicDirectory = new ArrayList<>(0);
-        mHM_DirectoryPath2MusicDirectory = new HashMap<>(0);
-        mHM_DirectoryPath2AR_MusicFile = new HashMap<>(0);
+        ArrayList<MusicFile> tAR_MusicFile;
+        ArrayList<MusicDirectory> tAR_MusicDirectory = new ArrayList<>(0);
+        tHM_DirectoryPath2MusicDirectory = new HashMap<>(0);
+        tHM_DirectoryPath2AR_MusicFile = new HashMap<>(0);
         Uri allsongsuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
-        //String[] tStar = null;
+        String selection;
+        String[] selectionArguments;
+        selectionArguments = null;
+        selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+
         Cursor tCursor = null;
         int tCountFiles = 0;
 
+//        selection = MediaStore.Audio.Media.ALBUM + " LIKE ? ";
+//        selectionArguments = new String[]{ "%Take%" };
+
+
         MediaMetadataRetriever tMetaRetriever = null;
         try {
-            tCursor = mContext.getContentResolver().query(allsongsuri, null, selection, null, null);
+            tCursor = mContext.getContentResolver().query(allsongsuri, null, selection,selectionArguments, null);
             if (BuildConfig.DEBUG) {
                 Logg.i(TAG, String.format(Locale.ENGLISH,
                         "In %s tCursor created", "scan"));
@@ -189,30 +199,24 @@ public class MusicScan {
                     tMusicfile.mSignature = tSignatureString;
                  //   Logg.i(TAG, tMusicfile.mName + "->" + tSignatureString);
                     String tDirectoryPath = tMusicfile.getDirectoryPath();
+                 //   Logg.i(TAG,"DirPath frpm MF "+ tDirectoryPath);
                     if (tDirectoryPath != null) {
-                        if (!mHM_DirectoryPath2MusicDirectory.containsKey(tDirectoryPath)) {
+                        if (!tHM_DirectoryPath2MusicDirectory.containsKey(tDirectoryPath)) {
                             MusicDirectory tMusicDirectory =
                                     new MusicDirectory(0, tDirectoryPath, tArtist, tAlbum, 0, 0, "",
                                             MusicDirectoryPurpose.UNKNOWN);
                             ArrayList<MusicFile> tDirectory_AR_MusicFile = new ArrayList<>(0);
                             tDirectory_AR_MusicFile.add(tMusicfile);
-                            mHM_DirectoryPath2MusicDirectory.put(tDirectoryPath, tMusicDirectory);
-                            mHM_DirectoryPath2AR_MusicFile.put(tDirectoryPath, tDirectory_AR_MusicFile);
+                            tHM_DirectoryPath2MusicDirectory.put(tDirectoryPath, tMusicDirectory);
+                            tHM_DirectoryPath2AR_MusicFile.put(tDirectoryPath, tDirectory_AR_MusicFile);
                         } else {
-                            Objects.requireNonNull(mHM_DirectoryPath2AR_MusicFile.get(tDirectoryPath)).
+                            Objects.requireNonNull(tHM_DirectoryPath2AR_MusicFile.get(tDirectoryPath)).
                                     add(tMusicfile);
                         }
                     }
                     tCountFiles++;
                     if (tCountFiles % 150 == 0) {
                         Logg.i(TAG, "processed " + tCountFiles);
-                    }
-                    if (tMusicfile.mName.contains("Wee Cooper")) {
-                        if (tMusicfile.mPath.contains("2001")) {
-                            Logg.w(TAG, "Wee 2001: "+tId );
-
-
-                        }
                     }
                     if (BuildConfig.DEBUG) {
                         Logg.d(TAG, String.format(Locale.ENGLISH,
@@ -223,6 +227,7 @@ public class MusicScan {
                 tText = String.format(Locale.ENGLISH,
                         "%d musicfiles found in mediastore", tCountFiles);
                 Logg.i(TAG, tText);
+                ReportSystem.receive(tText);
             } else {
                 Logg.w(TAG, "no music found");
             }
@@ -234,10 +239,11 @@ public class MusicScan {
             }
         }
 
+
         int tCountDirectory = 0;
-        for (String lDirectoryPath : mHM_DirectoryPath2MusicDirectory.keySet()) {
-            MusicDirectory lMusicDirectory = mHM_DirectoryPath2MusicDirectory.get(lDirectoryPath);
-            ArrayList<MusicFile> lAR_MusicFile = mHM_DirectoryPath2AR_MusicFile.get(lDirectoryPath);
+        for (String lDirectoryPath : tHM_DirectoryPath2MusicDirectory.keySet()) {
+            MusicDirectory lMusicDirectory = tHM_DirectoryPath2MusicDirectory.get(lDirectoryPath);
+            ArrayList<MusicFile> lAR_MusicFile = tHM_DirectoryPath2AR_MusicFile.get(lDirectoryPath);
             // sort the array by trackno, then title
             if (lAR_MusicFile != null && lMusicDirectory != null) {
                 Collections.sort(lAR_MusicFile, mMusicFileComparator);
@@ -275,19 +281,19 @@ public class MusicScan {
                         mCountSignatures, mDirectorySignature);
                 lMusicDirectory.mSignature = mDirectorySignature;
             }
-            mAR_MusicDirectory.add(lMusicDirectory);
+            tAR_MusicDirectory.add(lMusicDirectory);
             tCountDirectory++;
         }
         if (BuildConfig.DEBUG) {
             Logg.d(TAG, "Bulk save directories");
         }
 
-        HashMap<String, Integer> tHM_Path2Id = bulkInsertDirectory(mAR_MusicDirectory);
+        HashMap<String, Integer> tHM_Path2Id = bulkInsertDirectory(tAR_MusicDirectory);
         if (BuildConfig.DEBUG) {
             Logg.d(TAG, "Put Id in files");
         }
-        mAR_MusicFile = new ArrayList<>(0);
-        for (String lDirectoryPath : mHM_DirectoryPath2MusicDirectory.keySet()) {
+        tAR_MusicFile = new ArrayList<>(0);
+        for (String lDirectoryPath : tHM_DirectoryPath2MusicDirectory.keySet()) {
             if (tHM_Path2Id.containsKey(lDirectoryPath)) {
                 int tDirectoryId;
                 Integer tInteger = tHM_Path2Id.get(lDirectoryPath);
@@ -296,11 +302,11 @@ public class MusicScan {
                 } else {
                     throw new RuntimeException("after checking containsKeys that same key does not find a value");
                 }
-                ArrayList<MusicFile> lAR_MusicFile = mHM_DirectoryPath2AR_MusicFile.get(lDirectoryPath);
+                ArrayList<MusicFile> lAR_MusicFile = tHM_DirectoryPath2AR_MusicFile.get(lDirectoryPath);
                 if (lAR_MusicFile != null) {
                     for (MusicFile lMusicFile : lAR_MusicFile) {
                         lMusicFile.mDirectoryId = tDirectoryId;
-                        mAR_MusicFile.add(lMusicFile);
+                        tAR_MusicFile.add(lMusicFile);
                     }
                 }
             } else {
@@ -309,11 +315,40 @@ public class MusicScan {
                         tHM_Path2Id.size(), lDirectoryPath));
             }
         }
-        bulkInsertFile(mAR_MusicFile);
+        bulkInsertFile(tAR_MusicFile);
         String tText = String.format(Locale.ENGLISH,
                 "%5d files in %3d directories scanned and saved to Ldb", tCountFiles, tCountDirectory);
         Logg.i(TAG, tText);
         ReportSystem.receive(tText);
+
+        ArrayList<MusicFile> tAR_DB_MusicFile;
+        SearchPattern tSearchPattern = new SearchPattern(MusicFile.class);
+        SearchCall tSearchCall = new SearchCall(MusicFile.class, tSearchPattern, null);
+        tAR_DB_MusicFile = tSearchCall.produceArrayList();
+        Logg.i(TAG, "DB has" + tAR_DB_MusicFile.size());
+
+        HashMap<String, MusicDirectory> tHM_DeletedDirectory = new HashMap<>();
+
+        for (MusicFile lMusicFile : tAR_DB_MusicFile) {
+            String lDB_DirectoryPath = lMusicFile.getDirectoryPath();
+            if (!tHM_DirectoryPath2MusicDirectory.containsKey(lDB_DirectoryPath)) {
+                if (!tHM_DeletedDirectory.containsKey(lDB_DirectoryPath)) {
+                    MusicDirectory tMusicDirectory = MusicDirectory.getById(lMusicFile.mDirectoryId);
+                    tHM_DeletedDirectory.put(lDB_DirectoryPath, tMusicDirectory);
+                    Logg.i(TAG, "delete  " + lDB_DirectoryPath);
+                    if (tMusicDirectory != null) {
+                        tMusicDirectory.delete();
+                    }
+                }
+            }
+        }
+        if (tHM_DeletedDirectory.size() > 0) {
+            tText = "Directories removed " + tHM_DeletedDirectory.size();
+            Logg.i(TAG, tText);
+            ReportSystem.receive(tText);
+        }
+
+
 
     }
 

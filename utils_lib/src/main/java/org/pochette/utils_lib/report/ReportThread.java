@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import org.pochette.utils_lib.logg.Logg;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -41,15 +43,11 @@ public class ReportThread extends HandlerThread {
         super("ReportThread");
     }
 
-
     static ReportThread getInstance() {
-        //Double check locking pattern
         if (mInstance == null) { //Check for the first time
-            synchronized (ReportThread.class) {   //Check for the second time.
-                //if there is no instance available... create new one
+            synchronized (ReportThread.class) {
                 if (mInstance == null) {
                     mInstance = new ReportThread();
-                    //MaintenanceSystem.rememberThread(mInstance);
                 }
             }
         }
@@ -61,7 +59,6 @@ public class ReportThread extends HandlerThread {
     static void setLogging(boolean iIsLogging) {
         getInstance().isLogging = iIsLogging;
     }
-
     // interface
 
 
@@ -71,20 +68,18 @@ public class ReportThread extends HandlerThread {
         isToBeKilled = false;
 
         Looper mLooper = this.getLooper();
-        // noinspection FieldCanBeLocal
         mHandler = new Handler(mLooper) {
             private Message tMsg;
             @Override
             public void handleMessage(Message iMsg) {
                 tMsg = iMsg;
-                Log.d(TAG, iMsg.toString());
+                Logg.d(TAG, iMsg.toString());
             }
         };
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 Thread.currentThread().setName("ReportThread Runnable");
-                //MaintenanceSystem.rememberThread(Thread.currentThread());
                 Date started = Calendar.getInstance().getTime();
                 Date now;
                 float duration = 2.5f; // visibility time per report line in seconds
@@ -124,7 +119,6 @@ public class ReportThread extends HandlerThread {
                                     mHandler.sendMessage(msg);
                                     tMessageWasSend = true;
                                 }
-
                                 int tNumberOpenReports = ReportSystem.getNumberOpenReports();
                                 if (tNumberOpenReports > 100) {
                                     duration = 0.1f;
@@ -143,7 +137,7 @@ public class ReportThread extends HandlerThread {
                                 Thread.currentThread().getName()));
                     }
                 }
-
+                Logg.w(TAG, "ReportThread finieshed");
             }
         });
     }
@@ -187,5 +181,11 @@ public class ReportThread extends HandlerThread {
 
     static void startThread() {
         getInstance().start();
+    }
+
+
+    static void stopThread() {
+        mInstance.isToBeKilled =true;
+        getInstance().interrupt();
     }
 }

@@ -110,7 +110,7 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
             }
         }
 
-        Logg.w(TAG, "onCreateView");
+        Logg.i(TAG, "onCreateView");
         mView.post(new Runnable() {
             @Override
             public void run() {
@@ -167,8 +167,12 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
             @Override
             public void afterTextChanged(Editable s) {
                 createModel();
-                Log.w(TAG, "Call setSlimDanceName");
-                mModel.setDancename(s.toString());
+                // avoid searches with one or two characters
+                String tName =s.toString();
+                if (tName.length() == 1 || tName.length() == 2) {
+                    return;
+                }
+                mModel.setDancename(tName);
             }
         });
 
@@ -306,33 +310,6 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
 
         ///////////////////////recyclerview//////////////////////////////
         mRV_SlimDance = requireView().findViewById(R.id.RV_Dance_Dance);
-//        mRV_SlimDance.addOnItemTouchListener(new RecyclerItemClickListener(mRV_SlimDance.getContext(),
-//                (view1, position) -> {
-//                }));
-
-//        if (mRV_SlimDance != null) {
-//            Logg.i(TAG, "mRV SlimDance");
-//
-//            mRV_SlimDance.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Logg.w(TAG, "in run");
-//                    mRV_SlimDance.requestLayout();
-//
-//                    mRV_SlimDance.measure(View.MeasureSpec.AT_MOST, View.MeasureSpec.AT_MOST);
-//                    Logg.i(TAG, String.format(Locale.ENGLISH, "at most in post measured %d x %d",mRV_SlimDance.getMeasuredWidth() ,mRV_SlimDance.getMeasuredHeight() ));
-//                    Logg.i(TAG, "post layout");
-//                }
-//            });
-//            mRV_SlimDance.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
-//            Logg.i(TAG, String.format(Locale.ENGLISH, "exactlz measured %d x %d",mRV_SlimDance.getMeasuredWidth() ,mRV_SlimDance.getMeasuredHeight() ));
-//
-//            mRV_SlimDance.measure(View.MeasureSpec.AT_MOST, View.MeasureSpec.AT_MOST);
-//            Logg.i(TAG, String.format(Locale.ENGLISH, "at moset measured %d x %d",mRV_SlimDance.getMeasuredWidth() ,mRV_SlimDance.getMeasuredHeight() ));
-////            mSlimDance_Adapter.setAvailableWidth(mRV_Width);
-//        }
-
-
         //</editor-fold>
         drawHeader();
 
@@ -450,44 +427,8 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
         mModel = ViewModelProvider.AndroidViewModelFactory.
                 getInstance(tApllication).create(SlimDance_ViewModel.class);
 
-        //        if (tMLD_AR == null) {
-//            Logg.w(TAG, "null");
-//        } else {
-//            Logg.i(TAG, tMLD_AR.toString());
-//        }
-
-//        mModel.mMLD_AR.observe(getViewLifecycleOwner(), iAR_Object -> {
-//            Logg.w(TAG, "obervce");
-//            if (iAR_Object != null) {
-//                try {
-//                    Integer[] tA = new Integer[iAR_Object.size()];
-//                    //iAR_Object.size
-//                    //       ArraySet<Integer> tAS = new ArraySet<>(0);
-//                    //MutableLiveData<ArraySet<Integer>> tMLD_AS;
-//                    // ArrayList<SlimDance> tAR_SlimDance = new ArrayList<>(0);
-//                    int i = 0;
-//                    for (Object lObject : iAR_Object) {
-//                        tA[i] = (Integer) lObject;
-//                        //tAS.add(((Integer) lObject));
-////                        SlimDance lSlimDance;
-////                        lSlimDance = (SlimDance) lObject;
-////                        tAR_SlimDance.add(lSlimDance);
-////                        if (i % 50 == 0) {
-////                            Logg.i(TAG, i + "->" + lSlimDance.toString());
-////                        }
-//                        i++;
-//                    }
-//                    Logg.w(TAG, "FragmentToAdapter " + tA.length);
-//                    mSlimDance_Adapter.setA(tA);
-//                    mSlimDance_Adapter.notifyDataSetChanged();
-//                } catch(Exception e) {
-//                    Logg.w(TAG, e.toString());
-//                }
-//            }
-//        });
-
         mModel.mMLD_A.observe(getViewLifecycleOwner(), iAR_Object -> {
-            Logg.w(TAG, "obervce for A");
+            Logg.i(TAG, "obervce for A");
             Integer[] tA = (Integer[]) iAR_Object;
 
 //            if (iAR_Object != null) {

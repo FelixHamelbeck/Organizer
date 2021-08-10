@@ -1,7 +1,10 @@
 package org.pochette.data_library.scddb_objects;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 
 import org.pochette.data_library.database_management.SearchCall;
 import org.pochette.data_library.music.MusicFile;
@@ -132,19 +135,20 @@ public class Dance {
     int calcScore() {
         int tScore = 0;
         DanceFavourite tDanceFavourite = DanceFavourite.fromCode(mFavouriteCode);
-		tScore+= tDanceFavourite.getPriority()* 10000; // as Prio is between 1 and 100, tscore is between 10.000 and 1.000.000
-		tScore+= Math.min(9, mCountofRecordings) * 1000; // more than nine recording are treated as 9
-		if (mCountofDiagrams > 0) {
-			tScore += 400;
-		}
-		if (mFlagRscds ) {
-			tScore += 200;
-		}
-		if (mCountofCribs > 0) {
-			tScore += 100;
-		}
+        tScore += tDanceFavourite.getPriority() * 10000; // as Prio is between 1 and 100, tscore is between 10.000 and 1.000.000
+        tScore += Math.min(9, mCountofRecordings) * 1000; // more than nine recording are treated as 9
+        if (mCountofDiagrams > 0) {
+            tScore += 400;
+        }
+        if (mFlagRscds) {
+            tScore += 200;
+        }
+        if (mCountofCribs > 0) {
+            tScore += 100;
+        }
         return tScore;
     }
+
     //Interface
     public int getScore() {
         return calcScore();
@@ -240,7 +244,6 @@ public class Dance {
 //    }
 
 
-
     public static String getClassname_DB() {
         return "org.pochette.data_library.scddb_objects.Dance";
     }
@@ -275,6 +278,19 @@ public class Dance {
                 new SearchCall(Dance.class, tSearchPattern, null);
         return tSearchCall.produceFirst();
     }
+
+    public void openWebsite(Context iContext) {
+        String tUrl ; // = "http://www.stackoverflow.com";
+     //   tUrl = "https://my.strathspey.org/dd/dance/17781/";
+        tUrl = String.format(Locale.ENGLISH,
+                "https://my.strathspey.org/dd/dance/%d/#video",
+                mId);
+        Logg.i(TAG, "open " + tUrl);
+        Intent tIntent = new Intent(Intent.ACTION_VIEW);
+        tIntent.setData(Uri.parse(tUrl));
+        iContext.startActivity(tIntent);
+    }
+
 
 //	public static HashSet<String> getCompleteHS() {
 //		if (mHS_Complete == null) {

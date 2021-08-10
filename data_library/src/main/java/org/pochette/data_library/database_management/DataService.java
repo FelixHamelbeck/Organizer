@@ -15,6 +15,7 @@ import org.pochette.data_library.music.MusicFile;
 import org.pochette.data_library.music.MusicScan;
 import org.pochette.data_library.pairing.PairingProcess;
 import org.pochette.data_library.scddb_objects.Dance;
+import org.pochette.data_library.scddb_objects.SlimDance;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.search.SearchPattern;
 import org.pochette.utils_lib.shouting.Shout;
@@ -506,7 +507,8 @@ public class DataService implements Shouting {
             Logg.i(TAG, "Start readCursor");
             tA= new Integer[tCursor.getCount()] ;
             String tColumnIdName = null;
-            if (iSearchPattern.getSearchClass() == Dance.class) {
+            if (iSearchPattern.getSearchClass() == Dance.class ||
+                    iSearchPattern.getSearchClass() == SlimDance.class) {
                 tColumnIdName = "D_ID";
             } else if (iSearchPattern.getSearchClass() == MusicFile.class) {
                 tColumnIdName = "MF_ID";

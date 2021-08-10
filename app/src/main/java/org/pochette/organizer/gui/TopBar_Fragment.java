@@ -48,7 +48,6 @@ import static java.lang.Thread.interrupted;
 import static java.lang.Thread.sleep;
 import static org.pochette.organizer.mediaplayer.MediaPlayerState.*;
 
-@SuppressWarnings("unused")
 public class TopBar_Fragment extends Fragment
         implements Shouting, LifecycleOwner, PopupMenu.OnMenuItemClickListener {
 
@@ -84,14 +83,14 @@ public class TopBar_Fragment extends Fragment
 
     private MediaPlayerState mMediaPlayerState;
 
+    Handler mReportHandler;
     ArrayList<String> mAL_InfoText = new ArrayList<>(0);
     Thread mThread;
 
 
-    @SuppressWarnings("unused")
 //Constructor
 
-//Setter and Getter
+    //Setter and Getter
     public void setShouting(Shouting mShouting) {
         this.mShouting = mShouting;
     }
@@ -102,10 +101,10 @@ public class TopBar_Fragment extends Fragment
         super.onAttach(context);
         mShoutToCeiling = new Shout(this.getClass().getSimpleName());
 
-        mStringDance ="";
-        mStringMusician="";
-        mStringAlbum="";
-        mStringTitle="";
+        mStringDance = "";
+        mStringMusician = "";
+        mStringAlbum = "";
+        mStringTitle = "";
     }
 
     @Override
@@ -216,6 +215,7 @@ public class TopBar_Fragment extends Fragment
     }
 
 
+    @SuppressWarnings("unused")
     void prepValues(Bundle iBundle) {
     }
 
@@ -252,14 +252,16 @@ public class TopBar_Fragment extends Fragment
         }
 
         @Override
-        public void handleMessage(@SuppressWarnings("NullableProblems") Message msg) {
+        public void handleMessage(@NonNull Message msg) {
             try {
                 Activity activity = fCurrentActivity.get();
                 MainActivity tMainActivity = (MainActivity) activity;
                 TopBar_Fragment tTopBar_Fragment = tMainActivity.getTopBar_Fragment();
-                String tText = msg.getData().getString("text", "Empty");
-                Logg.d(TAG, "handle " + tText);
-                tTopBar_Fragment.updateReportSystem(tText);
+                if (tTopBar_Fragment != null && msg.getData() != null) {
+                    String tText = msg.getData().getString("text", "Empty");
+                    Logg.d(TAG, "handle " + tText);
+                    tTopBar_Fragment.updateReportSystem(tText);
+                }
             } catch(Exception e) {
                 Logg.w(TAG, e.toString());
             }
@@ -267,7 +269,7 @@ public class TopBar_Fragment extends Fragment
     }
 
     void updateReportSystem(String iText) {
-        if (mTV_Report != null) {
+        if (mTV_Report != null && iText != null) {
             if (iText.isEmpty()) {
                 mTV_Report.setVisibility(View.INVISIBLE);
             } else {
@@ -278,13 +280,19 @@ public class TopBar_Fragment extends Fragment
     }
 
     void startReportSystem() {
-
         Logg.i(TAG, "Start ReportSystem");
-
-        Handler mReportHandler;
         mReportHandler = new HandlerExtension(getActivity());
         ReportSystem.getInstance().startThread(mReportHandler);
     }
+
+    @SuppressWarnings("unused")
+    void stopReportSystem() {
+        Logg.i(TAG, "Stop ReportSystem");
+       // if (mReportHandler != null) {
+            ReportSystem.getInstance().stopThread();
+      //  }
+    }
+
 
     void startThread() {
         Runnable tRunnable = new Runnable() {
@@ -295,8 +303,7 @@ public class TopBar_Fragment extends Fragment
                         //noinspection BusyWait
                         sleep(4000);
                     } catch(InterruptedException e) {
-                        Logg.i(TAG, e.toString());
-                        // it is okay to stop the thread
+                        Logg.d(TAG, e.toString());
                     }
                     refreshTopText();
                 }
@@ -399,12 +406,10 @@ public class TopBar_Fragment extends Fragment
             @SuppressWarnings("Convert2Lambda")
             @Override
             public void onReceive(Context iContext, Intent iIntent) {
-                //   Logg.i(TAG, "onReceive Status in Fragment");
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Logg.w(TAG, "receive");
-                        Logg.w(TAG, iIntent.toString());
+                        Logg.i(TAG, "receive: "+iIntent.toString());
 
                         mMediaPlayerState =
                                 MediaPlayerServiceSingleton.getInstance().getMediaPlayerService().
@@ -427,14 +432,26 @@ public class TopBar_Fragment extends Fragment
                             mStringMusician = iIntent.getStringExtra("artist");
                             mStringAlbum = iIntent.getStringExtra("album");
                             mStringDance = iIntent.getStringExtra("title");
-                            if (mStringMusician != null) Logg.i(TAG, mStringMusician);
-                            if (mStringAlbum != null) Logg.i(TAG, mStringAlbum);
-                            if (mStringDance != null) Logg.i(TAG, mStringDance);
+                            if (mStringMusician != null) {
+                                Logg.i(TAG, mStringMusician);
+                            }
+                            if (mStringAlbum != null) {
+                                Logg.i(TAG, mStringAlbum);
+                            }
+                            if (mStringDance != null) {
+                                Logg.i(TAG, mStringDance);
+                            }
                             mAL_InfoText.clear();
                             mTopTextLoop = 0;
-                            if (mStringMusician != null) mAL_InfoText.add(mStringMusician);
-                            if (mStringAlbum != null) mAL_InfoText.add(mStringAlbum);
-                            if (mStringDance != null) mAL_InfoText.add(mStringDance);
+                            if (mStringMusician != null) {
+                                mAL_InfoText.add(mStringMusician);
+                            }
+                            if (mStringAlbum != null) {
+                                mAL_InfoText.add(mStringAlbum);
+                            }
+                            if (mStringDance != null) {
+                                mAL_InfoText.add(mStringDance);
+                            }
                         }
                     }
                 });
@@ -627,7 +644,7 @@ public class TopBar_Fragment extends Fragment
             public void run() {
 
                 try {
-                    String tDatabaseName = Ldb_Helper.getNameofDatabase();
+                    //String tDatabaseName = Ldb_Helper.getNameofDatabase();
                     Ldb_Helper.getInstance().closeDB();
                     Ldb_Helper.getInstance().deleteLdb(mView.getContext());
                     //mView.getContext().deleteDatabase(tDatabaseName);
@@ -636,6 +653,8 @@ public class TopBar_Fragment extends Fragment
                     ReportSystem.receive(tText);
 
                 } catch(Exception e) {
+
+                    Logg.i(TAG, "650");
                     Logg.w(TAG, e.toString());
                 }
 
@@ -665,6 +684,7 @@ public class TopBar_Fragment extends Fragment
                     ReportSystem.receive(tText);
 
                 } catch(Exception e) {
+                    Logg.i(TAG, "678");
                     Logg.w(TAG, e.toString());
                 }
 
@@ -685,6 +705,7 @@ public class TopBar_Fragment extends Fragment
                     String tText = "Scan call done";
                     ReportSystem.receive(tText);
                 } catch(Exception e) {
+                    Logg.i(TAG, "699");
                     Logg.w(TAG, e.toString());
                 }
                 Logg.i(TAG, "finished create");
@@ -711,9 +732,11 @@ public class TopBar_Fragment extends Fragment
             @Override
             public void run() {
                 try {
-                    DiagramManager t = new DiagramManager();
-                    t.downloadAbsentDiagrams();
+                    DiagramManager tDiagramManager = new DiagramManager();
+                    tDiagramManager.downloadAbsentDiagrams();
                 } catch(Exception e) {
+
+                    Logg.i(TAG, "733");
                     Logg.w(TAG, e.toString());
                 }
                 String tText = "download of diagrams done";

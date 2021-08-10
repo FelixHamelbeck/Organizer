@@ -118,6 +118,7 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
 
     public void setA(Integer[] iA) {
         mA = iA;
+        notifyDataSetChanged();
     }
 
 //    public void setAR_SlimDANCE(ArrayList<SlimDance> AR_SlimDANCE) {
@@ -126,9 +127,9 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
 //        requestDiagramCaching();
 //    }
 
-    //public ArrayList<SlimDance> getAR_SlimDANCE() {
-//        return mAR_SlimDANCE;
-//    }
+    public Integer[] getA_SlimDANCE() {
+        return mA;
+    }
 
     public void setAvailableWidth(int iAvailableWidth) {
         Logg.i(TAG, "setAvailable With:" + iAvailableWidth);
@@ -207,11 +208,11 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
         //Logg.w(TAG, " ViewType" + iViewType);
         switch (iViewType) {
 
-            case Dance_ViewHolder.VARIANT_MAX:
+            case SlimDance_ViewHolder.VARIANT_MAX:
                 tView = inflater.inflate(R.layout.row_dance_broad, iParent, false);
                 tViewHolder = new SlimDance_ViewHolder(tView);
                 break;
-            case Dance_ViewHolder.VARIANT_STACK:
+            case SlimDance_ViewHolder.VARIANT_STACK:
                 tView = inflater.inflate(R.layout.row_dance_stack, iParent, false);
                 tViewHolder = new SlimDance_ViewHolder(tView);
                 break;
@@ -230,9 +231,9 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
     public int getItemViewType(int position) {
         int tViewType;
         if (mLayoutMode == SlimDance_Adapter.LAYOUT_MODE_COMPACT) {
-            tViewType = Dance_ViewHolder.VARIANT_STACK;
+            tViewType = SlimDance_ViewHolder.VARIANT_STACK;
         } else {
-            tViewType = Dance_ViewHolder.VARIANT_MAX;
+            tViewType = SlimDance_ViewHolder.VARIANT_MAX;
         }
         //Logg.i(TAG, String.format(Locale.ENGLISH, "Mode %d, Type %d",mLayoutMode,tViewType ));
         return tViewType;
@@ -353,8 +354,8 @@ public class SlimDance_Adapter extends RecyclerView.Adapter<SlimDance_ViewHolder
             } else {
                 Logg.i(TAG, "sortorder Name");
                 Collections.sort(tAR_Dance, (o1, o2) -> {
-                    //noinspection CodeBlock2Expr
-                    return o1.mName.compareToIgnoreCase(o2.mName);
+                            //noinspection CodeBlock2Expr
+                            return o1.mName.compareToIgnoreCase(o2.mName);
                         }
                 );
             }

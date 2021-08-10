@@ -8,7 +8,6 @@ import junit.framework.TestCase;
 import org.junit.Rule;
 import org.junit.Test;
 import org.pochette.organizer.app.DataServiceSingleton;
-import org.pochette.organizer.dance.Dance_ViewModel;
 import org.pochette.organizer.music.MusicFile_ViewModel;
 import org.pochette.utils_lib.logg.Logg;
 

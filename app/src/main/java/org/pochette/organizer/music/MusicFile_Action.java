@@ -106,17 +106,19 @@ public class MusicFile_Action implements Shouting {
     void executeSelect() {
         Logg.i(TAG, "executeSelect");
         String tTitle = "Add to Requestlist";
-        DialogFragment_MusicFile.create(mLayout,tTitle, this);
-
+        DialogFragment_MusicFile.create(mLayout, tTitle, this);
     }
 
 
     void executePlay() {
-        Request tRequest ;
+        Request tRequest;
         MusicFile tMusicFile;
-        if (mMusicFile == null) {
+        if (mMusicFile == null && mDance == null) {
+            return;
+        }
+        if (mMusicFile == null ) {
             tMusicFile = mDance.getMusicFile();
-        } else {
+        } else{
             tMusicFile = mMusicFile;
         }
         tRequest = new Request(tMusicFile, mDance, null);
@@ -150,15 +152,14 @@ public class MusicFile_Action implements Shouting {
         }
     }
 
-    @SuppressWarnings("unused")
-    void shoutPreferenceChanged() {
-        if (mShouting != null) {
-            Shout tShout = new Shout(MusicFile_Action.class.getSimpleName());
-            tShout.mLastAction = "changed";
-            tShout.mLastObject = "Preference";
-            mShouting.shoutUp(tShout);
-        }
-    }
+//    void shoutPreferenceChanged() {
+//        if (mShouting != null) {
+//            Shout tShout = new Shout(MusicFile_Action.class.getSimpleName());
+//            tShout.mLastAction = "changed";
+//            tShout.mLastObject = "Preference";
+//            mShouting.shoutUp(tShout);
+//        }
+//    }
 
     private void process_shouting() {
         if ("DialogFragment_MusicPreference".equals(mGlassFloor.mActor)) {

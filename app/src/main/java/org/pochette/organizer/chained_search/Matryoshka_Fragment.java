@@ -16,8 +16,9 @@ import org.pochette.data_library.requestlist.Request;
 import org.pochette.data_library.requestlist.Requestlist;
 import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.organizer.R;
-import org.pochette.organizer.dance.Dance_Adapter;
-import org.pochette.organizer.dance.Dance_ViewModel;
+import org.pochette.organizer.dance.Dance_Cache;
+import org.pochette.organizer.dance.SlimDance_Adapter;
+import org.pochette.organizer.dance.SlimDance_ViewModel;
 import org.pochette.organizer.requestlist.Requestlist_Action;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.shouting.Shout;
@@ -49,8 +50,8 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
     FloatingActionButton mFB;
     Matryoshka_Controller mMatryoshka_Controller;
 
-    private Dance_ViewModel mModel;
-    public Dance_Adapter mDance_Adapter;
+    private SlimDance_ViewModel mModel;
+    public SlimDance_Adapter mSlimDance_Adapter;
 
     //Constructor
 
@@ -202,15 +203,15 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
         if (mRV_Dance != null) {
             mRV_Dance.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
             @SuppressWarnings("unused") int tRV_Width = mRV_Dance.getMeasuredWidth();
-            if (mDance_Adapter == null) {
-                mDance_Adapter = new Dance_Adapter(getContext(), mRV_Dance, this);
+            if (mSlimDance_Adapter == null) {
+                mSlimDance_Adapter = new SlimDance_Adapter(getContext(), mRV_Dance, this);
                 //noinspection ResultOfMethodCallIgnored
-                mDance_Adapter.hasStableIds();
+                mSlimDance_Adapter.hasStableIds();
             }
             RecyclerView.LayoutManager LM_Dance = new LinearLayoutManager(getContext());
             mRV_Dance.setLayoutManager(LM_Dance);
-            mRV_Dance.setAdapter(mDance_Adapter);
-            mDance_Adapter.setFragment(this);
+            mRV_Dance.setAdapter(mSlimDance_Adapter);
+            mSlimDance_Adapter.setFragment(this);
             //   mDance_Adapter.setAvailableWidth(tRV_Width);
             createDanceModel();
         }
@@ -235,12 +236,16 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
         }
         if (iRequestlist != null) {
             Logg.i(TAG, iRequestlist.toString());
-            ArrayList<Dance> tAL_Dance = mDance_Adapter.getAR_DANCE();
+            Integer[] tA= mSlimDance_Adapter.getA_SlimDANCE();
+
             ArrayList<Request> tAL = new ArrayList<>();
 
-            for (Dance lDance : tAL_Dance) {
-                Request lRequest = new Request(lDance.getMusicFile(), lDance, null);
-                tAL.add(lRequest);
+            for (Integer lId : tA) {
+                Dance lDance = Dance_Cache.getById(lId);
+                if (lDance != null) {
+                    Request lRequest = new Request(lDance.getMusicFile(), lDance, null);
+                    tAL.add(lRequest);
+                }
             }
             iRequestlist.putAL(tAL);
         }
@@ -255,26 +260,34 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
         Application tApllication;
         tApllication = this.requireActivity().getApplication();
         mModel = ViewModelProvider.AndroidViewModelFactory.
-                getInstance(tApllication).create(Dance_ViewModel.class);
+                getInstance(tApllication).create(SlimDance_ViewModel.class);
 
-        mModel.mMLD_AR.observe(getViewLifecycleOwner(), iAR_Object -> {
+        mModel.mMLD_A.observe(getViewLifecycleOwner(), iA-> {
             String tText;
-            if (iAR_Object != null) {
-                try {
-                    tText = "found " + iAR_Object.size();
-                    Logg.i(TAG, tText);
-                    ArrayList<Dance> tAR_Dance = new ArrayList<>(0);
-                    for (Object lObject : iAR_Object) {
-                        Dance lDance;
-                        lDance = (Dance) lObject;
-                        tAR_Dance.add(lDance);
-                    }
-                    mDance_Adapter.setAR_DANCE(tAR_Dance);
-                    mDance_Adapter.notifyDataSetChanged();
-                } catch(Exception e) {
-                    Logg.w(TAG, e.toString());
-                }
-            }
+
+            Logg.w(TAG, "obervce for A");
+            Integer[] tA = (Integer[]) iA;
+
+            mSlimDance_Adapter.setA(tA);
+            mSlimDance_Adapter.notifyDataSetChanged();
+
+//            if (iAR_Object != null) {
+//                try {
+//                    tText = "found " + iAR_Object.size();
+//                    Logg.i(TAG, tText);
+//                    ArrayList<Dance> tAR_Dance = new ArrayList<>(0);
+//                    for (Object lObject : iAR_Object) {
+//                        Dance lDance;
+//                        lDance = (Dance) lObject;
+//                        tAR_Dance.add(lDance);
+//                    }
+//              //      mSlimDance_Adapter.setAR_DANCE(tAR_Dance);
+//                    mSlimDance_Adapter.setA();
+//                    mSlimDance_Adapter.notifyDataSetChanged();
+//                } catch(Exception e) {
+//                    Logg.w(TAG, e.toString());
+//                }
+//            }
         });
         mModel.forceSearch();
     }
