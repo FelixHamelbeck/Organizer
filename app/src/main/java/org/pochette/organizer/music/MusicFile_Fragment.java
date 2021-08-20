@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import org.pochette.organizer.R;
@@ -35,11 +36,13 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
     //Variables
     private static final String TAG = "FEHA (MF_Fragment)";
 
+
     private MusicFile_ViewModel mModel;
     private EditText mET_Artist;
     private EditText mET_Album;
     private EditText mET_Name;
 
+    ImageView mIV_Search;
     Spinner mSP_Purpose;
     CustomSpinnerAdapter mCSA_Purpose;
     Spinner mSP_Signature;
@@ -88,6 +91,7 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
         mET_Artist = requireView().findViewById(R.id.ET_Musicfile_Artist);
         mET_Album = requireView().findViewById(R.id.ET_Musicfile_Album);
         mET_Name = requireView().findViewById(R.id.ET_Musicfile_Name);
+        mIV_Search = requireView().findViewById(R.id.IV_Musicfile_Search);
         mSP_Purpose= requireView().findViewById(R.id.SP_Musicfile_Purpose);
         mSP_Signature= requireView().findViewById(R.id.SP_Musicfile_Signature);
 
@@ -115,10 +119,14 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
                 public void afterTextChanged(Editable s) {
                     if (mModel != null) {
                         mModel.setSearchArtist(s.toString());
-                        mModel.forceSearch();
                     }
                 }
             });
+//            mET_Artist.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                @Override
+//                public void onFocusChange(View iView, boolean iHasFocus) {
+//                }
+//            });
         }
         if (mET_Album != null) {
             mET_Album.addTextChangedListener(new TextWatcher() {
@@ -132,10 +140,21 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
                 public void afterTextChanged(Editable s) {
                     if (mModel != null) {
                         mModel.setSearchAlbum(s.toString());
-                        mModel.forceSearch();
+                      //  mModel.forceSearch();
                     }
                 }
             });
+//            mET_Album.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                @Override
+//                public void onFocusChange(View iView, boolean iHasFocus) {
+//                    if (iHasFocus) {
+//                        //user has focused
+//                    } else {
+//                        //focus has stopped perform your desired action
+//                        mModel.forceSearch();
+//                    }
+//                }
+//            });
         }
         if (mET_Name != null) {
             mET_Name.addTextChangedListener(new TextWatcher() {
@@ -151,11 +170,34 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
                 public void afterTextChanged(Editable s) {
                     if (mModel != null) {
                         mModel.setSearchName(s.toString());
-                        mModel.forceSearch();
+                 //       mModel.forceSearch();
                     }
                 }
             });
+//            mET_Name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                @Override
+//                public void onFocusChange(View iView, boolean iHasFocus) {
+//                    if (iHasFocus) {
+//                        //user has focused
+//                    } else {
+//                        //focus has stopped perform your desired action
+//                        mModel.forceSearch();
+//                    }
+//                }
+//            });
         }
+
+        if (mIV_Search != null) {
+            mIV_Search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logg.k(TAG, "OnClick Search");
+                    processOnClickSearch();
+                }
+            });
+
+        }
+
         SpinnerItemFactory tSpinnerItemFactory;
         ArrayList<CustomSpinnerItem> tAL_Custom_SpinnerItem;
         tSpinnerItemFactory = new SpinnerItemFactory();
@@ -178,7 +220,7 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
                             parent.getItemAtPosition(position).toString());
                     CustomSpinnerItem tCustomSpinnerItem = (CustomSpinnerItem) mCSA_Purpose.getItem(position);
                     mModel.setCsiPurpose(tCustomSpinnerItem);
-                    mModel.forceSearch();
+                 //   mModel.forceSearch();
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -204,7 +246,7 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
                             parent.getItemAtPosition(position).toString());
                     CustomSpinnerItem tCustomSpinnerItem = (CustomSpinnerItem) mCSA_Signature.getItem(position);
                     mModel.setCsiSignature(tCustomSpinnerItem);
-                    mModel.forceSearch();
+                  //  mModel.forceSearch();
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -234,7 +276,7 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
                 getInstance(tApllication).create(MusicFile_ViewModel.class);
 
         mModel.mMLD_A.observe(getViewLifecycleOwner(), iAR_Object -> {
-            mMusicFile_Adapter.setA((Integer[]) iAR_Object);
+            mMusicFile_Adapter.setA(iAR_Object);
             mMusicFile_Adapter.notifyDataSetChanged();
         });
         mModel.forceSearch();
@@ -257,7 +299,14 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
 
     //Static Methods
     //Internal Organs
+
+    void processOnClickSearch() {
+        Logg.i(TAG, "search click");
+        mModel.forceSearch();
+    }
+
     void drawHeader() {
+        boolean mSearchAvailable;
         if (mModel != null) {
             if (mET_Artist != null) {
                 mET_Artist.setText(mModel.getSearchArtist());
@@ -268,7 +317,14 @@ public class MusicFile_Fragment extends Fragment implements Shouting, LifecycleO
             if (mET_Name != null) {
                 mET_Name.setText(mModel.getSearchName());
             }
+            mSearchAvailable = mModel.isSearchPossible();
+        } else {
+            mSearchAvailable = false;
         }
+        if (mIV_Search != null) {
+            mIV_Search.setActivated(mSearchAvailable);
+        }
+
     }
 
 

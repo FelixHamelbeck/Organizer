@@ -24,6 +24,7 @@ public class OrganizerStatus {
     static final String PAIRING_SYNCHRONOISATION = "PairingSynchronisationStatus";
     static final String DIAGRAM = "DiagramStatus";
     static final String FORMATION = "FormationStatus";
+    static final String MUSICFILE = "MusicFileStatus";
 
 
     // variables
@@ -42,19 +43,21 @@ public class OrganizerStatus {
     private String mPairingSynchronisationStatus; // writhe the pairing date to musicdirectorz and musicfile
     private String mDiagramStatus;
     private String mFormationStatus;
+    private String mMusicFileStatus;
 
 
     private OrganizerStatus(Context iContext, OrganizerApp iOrganizerApp) {
         mContext = iContext;
         mOrganizerApp = iOrganizerApp;
         mDataServiceStatus = STATUS_OPEN;
-        mDatabaseStatus= STATUS_OPEN;
-        mMusicScanStatus= STATUS_OPEN;
-        mMediaPlayerStatus= STATUS_OPEN;
-        mPairingIdentficationStatus= STATUS_OPEN; // create the pairing data
-        mPairingSynchronisationStatus= STATUS_OPEN; // writhe the pairing date to musicdirectorz and musicfile
-        mDiagramStatus= STATUS_OPEN;
-        mFormationStatus= STATUS_OPEN;
+        mDatabaseStatus = STATUS_OPEN;
+        mMusicScanStatus = STATUS_OPEN;
+        mMediaPlayerStatus = STATUS_OPEN;
+        mPairingIdentficationStatus = STATUS_OPEN; // create the pairing data
+        mPairingSynchronisationStatus = STATUS_OPEN; // writhe the pairing date to musicdirectorz and musicfile
+        mDiagramStatus = STATUS_OPEN;
+        mFormationStatus = STATUS_OPEN;
+        mMusicFileStatus = STATUS_OPEN;
     }
 
     public static void createInstance(Context iContext, OrganizerApp iOrganizerApp) {
@@ -78,28 +81,31 @@ public class OrganizerStatus {
         Logg.d(TAG, "Time: Set " + iObjectString + " to " + iStatusString);
         switch (iObjectString) {
             case DATA_SERVICE:
-                mDataServiceStatus = iStatusString ;
+                mDataServiceStatus = iStatusString;
                 break;
             case DATABASE:
-                mDatabaseStatus = iStatusString ;
+                mDatabaseStatus = iStatusString;
                 break;
             case MUSIC_SCAN:
-                mMusicScanStatus = iStatusString ;
+                mMusicScanStatus = iStatusString;
                 break;
             case MEDIA_PLAYER:
-                mMediaPlayerStatus = iStatusString ;
+                mMediaPlayerStatus = iStatusString;
                 break;
             case PAIRING_IDENTIFICATION:
-                mPairingIdentficationStatus = iStatusString ;
+                mPairingIdentficationStatus = iStatusString;
                 break;
             case PAIRING_SYNCHRONOISATION:
-                mPairingSynchronisationStatus = iStatusString ;
+                mPairingSynchronisationStatus = iStatusString;
                 break;
             case DIAGRAM:
-                mDiagramStatus = iStatusString ;
+                mDiagramStatus = iStatusString;
                 break;
             case FORMATION:
-                mFormationStatus = iStatusString ;
+                mFormationStatus = iStatusString;
+                break;
+            case MUSICFILE:
+                mMusicFileStatus = iStatusString;
                 break;
             default:
         }
@@ -123,6 +129,8 @@ public class OrganizerStatus {
                 return mDiagramStatus;
             case FORMATION:
                 return mFormationStatus;
+            case MUSICFILE:
+                return mMusicFileStatus;
             default:
                 return null;
         }
@@ -177,6 +185,7 @@ public class OrganizerStatus {
         tText += " PS:" + mPairingSynchronisationStatus.substring(0, Math.min(tLength, mPairingSynchronisationStatus.length()));
         tText += " DI:" + mDiagramStatus.substring(0, Math.min(tLength, mDiagramStatus.length()));
         tText += " FO:" + mFormationStatus.substring(0, Math.min(tLength, mFormationStatus.length()));
+        tText += " FO:" + mMusicFileStatus.substring(0, Math.min(tLength, mMusicFileStatus.length()));
         return tText;
     }
 

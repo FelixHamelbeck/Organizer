@@ -28,21 +28,16 @@ public class PreparationOfLogg {
                 "*", true, true);
 
 
-        Logg.addControlLine("xgui_assist", "*", "*", "i",
-                "*", true, true);
-        Logg.addControlLine("gui", "*", "*", "i",
+        Logg.addControlLine("dance", "*", "*", "i",
                 "*", true, true);
 
-        Logg.addControlLine("*", "MusicScan", "*", "i",
-                "*", true, true);
-        Logg.addControlLine("*", "MusicFile", "*", "i",
-                "*", true, true);
+
         Logg.addControlLine("*", "MainActivity", "*", "i",
                 "*", true, true);
 
-        Logg.addControlLine("*", "TopBar_Fragment", "*", "i",
+        Logg.addControlLine("*", "DialogFragment_ChooseFormation", "*", "i",
                 "*", true, true);
-        Logg.addControlLine("dance", "*", "*", "i",
+        Logg.addControlLine("xchained_search", "Matryoshka_Controller", "*", "i",
                 "*", true, true);
 
 

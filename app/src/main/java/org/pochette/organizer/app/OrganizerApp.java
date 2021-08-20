@@ -10,6 +10,7 @@ import org.pochette.data_library.music.MusicScan;
 import org.pochette.organizer.BuildConfig;
 import org.pochette.organizer.diagram.DiagramThread;
 import org.pochette.organizer.formation.FormationData;
+import org.pochette.organizer.music.MusicFile_Cache;
 import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.logg.LoggFile;
 import org.pochette.utils_lib.shouting.Shout;
@@ -20,6 +21,7 @@ import static org.pochette.organizer.app.OrganizerStatus.DATA_SERVICE;
 import static org.pochette.organizer.app.OrganizerStatus.DIAGRAM;
 import static org.pochette.organizer.app.OrganizerStatus.FORMATION;
 import static org.pochette.organizer.app.OrganizerStatus.MEDIA_PLAYER;
+import static org.pochette.organizer.app.OrganizerStatus.MUSICFILE;
 import static org.pochette.organizer.app.OrganizerStatus.MUSIC_SCAN;
 import static org.pochette.organizer.app.OrganizerStatus.PAIRING_IDENTIFICATION;
 import static org.pochette.organizer.app.OrganizerStatus.PAIRING_SYNCHRONOISATION;
@@ -297,12 +299,22 @@ public class OrganizerApp extends Application implements Shouting {
     void requestFormationData() {
         if (OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_SUCCESS)) {
             OrganizerStatus.getInstance().setStatus(FORMATION, STATUS_SETUP_RUNNING);
-          //  new FormationData();
-            // todo reactivate
+            new FormationData();
             OrganizerStatus.getInstance().setStatus(FORMATION, STATUS_SUCCESS);
             Logg.w(TAG, "Formation-> Success");
             Logg.i(TAG, "Past new FormationData");
        //     executeNextAction();
+        }
+    }
+
+    void requestMusisFileData() {
+        if (OrganizerStatus.getInstance().getStatus(DATABASE).equals(STATUS_SUCCESS)) {
+            OrganizerStatus.getInstance().setStatus(MUSICFILE, STATUS_SETUP_RUNNING);
+           MusicFile_Cache.getInstance();
+            OrganizerStatus.getInstance().setStatus(MUSICFILE, STATUS_SUCCESS);
+            Logg.w(TAG, "MusicFile-> Success");
+            Logg.i(TAG, "Past new MusicFile");
+            //     executeNextAction();
         }
     }
 

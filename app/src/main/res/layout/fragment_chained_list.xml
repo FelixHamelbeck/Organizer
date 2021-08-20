@@ -73,4 +73,17 @@
         app:layout_constraintEnd_toStartOf="@id/ChainedList_GL_Vertical_BC"
         app:srcCompat="@drawable/ic_requestlist_save"/>
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ChainedList_FAB_Reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="@color/bg_emphasis"
+
+        app:maxImageSize="56dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ChainedList_FAB_Requestlist"
+        app:srcCompat="@drawable/ic_crib"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

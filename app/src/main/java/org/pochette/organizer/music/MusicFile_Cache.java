@@ -1,6 +1,7 @@
 package org.pochette.organizer.music;
 
 import org.pochette.data_library.database_management.DataService;
+import org.pochette.data_library.database_management.SearchCall;
 import org.pochette.data_library.music.MusicFile;
 import org.pochette.organizer.app.DataServiceSingleton;
 import org.pochette.utils_lib.logg.Logg;
@@ -9,7 +10,9 @@ import org.pochette.utils_lib.search.SearchPattern;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Cache to store MusicFile data, so on scorlling etc the database call can be avoided
@@ -29,6 +32,15 @@ public class MusicFile_Cache {
     private final HashMap<Integer, MusicFile> mCache;
     private final ArrayList<Integer> mUsage;
 
+    private HashMap<String, ArrayList<Integer>> mHM_Name;
+    private HashMap<String, ArrayList<Integer>> mHM_T2;
+    private HashMap<String, ArrayList<Integer>> mHM_T1;
+    private HashMap<Integer, ArrayList<Integer>> mHM_Dance;
+    private HashMap<String, ArrayList<Integer>> mHM_Signature;
+    private HashMap<String, ArrayList<Integer>> mHM_Purpose;
+    private boolean mFlagUptodate;
+
+
     // constructor
     public static MusicFile_Cache getInstance() {
         //Double check locking pattern
@@ -46,11 +58,162 @@ public class MusicFile_Cache {
         mCache = new HashMap<>(0);
         mUsage = new ArrayList<>(0);
         mLock = new Object();
+        mFlagUptodate = false;
+        fillHashMaps();
     }
     // setter and getter
     // lifecylce and override
 
     // internal
+
+    void fillHashMaps() {
+
+        Logg.i(TAG, "start fillHashMaps");
+        SearchPattern tSearchPattern = new SearchPattern(MusicFile.class);
+        SearchCall tSearchCall = new SearchCall(MusicFile.class, tSearchPattern, null);
+        ArrayList<MusicFile> tAR = tSearchCall.produceArrayList();
+        Logg.i(TAG, "read for HM, found " + tAR.size());
+
+        mHM_Name = new HashMap<>(0);
+        mHM_T1 = new HashMap<>(0);
+        mHM_T2 = new HashMap<>(0);
+        mHM_Dance = new HashMap<>(0);
+        mHM_Signature = new HashMap<>(0);
+        mHM_Purpose = new HashMap<>(0);
+        for (MusicFile lMusicFile : tAR) {
+            String tKey;
+            tKey = lMusicFile.mName.toLowerCase();
+            if (mHM_Name.containsKey(tKey)) {
+                mHM_Name.get(tKey).add(lMusicFile.mId);
+            } else {
+                ArrayList<Integer> tAR4Key = new ArrayList<>(0);
+                tAR4Key.add(lMusicFile.mId);
+                mHM_Name.put(tKey, tAR4Key);
+            }
+
+            tKey = lMusicFile.mT1.toLowerCase();
+            if (mHM_T1.containsKey(tKey)) {
+                mHM_T1.get(tKey).add(lMusicFile.mId);
+            } else {
+                ArrayList<Integer> tAR4Key = new ArrayList<>(0);
+                tAR4Key.add(lMusicFile.mId);
+                mHM_T1.put(tKey, tAR4Key);
+            }
+            tKey = lMusicFile.mT2.toLowerCase();
+            if (mHM_T2.containsKey(tKey)) {
+                mHM_T2.get(tKey).add(lMusicFile.mId);
+            } else {
+                ArrayList<Integer> tAR4Key = new ArrayList<>(0);
+                tAR4Key.add(lMusicFile.mId);
+                mHM_T2.put(tKey, tAR4Key);
+            }
+            tKey = lMusicFile.mSignature.toLowerCase();
+            if (mHM_Signature.containsKey(tKey)) {
+                mHM_Signature.get(tKey).add(lMusicFile.mId);
+            } else {
+                ArrayList<Integer> tAR4Key = new ArrayList<>(0);
+                tAR4Key.add(lMusicFile.mId);
+                mHM_Signature.put(tKey, tAR4Key);
+            }
+            tKey = lMusicFile.mPurpose.getCode().toLowerCase();
+            if (mHM_Purpose.containsKey(tKey)) {
+                mHM_Purpose.get(tKey).add(lMusicFile.mId);
+            } else {
+                ArrayList<Integer> tAR4Key = new ArrayList<>(0);
+                tAR4Key.add(lMusicFile.mId);
+                mHM_Purpose.put(tKey, tAR4Key);
+            }
+            if (lMusicFile.mDanceId > 0) {
+                int tDanceid = lMusicFile.mDanceId;
+                if (mHM_Dance.containsKey(tDanceid)) {
+                    mHM_Dance.get(tDanceid).add(lMusicFile.mId);
+                } else {
+                    ArrayList<Integer> tAR4Key = new ArrayList<>(0);
+                    tAR4Key.add(lMusicFile.mId);
+                    mHM_Dance.put(tDanceid, tAR4Key);
+                }
+            }
+        }
+        Logg.i(TAG, "stored in HM, found " + tAR.size());
+        mFlagUptodate = true;
+    }
+
+    public Integer[] searchFromHM(SearchPattern iSearchPattern) {
+
+        //   Logg.i(TAG, "do i need to call fill");
+        if (!mFlagUptodate) {
+            fillHashMaps();
+        }
+        Logg.i(TAG, "searchFrom HM Start");
+        HashSet<Integer> tHS_Result = null;
+        // tHS_Result.addAll(mHM_Name.values());
+        int lLoop = 0;
+        for (SearchCriteria lSearchCriteria : iSearchPattern.getAL_SearchCriteria()) {
+            HashSet<Integer> lHSResult = new HashSet<>(0);
+            if (lSearchCriteria.getMethod().equals("NAME")) {
+                String lCompString = lSearchCriteria.getValue().toLowerCase();
+                for (Map.Entry<String, ArrayList<Integer>> lEntry : mHM_Name.entrySet()) {
+                    if (lEntry.getKey().contains(lCompString)) {
+                        lHSResult.addAll(lEntry.getValue());
+                        //          Logg.i(TAG, lCompString + "->" + lEntry.getKey()+" has "+ lEntry.getValue().size());
+                    }
+                }
+            } else if (lSearchCriteria.getMethod().equals("ARTIST")) {
+                String lCompString = lSearchCriteria.getValue().toLowerCase();
+                for (Map.Entry<String, ArrayList<Integer>> lEntry : mHM_T2.entrySet()) {
+                    if (lEntry.getKey().contains(lCompString)) {
+                        lHSResult.addAll(lEntry.getValue());
+                        //      Logg.i(TAG, lCompString + "->" + lEntry.getKey()+" has "+ lEntry.getValue().size());
+                    }
+                }
+            } else if (lSearchCriteria.getMethod().equals("ALBUM")) {
+                String lCompString = lSearchCriteria.getValue().toLowerCase();
+                for (Map.Entry<String, ArrayList<Integer>> lEntry : mHM_T1.entrySet()) {
+                    if (lEntry.getKey().contains(lCompString)) {
+                        lHSResult.addAll(lEntry.getValue());
+                    }
+                }
+            } else if (lSearchCriteria.getMethod().equals("DANCE_ID")) {
+                try {
+                    Integer tDanceId = Integer.valueOf(lSearchCriteria.getValue());
+                    for (Map.Entry<Integer, ArrayList<Integer>> lEntry : mHM_Dance.entrySet()) {
+                        if (lEntry.getKey() == tDanceId) {
+                            lHSResult.addAll(lEntry.getValue());
+                        }
+                    }
+                } catch(NumberFormatException e) {
+                    Logg.w(TAG, e.toString());
+                }
+            } else {
+                // if it is not implemented return null, so the caller calls a proper DB query
+                return null;
+            }
+            Logg.i(TAG, "searchFrom loop " + lSearchCriteria.getMethod() + " found " + lHSResult.size());
+            if (lLoop == 0) {
+                tHS_Result = lHSResult;
+            } else {
+                tHS_Result.retainAll(lHSResult);
+            }
+            Logg.i(TAG, "still " + tHS_Result.size());
+            // no need to continue
+            if (tHS_Result.size() == 0) {
+                Integer[] tA = new Integer[0];
+                return tA;
+            }
+            lLoop++;
+        }
+        if (lLoop == 0) {
+            // no criteria, return all
+            for (Map.Entry<String, ArrayList<Integer>> lEntry : mHM_T2.entrySet()) {
+                tHS_Result = new HashSet<>(0);
+                tHS_Result.addAll(lEntry.getValue());
+            }
+        }
+        Integer[] tA = new Integer[tHS_Result.size()];
+        tA = tHS_Result.toArray(new Integer[tHS_Result.size()]);
+        return tA;
+    }
+
 
     @SuppressWarnings("unused")
     void logUsage() {
@@ -194,7 +357,7 @@ public class MusicFile_Cache {
             if (tMusicFileCache.mUsage.contains(tId)) {
                 // if it is already in cache exclude from retrieval
                 // worst would be if removed from cache prematurely
-    //            Logg.w(TAG, "no preread for " + tId);
+                //            Logg.w(TAG, "no preread for " + tId);
                 continue;
             }
             if (jList == 0) {
@@ -204,11 +367,11 @@ public class MusicFile_Cache {
             }
             jList++;
             if (jList == mPackageSize || jArray == iA.length || jArray == mMaxNumber) {
-              //  Logg.i(TAG, "Search with list  " + tListOfId);
+                //  Logg.i(TAG, "Search with list  " + tListOfId);
                 SearchPattern tSearchPattern = new SearchPattern(MusicFile.class);
                 tSearchPattern.addSearch_Criteria(new SearchCriteria("LIST_OF_ID", tListOfId));
                 ArrayList<MusicFile> tAL = tDataService.readArrayList(tSearchPattern);
-                Logg.i(TAG, "got from " + tListOfId + " found "+ tAL.size());
+                Logg.i(TAG, "got from " + tListOfId + " found " + tAL.size());
                 tMusicFileCache.addToCache(tAL);
                 tListOfId = "";
                 jList = 0;

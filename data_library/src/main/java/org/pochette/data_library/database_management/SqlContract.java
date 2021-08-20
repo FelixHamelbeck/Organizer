@@ -18,6 +18,7 @@ import org.pochette.data_library.scddb_objects.FormationModifier;
 import org.pochette.data_library.scddb_objects.FormationRoot;
 import org.pochette.data_library.scddb_objects.Recording;
 import org.pochette.data_library.scddb_objects.SlimDance;
+import org.pochette.utils_lib.logg.Logg;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -273,7 +274,7 @@ public class SqlContract {
                 " LEFT OUTER JOIN LDB.DANCE_CLASSIFICATION AS CL " +
                 "       ON CL.OBJECT_ID = D.ID " +
                 "";
-
+      //  Logg.w(TAG, tJoinString);
 
         tColumnArray = new String[]{
                 " D.ID AS D_ID", " D.NAME AS D_NAME", " DT.NAME AS D_TYPENAME", " DT.SHORT_NAME AS D_TYPESHORTNAME",
@@ -313,10 +314,6 @@ public class SqlContract {
                         " WHERE P.NAME LIKE ? )",
                 true, false, false, true, true, true,
                 tIdSelect);
-
-
-
-
 
         tIdSelect = "Select DISTINCT DRM.DANCE_ID AS D_ID " +
                 " FROM ALBUM AS A " +
@@ -358,10 +355,17 @@ public class SqlContract {
                 " D.SHAPE_ID = ? ",
                 true, false, false, true, true, true);
 
+
+        tIdSelect = "Select DISTINCT TD.ID AS D_ID " +
+                " FROM DANCE AS TD " +
+                " INNER JOIN SHAPE AS TS ON TS.ID + TD.SHAPE_ID " +
+                " WHERE TS.SHORTNAME = ? ";
+
         addWhereMethod(tClass, "SHAPE_SINGLE",
                 "Search dances of given shape",
                 " S.SHORTNAME =  ? ",
-                true, false, false, false, false, false);
+                true, false, false, false, false, false,
+                tIdSelect);
 
         addWhereMethod(tClass, "SHAPE_ANY_LONG",
                 "Search any longwise dances",
@@ -401,7 +405,6 @@ public class SqlContract {
                         " WHERE DFM.FORMATION_ID IN ( @ ) ) ",
                 true, true, false, false, false, false
         );
-
 
         tIdSelect = " SELECT DISTINCT IFNULL(DRM.DANCE_ID,MF.DANCE_ID) AS D_ID " +
                 "       FROM LDB.MUSICFILE AS MF " +
@@ -605,10 +608,11 @@ public class SqlContract {
                 " D.SHAPE_ID = ? ",
                 true, false, false, true, true, true);
 
+
         addWhereMethod(tClass, "SHAPE_SINGLE",
                 "Search dances of given shape",
             //    " S.SHORTNAME =  ? ",
-                " D.SHAPE_ID = ( SELECT TS.ID FROM SHAPE AS TS WHERE TS.NAME = ? ) ",
+                " D.SHAPE_ID IN ( SELECT TS.ID FROM SHAPE AS TS WHERE TS.SHORTNAME = ? ) ",
                 true, false, false, false, false, false);
 
         addWhereMethod(tClass, "SHAPE_ANY_LONG",

@@ -14,9 +14,9 @@ import org.pochette.utils_lib.logg.Logg;
 import org.pochette.utils_lib.search.SearchPattern;
 
 import java.util.ArrayList;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ServiceTestRule;
+//
+//import androidx.test.platform.app.InstrumentationRegistry;
+//import androidx.test.rule.ServiceTestRule;
 
 import static java.lang.Thread.sleep;
 
@@ -25,8 +25,8 @@ public class MusicDirectory_Pairing_Test extends TestCase {
     private final static String TAG = "FEHA (MDPTest)";
 
 
-    @Rule
-    public final ServiceTestRule mServiceRule = new ServiceTestRule();
+//    @Rule
+//    public final ServiceTestRule mServiceRule = new ServiceTestRule();
 
 
     @Test
@@ -106,17 +106,17 @@ public class MusicDirectory_Pairing_Test extends TestCase {
 
     public static void prepareDatabases() {
 
-        Logg.i(TAG, "prep");
-        Context tContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        Ldb_Helper.createInstance(tContext);
-        Scddb_Helper.createInstance(tContext);
-        Scddb_Helper.getInstance().attachLdbToScddb(null);
-        try {
-            sleep(3000);
-        } catch(InterruptedException e) {
-            Logg.w(TAG, e.toString());
-        }
-        Logg.i(TAG, "prep done");
+//        Logg.i(TAG, "prep");
+//       // Context tContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+//        Ldb_Helper.createInstance(tContext);
+//        Scddb_Helper.createInstance(tContext);
+//        Scddb_Helper.getInstance().attachLdbToScddb(null);
+//        try {
+//            sleep(3000);
+//        } catch(InterruptedException e) {
+//            Logg.w(TAG, e.toString());
+//        }
+//        Logg.i(TAG, "prep done");
 
     }
 

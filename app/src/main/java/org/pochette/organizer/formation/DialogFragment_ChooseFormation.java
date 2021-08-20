@@ -47,10 +47,11 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
     ImageView mIV_Confirm;
     TextView mTV_Selected;
     RecyclerView mRV_Formation;
-    //   ScrollView mSC_Formation;
     LinearLayout mLL_Formation;
 
     FormationSearch mFormationSearch;
+
+    ArrayList<Formation> mAL_FormationBasedOnRoot;
 
 
     int mMargin;
@@ -93,20 +94,16 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
         mShouting = tShouting;
     }
 
-
-
     //<editor-fold desc="Live Cylce">
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @NonNull
     @Override
@@ -114,7 +111,6 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
         Dialog tDialog = super.onCreateDialog(savedInstanceState);
         mMargin = 10;
         return tDialog;
-
     }
 
     @Override
@@ -128,7 +124,6 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
     @Override
     public void onViewCreated(@NonNull View iView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(iView, savedInstanceState);
-
         mTV_Title = iView.findViewById(R.id.TV_DialogFormationTitle);
         mTV_Selected = iView.findViewById(R.id.TV_DialogFormationSelected);
         mIV_Confirm = iView.findViewById(R.id.IV_DialogFormationSelected_Confirm);
@@ -149,7 +144,7 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
             });
         }
         Objects.requireNonNull(mIV_Confirm).setVisibility(View.GONE);
-        refreshDisplay();
+        prepDisplay();
     }
 
     @Override
@@ -160,17 +155,17 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
     @Override
     public void onResume() {
         super.onResume();
-        refreshDisplay();
+        prepDisplay();
     }
     //</editor-fold>
     //Static Methods
     //Internal Organs
 
     @SuppressLint("SetTextI18n")
-    private void refreshDisplay() {
+    private void prepDisplay() {
         if (mTV_Selected != null) {
             if (mFormationSearch.getFormationRoot() == null) {
-                mTV_Selected.setText("Choose Root");
+                mTV_Selected.setText("Choose All");
             } else {
                 mTV_Selected.setText(mFormationSearch.getFormationRoot().mName);
             }
@@ -180,19 +175,14 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
         } else {
             prepFormation();
         }
-        if (mIV_Confirm != null) {
-            if (mFormationSearch.getAL_Formation().size() > 0) {
-                mIV_Confirm.setVisibility(View.VISIBLE);
-            } else {
-                mIV_Confirm.setVisibility(View.GONE);
-            }
-        }
+
     }
 
 
     void prepRoot() {
         mRV_Formation.setVisibility(View.VISIBLE);
         mLL_Formation.setVisibility(View.GONE);
+        mTV_Selected.setVisibility(View.GONE);
         if (mFormationAdapter == null) {
             mFormationAdapter = new FormationAdapter(getContext(), mRV_Formation, this);
         }
@@ -205,104 +195,137 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
     }
 
     void prepFormation() {
-
+        // set visibility
         mRV_Formation.setVisibility(View.GONE);
         mLL_Formation.setVisibility(View.VISIBLE);
-        if (mFormationSearch.getFormationRoot() != null) {
-            ArrayList<Formation> tAL_FormationBasedOnRoot = new ArrayList<>(0);
-            LinearLayout tCurrentLine;
-            int tUsedWidth;
-            tCurrentLine = new LinearLayout(getContext());
-            tCurrentLine.setId(View.generateViewId());
-            tCurrentLine.setOrientation(HORIZONTAL);
-            tCurrentLine.setBackground(null);
-            mLL_Formation.addView(tCurrentLine);
-            FormationView tFormationView;
-            // find the longest text
-            int tWidthWidest = 0;
-            LinearLayout.LayoutParams tLayoutParams;
-            tLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mTV_Selected.setVisibility(View.VISIBLE);
 
-            tLayoutParams.leftMargin = mMargin;
-            tLayoutParams.topMargin = mMargin;
-
-            for (Formation lFormation : mFormationData.getAllFormation()) {
-                if (lFormation.mKey.startsWith(mFormationSearch.getFormationRoot().mKey)) {
-                    tAL_FormationBasedOnRoot.add(lFormation);
-                    tFormationView = new FormationView(getContext());
-                    tFormationView.setLayoutParams(tLayoutParams);
-                    tFormationView.setKey(lFormation.mKey);
-                    tFormationView.setText(lFormation.mName);
-                    tFormationView.setCount(lFormation.mCountDances);
-                    tFormationView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                    int tMeasuredWidth = tFormationView.getMeasuredWidth();
-                    tWidthWidest = Math.max(tWidthWidest, tMeasuredWidth);
-                }
+        // prep the data and sort desc by count
+        mAL_FormationBasedOnRoot = new ArrayList<>(0);
+        for (Formation lFormation : mFormationData.getAllFormation()) {
+            if (lFormation.mKey.startsWith(mFormationSearch.getFormationRoot().mKey)) {
+                mAL_FormationBasedOnRoot.add(lFormation);
             }
+        }
+        Collections.sort(mAL_FormationBasedOnRoot, new Comparator<Formation>() {
+            @Override
+            public int compare(Formation o1, Formation o2) {
+                return o2.mCountDances - o1.mCountDances;
+            }
+        });
+        Logg.i(TAG, "show " + mAL_FormationBasedOnRoot.size());
 
-            int tBoxWidth = 4 * mMargin + 3 * tWidthWidest;
-            tBoxWidth = Math.min(tBoxWidth, 3 * mWindowWidth / 4);
-            Collections.sort(tAL_FormationBasedOnRoot, new Comparator<Formation>() {
-                @Override
-                public int compare(Formation o1, Formation o2) {
-                    return o2.mCountDances - o1.mCountDances;
-                }
+        // measure each FormationView and store that view
 
-            });
-            ConstraintLayout.LayoutParams tLP;
-            tLP = (ConstraintLayout.LayoutParams) mLL_Formation.getLayoutParams();
-            tLP.width = tBoxWidth;
-            tLP.leftMargin = mMargin;
-            tLP.rightMargin = mMargin;
-            tLP.topMargin = mMargin;
-            tLP.bottomMargin = mMargin;
+        int tWidthWidest = 0;
 
-            mLL_Formation.setLayoutParams(tLP);
-
-            tUsedWidth = mMargin;
-            mLL_Formation.removeAllViews();
-            mAL_FormationView = new ArrayList<>(0);
-            for (Formation lFormation : tAL_FormationBasedOnRoot) {
+        mAL_FormationView = new ArrayList<>(0);
+        for (Formation lFormation : mAL_FormationBasedOnRoot) {
+            if (lFormation.mKey.startsWith(mFormationSearch.getFormationRoot().mKey)) {
+                FormationView tFormationView;
                 tFormationView = new FormationView(getContext());
-                tFormationView.setShouting(this);
+                LinearLayout.LayoutParams tLayoutParams;
+                tLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                tLayoutParams.leftMargin = mMargin;
+                tLayoutParams.topMargin = mMargin;
                 tFormationView.setLayoutParams(tLayoutParams);
                 tFormationView.setKey(lFormation.mKey);
                 tFormationView.setText(lFormation.mName);
+                tFormationView.setIsRootFormation(lFormation.isRootFormation());
                 tFormationView.setCount(lFormation.mCountDances);
                 tFormationView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-
-                tUsedWidth += tFormationView.getMeasuredWidth() + mMargin;
-                if (tUsedWidth > tBoxWidth) {
-                    tCurrentLine = new LinearLayout(getContext());
-                    tCurrentLine.setId(View.generateViewId());
-                    tCurrentLine.setOrientation(HORIZONTAL);
-                    tCurrentLine.setBackground(null);
-                    mLL_Formation.addView(tCurrentLine);
-                    tUsedWidth = mMargin;
-                    tUsedWidth += tFormationView.getMeasuredWidth() + mMargin;
-                }
-                tCurrentLine.addView(tFormationView);
+                int tMeasuredWidth = tFormationView.getMeasuredWidth();
+                tWidthWidest = Math.max(tWidthWidest, tMeasuredWidth);
                 mAL_FormationView.add(tFormationView);
-                if (mFormationSearch != null) {
-                    for (Formation kFormation : mFormationSearch.getAL_Formation()) {
-                        if (lFormation.mKey.equals(kFormation.mKey)) {
-                            tFormationView.setSelected(true);
-                            tFormationView.refresh();
+            }
+        }
+
+        int tBoxWidth = 4 * mMargin + 3 * tWidthWidest;
+        tBoxWidth = Math.min(tBoxWidth, 3 * mWindowWidth / 4);
+
+        ConstraintLayout.LayoutParams tLP;
+        tLP = (ConstraintLayout.LayoutParams) mLL_Formation.getLayoutParams();
+        tLP.width = tBoxWidth;
+        tLP.leftMargin = mMargin;
+        tLP.rightMargin = mMargin;
+        tLP.topMargin = mMargin;
+        tLP.bottomMargin = mMargin;
+
+
+        LinearLayout tCurrentLine = null;
+
+        int tUsedWidth = 0;
+        for (FormationView lView : mAL_FormationView) {
+            int tHypothecialWidth = tUsedWidth + lView.getMeasuredWidth() + 2 * mMargin;
+            if (tHypothecialWidth > tBoxWidth) {
+                tCurrentLine = null;
+            }
+            if (tCurrentLine == null) {
+                Logg.i(TAG, "new line");
+                tCurrentLine = new LinearLayout(getContext());
+                tCurrentLine.setId(View.generateViewId());
+                tCurrentLine.setOrientation(HORIZONTAL);
+                tCurrentLine.setBackground(null);
+                tCurrentLine.setLayoutParams(tLP);
+                mLL_Formation.addView(tCurrentLine);
+                tUsedWidth = mMargin;
+            }
+            tCurrentLine.addView(lView);
+            lView.setShouting(this);
+            tUsedWidth += lView.getMeasuredWidth() + 2 * mMargin;
+
+        }
+
+        refresh();
+        if (mTV_Selected != null) {
+            mTV_Selected.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Logg.w(TAG, "call select ll");
+                            selectAll();
+                            refresh();
+                            //prepDisplay();
                         }
                     }
-                }
+            );
+        }
+    }
+
+    void refresh() {
+        Logg.i(TAG, "refresh");
+        if(mAL_FormationView != null && mAL_FormationView.size() > 0){
+            for (FormationView lFormationView : mAL_FormationView) {
+                lFormationView.refresh();
+            }
+        }
+        if (mIV_Confirm != null) {
+            if (mAL_FormationView != null && mFormationSearch.getAL_Formation().size() > 0) {
+                mIV_Confirm.setVisibility(View.VISIBLE);
+            } else {
+                mIV_Confirm.setVisibility(View.GONE);
             }
         }
     }
 
+    void selectAll() {
+        for (Formation lFormation : mAL_FormationBasedOnRoot) {
+            mFormationSearch.addFormation(lFormation);
+        }
+        for (FormationView lFormationView : mAL_FormationView) {
+            lFormationView.setSelected(true);
+        }
+    }
+
     void processNewSelection() {
+        Logg.i(TAG, "start processNewSelection");
         boolean tAtLeastOneSelected = false;
         ArrayList<Formation> tAL_Formation = new ArrayList<>(0);
         for (FormationView lFormationView : mAL_FormationView) {
             if (lFormationView.isSelected()) {
                 Formation lFormation = mFormationData.getFormationByKey(lFormationView.getKey());
                 tAL_Formation.add(lFormation);
-                tAtLeastOneSelected= true;
+                tAtLeastOneSelected = true;
             }
         }
         mFormationSearch.setAL_Formation(tAL_Formation);
@@ -314,6 +337,7 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
     }
 
     void process_shouting() {
+        // the root has been choosenm
         if (mGlassFloor.mActor.equals("FormationAdapter") &&
                 mGlassFloor.mLastAction.equals("selected") &&
                 mGlassFloor.mLastObject.equals("Formation")) {
@@ -322,7 +346,6 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
                 String tKey = tJsonObject.getString("Key");
                 mFormationSearch.setFormationRoot(mFormationData.getFormationRootByKey(tKey));
                 prepFormation();
-//                refreshDisplay();
             } catch(JSONException e) {
                 e.printStackTrace();
             }
@@ -332,12 +355,9 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
                 mGlassFloor.mLastAction.equals("changed") &&
                 mGlassFloor.mLastObject.equals("Selection")) {
             processNewSelection();
+            refresh();
         }
     }
-
-
-
-
 
 
     @Override
@@ -362,7 +382,7 @@ public class DialogFragment_ChooseFormation extends DialogFragment implements Sh
 
     @Override
     public void shoutUp(Shout tShoutToCeiling) {
-        Logg.i(TAG, tShoutToCeiling.toString());
+        Logg.w(TAG, tShoutToCeiling.toString());
         mGlassFloor = tShoutToCeiling;
         process_shouting();
     }

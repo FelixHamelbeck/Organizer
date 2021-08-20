@@ -36,7 +36,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-@SuppressWarnings("rawtypes")
 public class Matryoshka_Fragment extends Fragment implements Shouting, LifecycleOwner {
 
     private static final String TAG = "FEHA (MY_Fragment)";
@@ -47,8 +46,8 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
     private Shout mGlassFloor;
     LinearLayout mRootLinearLayout;
     RecyclerView mRV_Dance;
-    FloatingActionButton mFB;
-    Matryoshka_Controller mMatryoshka_Controller;
+    FloatingActionButton mFB_Save;
+    FloatingActionButton mFB_Reset;
 
     private SlimDance_ViewModel mModel;
     public SlimDance_Adapter mSlimDance_Adapter;
@@ -70,7 +69,6 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View tView = inflater.inflate(R.layout.fragment_chained_list, container, false);
         Fragment tParentFragment = getParentFragment();
         if (tParentFragment != null) {
@@ -88,22 +86,23 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
     public void onViewCreated(@Nullable View iView, @Nullable Bundle savedInstanceState) {
         mRootLinearLayout = Objects.requireNonNull(iView).findViewById(R.id.ChainedList_LL);
         mRV_Dance = iView.findViewById(R.id.ChainedList_RV);
-        mFB = iView.findViewById(R.id.ChainedList_FAB_Requestlist);
+        mFB_Save = iView.findViewById(R.id.ChainedList_FAB_Requestlist);
+        mFB_Reset = iView.findViewById(R.id.ChainedList_FAB_Reset);
         if (mRootLinearLayout == null) {
             Logg.w(TAG, "root not found");
         }
         if (mRV_Dance == null) {
             Logg.w(TAG, "RV not found");
         }
-        if (mFB != null) {
-            mFB.setOnClickListener(new View.OnClickListener() {
+        if (mFB_Save != null) {
+            mFB_Save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Logg.k(TAG, "Floating Button onClick");
                     saveToRequestlist_Part1();
                 }
             });
-            mFB.setOnLongClickListener(new View.OnLongClickListener() {
+            mFB_Save.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     Logg.k(TAG, "Floating Button onLongClick");
@@ -112,6 +111,25 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
                 }
             });
         }
+        if (mFB_Reset != null) {
+            mFB_Reset.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logg.k(TAG, "Floating Button onClick");
+                 resetController();
+                }
+            });
+            mFB_Reset.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Logg.k(TAG, "Floating Button onLongClick");
+                    resetController();
+                    return true;
+                }
+            });
+        }
+
+
     }
 
     @Override
@@ -123,7 +141,8 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
     @Override
     public void onStart() {
         super.onStart();
-        callTest();
+        Matryoshka_Controller.getInstance().setRootLinearLayout(mRootLinearLayout);
+        Matryoshka_Controller.getInstance().mShouting = this;
     }
 
     @Override
@@ -146,59 +165,22 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
 
     //Internal Organs
 
-    @SuppressWarnings("unused")
-    void callTest() {
-
-
-        Class mClass = Dance.class;
-        Matryoshka tOrMatryoshka;
-        Matryoshka tRantMatryoshka;
-        Matryoshka tReelMatryoshka;
-        Matryoshka tRSCDSMatryoshka;
-        Matryoshka tCribMatryoshka;
-        Matryoshka tAndMatryoshka ;
-        SearchOption tSearchOption;
-
-        tAndMatryoshka = new Matryoshka(mClass, Matryoshka.NODE_AND);
-        tOrMatryoshka = new Matryoshka(mClass, Matryoshka.NODE_OR);
-        tRantMatryoshka = new Matryoshka(mClass, Matryoshka.NODE_SEARCH);
-        tSearchOption = SearchOption.getByCode(mClass, "DANCENAME");
-        tRantMatryoshka.updateSearchSetting(tSearchOption, "Rant");
-        tReelMatryoshka = new Matryoshka(mClass, Matryoshka.NODE_SEARCH);
-        tSearchOption = SearchOption.getByCode(mClass, "DANCENAME");
-        tReelMatryoshka.updateSearchSetting(tSearchOption, "wee");
-
-        tOrMatryoshka.addSubMatryoshka(tRantMatryoshka);
-        tOrMatryoshka.addSubMatryoshka(tReelMatryoshka);
-
-        tRSCDSMatryoshka = new Matryoshka(mClass, Matryoshka.NODE_SEARCH);
-        tSearchOption = SearchOption.getByCode(mClass, "RSCDS_REQUIRED");
-        tRSCDSMatryoshka.updateSearchSetting(tSearchOption, null);
-
-        tAndMatryoshka.addSubMatryoshka(tRSCDSMatryoshka);
-        tAndMatryoshka.addSubMatryoshka(tOrMatryoshka);
-
-
-        mMatryoshka_Controller = new Matryoshka_Controller(mRootLinearLayout);
-        mMatryoshka_Controller.setRootMatryoshka(tAndMatryoshka);
-        tAndMatryoshka.setDataShouting(this);
-        mMatryoshka_Controller.display();
-
-
-        //Matryoshka_Thread tMatryoshka_Thread;
-       // tMatryoshka_Thread = new Matryoshka_Thread(tReelMatryoshka);
-       // tMatryoshka_Thread.start();
-
-
-
-
-    }
-
+//    @SuppressWarnings("unused")
+//    void callTest() {
+//
+//
+//        mMatryoshka_Controller = new Matryoshka_Controller(mRootLinearLayout);
+//        mMatryoshka_Controller.readPreferenceDefintion();
+//        mMatryoshka_Controller.getRootMatryoshka().setDataShouting(this);
+//        mMatryoshka_Controller.display();
+//
+//
+//    }
+//
 
 
 
     void resumRecyclerView() {
-
         mRV_Dance = requireView().findViewById(R.id.ChainedList_RV);
         if (mRV_Dance != null) {
             mRV_Dance.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
@@ -217,12 +199,15 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
         }
     }
 
+    private void resetController() {
+        Matryoshka_Controller.getInstance().reset();
+       // mRootLinearLayout.removeAllViews();
+    }
 
 
     private void saveToRequestlist_Part1() {
-
         Logg.i(TAG, "Part1 ");
-       Requestlist_Action.callExecute(mFB, this,
+       Requestlist_Action.callExecute(mFB_Save, this,
                Requestlist_Action.CLICK_TYPE_SHORT, Requestlist_Action.CLICK_ICON_CREATE,
                 null, null, null, null);
 
@@ -263,31 +248,8 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
                 getInstance(tApllication).create(SlimDance_ViewModel.class);
 
         mModel.mMLD_A.observe(getViewLifecycleOwner(), iA-> {
-            String tText;
-
-            Logg.w(TAG, "obervce for A");
-            Integer[] tA = (Integer[]) iA;
-
-            mSlimDance_Adapter.setA(tA);
+            mSlimDance_Adapter.setA(iA);
             mSlimDance_Adapter.notifyDataSetChanged();
-
-//            if (iAR_Object != null) {
-//                try {
-//                    tText = "found " + iAR_Object.size();
-//                    Logg.i(TAG, tText);
-//                    ArrayList<Dance> tAR_Dance = new ArrayList<>(0);
-//                    for (Object lObject : iAR_Object) {
-//                        Dance lDance;
-//                        lDance = (Dance) lObject;
-//                        tAR_Dance.add(lDance);
-//                    }
-//              //      mSlimDance_Adapter.setAR_DANCE(tAR_Dance);
-//                    mSlimDance_Adapter.setA();
-//                    mSlimDance_Adapter.notifyDataSetChanged();
-//                } catch(Exception e) {
-//                    Logg.w(TAG, e.toString());
-//                }
-//            }
         });
         mModel.forceSearch();
     }
@@ -301,27 +263,25 @@ public class Matryoshka_Fragment extends Fragment implements Shouting, Lifecycle
 //                Logg.i(TAG, "size" + tTS_Id.size());
 //            }
 //        }
-        if (mGlassFloor.mActor.equals("Matryoshka")) {
-            if (mGlassFloor.mLastAction.equals("achieved") &&
-                    mGlassFloor.mLastObject.equals("STATUS_UPTODEFINITION")) {
+        if (mGlassFloor.mActor.equals("Matryoshka_Controller")) {
+            if (mGlassFloor.mLastAction.equals("completed") &&
+                    mGlassFloor.mLastObject.equals("Calculation")) {
                 try {
-
-                    HashSet<Integer> tHS = mMatryoshka_Controller.getHashSet();
-                    Logg.i(TAG, "got hashSet " + tHS.size());
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mModel == null) {
-                                createDanceModel();
+                    HashSet<Integer> tHS = Matryoshka_Controller.getInstance().getHashSet();
+                    if (tHS != null) {
+                        Logg.i(TAG, "got hashSet " + tHS.size());
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mModel == null) {
+                                    createDanceModel();
+                                }
+                                mModel.setListOfId(tHS);
                             }
-                            mModel.setListOfId(tHS);
-                        }
-                    });
+                        });
+                    }
                 } catch(Exception e) {
-                    Logg.w(TAG, "273");
                     Logg.e(TAG, e.toString());
-
-
                 }
             }
         }

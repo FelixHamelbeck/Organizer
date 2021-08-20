@@ -5,6 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/IV_Musicfile_Search"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        android:src="@drawable/ic_magnifyingglass"
+        app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ET_Musicfile_Artist"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/ET_Musicfile_Artist" />
+
     <EditText
         android:id="@+id/ET_Musicfile_Artist"
         style="@style/Data_Edittext"
@@ -12,10 +24,10 @@
         android:hint="@string/Artist"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@id/BV_Musicfile"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/IV_Musicfile_Search"
         app:layout_constraintEnd_toStartOf="@id/ET_Musicfile_Album"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 

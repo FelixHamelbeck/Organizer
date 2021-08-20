@@ -2,6 +2,8 @@ package org.pochette.data_library.scddb_objects;
 
 import android.database.Cursor;
 
+import org.pochette.utils_lib.logg.Logg;
+
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -50,6 +52,24 @@ public class Formation {
                 tCursor.getInt(tCursor.getColumnIndex("COUNT_DANCE")),
                 tCursor.getInt(tCursor.getColumnIndex("COUNT_FORMATION"))
         );
+    }
+
+    public boolean isRootFormation() {
+        boolean tLastLetterSemicolon ;
+        if (mKey.endsWith(";")) {
+            tLastLetterSemicolon = true;
+        } else {
+            tLastLetterSemicolon = false;
+        }
+        int tCountSemicolon;
+        tCountSemicolon = mKey.length() -  mKey.replace(";","").length() ;
+        if (tLastLetterSemicolon && tCountSemicolon == 1) {
+            return true;
+        } else if (tCountSemicolon == 0 ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @NonNull

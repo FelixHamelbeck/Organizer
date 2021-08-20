@@ -2,6 +2,7 @@ package org.pochette.organizer.formation;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -31,8 +32,7 @@ class FormationView extends LinearLayout implements Shouting {
     private int mCount;
     private String mText;
     private String mKey;
-
-   // private boolean mIsSelected;
+    private boolean mIsRootFormation = false;
 
     private Shouting mShouting;
 
@@ -94,6 +94,10 @@ class FormationView extends LinearLayout implements Shouting {
         if (mTV_Text != null) {
             mTV_Text.setText(mText);
         }
+    }
+
+    public void setIsRootFormation(boolean iIsRootFormation) {
+        mIsRootFormation = iIsRootFormation;
     }
 
     public String getKey() {
@@ -163,7 +167,6 @@ class FormationView extends LinearLayout implements Shouting {
         mTV_Count.setPadding(0, padding, padding, padding);
 
         this.setSelected(false);
-//        mIsSelected = false;
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,10 +196,16 @@ class FormationView extends LinearLayout implements Shouting {
                 }
                 if (mTV_Text != null) {
                     mTV_Text.setText(mText);
+                    if (mIsRootFormation) {
+                        mTV_Text.setTypeface(Typeface.DEFAULT_BOLD);
+                    }
                 }
+
                 if (fView.isSelected()) {
+                    Logg.i(TAG, "selected " + mKey + mCount);
                     fView.setBackgroundColor(getResources().getColor(R.color.bg_list_selected, null));
                 } else {
+                    Logg.i(TAG, "not selected " + mKey + mCount);
                     fView.setBackgroundColor(getResources().getColor(R.color.bg_light, null));
                 }
             }

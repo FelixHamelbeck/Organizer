@@ -69,7 +69,7 @@ public class SpinnerItemFactory {
                 tAL_CustomSpinnerItem.add(
                         new CustomSpinnerItem("Jig", "RHYTHM_SINGLE", "Jig", 330, R.drawable.ic_type_jig));
                 tAL_CustomSpinnerItem.add(
-                        new CustomSpinnerItem("Medley", "RHYTHM_SINGLE", "Medley", 310, R.drawable.ic_type_strathspey));
+                        new CustomSpinnerItem("Medley", "RHYTHM_SINGLE", "Medley", 310, 0));
                 tAL_CustomSpinnerItem.add(
                         new CustomSpinnerItem("March", "RHYTHM_SINGLE", "March", 190, 0));
                 tAL_CustomSpinnerItem.add(
@@ -101,19 +101,17 @@ public class SpinnerItemFactory {
                 if (iSearch) {
                     tAL_CustomSpinnerItem.add(
                             new CustomSpinnerItem("All", "SALL", "", 100, R.drawable.ic_asterix));
+
+                    tAL_CustomSpinnerItem.add(
+                            new CustomSpinnerItem("Very Good", "DANCE_FAVOURITE_SINGLE", DanceClassification.VYGO, 80, R.drawable.ic_favourite_verygood));
                     tAL_CustomSpinnerItem.add(
                             new CustomSpinnerItem("Good or better", "DANCE_FAVOURITE_GOOD_OR_BETTER", "", 75,
                                     R.drawable.ic_favourite_searchgoodorbetter));
                     tAL_CustomSpinnerItem.add(
                             new CustomSpinnerItem("Good or better", "DANCE_FAVOURITE_OKAY_OR_BETTER", "", 65,
                                     R.drawable.ic_favourite_searchgreen));
-                    tAL_CustomSpinnerItem.add(
-                            new CustomSpinnerItem("Bad or worse", "DANCE_FAVOURITE_BAD_OR_WORSE", "", 25,
-                                    R.drawable.ic_favourite_searchgreen));
 
                 }
-                tAL_CustomSpinnerItem.add(
-                        new CustomSpinnerItem("Very Good", "DANCE_FAVOURITE_SINGLE", DanceClassification.VYGO, 80, R.drawable.ic_favourite_verygood));
                 tAL_CustomSpinnerItem.add(
                         new CustomSpinnerItem("Good", "DANCE_FAVOURITE_SINGLE", DanceClassification.GOOD, 70, R.drawable.ic_favourite_good));
                 tAL_CustomSpinnerItem.add(
@@ -122,6 +120,10 @@ public class SpinnerItemFactory {
                         new CustomSpinnerItem("Neutral", "DANCE_FAVOURITE_SINGLE", DanceClassification.NEUT, 50, R.drawable.ic_favourite_neutral));
                 tAL_CustomSpinnerItem.add(
                         new CustomSpinnerItem("Unknown", "DANCE_FAVOURITE_SINGLE", DanceClassification.UNKN, 40, R.drawable.ic_favourite_unknown));
+
+                tAL_CustomSpinnerItem.add(
+                        new CustomSpinnerItem("Bad or worse", "DANCE_FAVOURITE_BAD_OR_WORSE", "", 25,
+                                R.drawable.ic_favourite_searchbad));
                 tAL_CustomSpinnerItem.add(
                         new CustomSpinnerItem("Rather not", "DANCE_FAVOURITE_SINGLE", DanceClassification.RANO, 30, R.drawable.ic_favourite_rathernot));
                 tAL_CustomSpinnerItem.add(

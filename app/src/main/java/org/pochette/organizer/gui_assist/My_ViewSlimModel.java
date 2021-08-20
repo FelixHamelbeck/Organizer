@@ -89,7 +89,7 @@ public abstract class My_ViewSlimModel extends ViewModel {
             switch (mStatus) {
                 case STATUS_NO_SEARCH:
                     //     case 1:
-                    int tDelay = 150;
+                    int tDelay = 1; // as we changed to explicit search button not really needed anymore
                     try {
                         if (mViewModelTimer != null) {
                             mViewModelTimer.cancel();
@@ -139,6 +139,22 @@ public abstract class My_ViewSlimModel extends ViewModel {
         }
     }
 
+    public boolean isSearchPossible() {
+//
+//        private final static int STATUS_NO_SEARCH = 1;
+//        private final static int STATUS_SEARCH_RUNNING = 2;
+//        private final static int STATUS_SEARCH_RUNNING_CRITERIA_OUTDATED = 3;
+        switch (mStatus) {
+            case STATUS_SEARCH_RUNNING:
+                return false;
+            case STATUS_NO_SEARCH:
+                return true;
+            case STATUS_SEARCH_RUNNING_CRITERIA_OUTDATED:
+                return false;
+        }
+        return true;
+    }
+
     /**
      * prep the SearchPattern and call the generic search, i.e. the DB
      */
@@ -150,38 +166,57 @@ public abstract class My_ViewSlimModel extends ViewModel {
             Logg.i(TAG, "getSearchPattern must return  not null");
             throw new RuntimeException("getSearchPattern must return  not null");
         }
-        Integer[] tA;
-        DataServiceSingleton tDataServiceSingleton = DataServiceSingleton.getInstance();
-        DataService tDataService = tDataServiceSingleton.getDataService();
 
-        tA = tDataService.readArray(tSearchPattern);
+        Logg.i(TAG, "call classic DB");
+        Integer[] tA = null;
+        if (mClass == MusicFile.class) {
+            Integer[] tACache;
+            tA = MusicFile_Cache.getInstance().searchFromHM(tSearchPattern);
+            if (tA == null) {
+                DataServiceSingleton tDataServiceSingleton = DataServiceSingleton.getInstance();
+                DataService tDataService = tDataServiceSingleton.getDataService();
+                tA = tDataService.readArray(tSearchPattern);
+                Logg.i(TAG, "finished classic DB and found " + tA.length);
+            } else {
+                Logg.i(TAG, "finished Cache and found" + tA.length);
+            }
+        } else {
+            DataServiceSingleton tDataServiceSingleton = DataServiceSingleton.getInstance();
+            DataService tDataService = tDataServiceSingleton.getDataService();
+            tA = tDataService.readArray(tSearchPattern);
+        }
+
+
         if (tA == null) {
             Logg.i(TAG, tSearchPattern.toString());
             Logg.w(TAG, "Problem in readArrayList for class " + tSearchPattern.getSearchClass().getSimpleName());
             return;
         }
+        Logg.i(TAG, "size of tA" + tA.length + " " + Thread.currentThread().toString());
+        storeA(tA);
+
         Thread tThread = null;
+        final Integer[] fA = tA;
         if (tSearchPattern.getSearchClass() == Dance.class) {
-           tThread= new Thread(new Runnable() {
+            tThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Dance_Cache.preread(tA);
+                    Dance_Cache.preread(fA);
                 }
-            }, "DanceCachePreRead" );
+            }, "DanceCachePreRead");
         } else if (tSearchPattern.getSearchClass() == MusicFile.class) {
-            tThread= new Thread(new Runnable() {
+            tThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    MusicFile_Cache.preread(tA);
+                    MusicFile_Cache.preread(fA);
                 }
-            }, "MusicFileCachePreRead" );
+            }, "MusicFileCachePreRead");
         }
         if (tThread != null) {
             tThread.setPriority(3);
             tThread.start();
         }
-        Logg.i(TAG, "size of tA" + tA.length + " " + Thread.currentThread().toString());
-        storeA(tA);
+
 
     }
 
@@ -195,7 +230,6 @@ public abstract class My_ViewSlimModel extends ViewModel {
             mMLD_A.postValue(iA);
         }
     }
-
 
 
     abstract public void storeValues();

@@ -64,8 +64,7 @@ class Matryoshka_View extends LinearLayout implements Shouting {
     public static final int VARIANT_SEARCH_FORMATION = 5; // two lines,
 
 
-
- //   CLTV_DragListener mCLTV_DragListener;
+    //   CLTV_DragListener mCLTV_DragListener;
     // variables
     private int mDisplayVariant;
     private int mSizeMode;
@@ -149,11 +148,12 @@ class Matryoshka_View extends LinearLayout implements Shouting {
         super.onMeasure(widthNewMeasureSpec, heightNewMeasureSpec);
     }
 
-    // setter and getter
+
+// setter and getter
 
     public void setDisplayVariant(int iDisplayVariant) {
         mDisplayVariant = iDisplayVariant;
-        Logg.i(TAG, "set variant " + mDisplayVariant);
+        //Logg.i(TAG, "set variant " + mDisplayVariant);
     }
 
     public void setShouting(Shouting shouting) {
@@ -165,7 +165,7 @@ class Matryoshka_View extends LinearLayout implements Shouting {
 
     public void setNodeType(int nodeType) {
         mNodeType = nodeType;
-        Logg.i(TAG, "setNodeType");
+        //Logg.i(TAG, "setNodeType");
         refresh();
     }
 
@@ -182,7 +182,7 @@ class Matryoshka_View extends LinearLayout implements Shouting {
     }
 
     public void setTextValue(String textValue) {
-        Logg.i(TAG, "setTextVlalue");
+        //Logg.i(TAG, "setTextVlalue");
         mTextValue = textValue;
         refresh();
     }
@@ -273,7 +273,7 @@ class Matryoshka_View extends LinearLayout implements Shouting {
         DragShadowBuilder dragshadow = new DragShadowBuilder(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Logg.i(TAG, "callStartDragAndDrop");
+            //Logg.i(TAG, "callStartDragAndDrop");
             this.startDragAndDrop(null      // data to be dragged
                     , dragshadow  // drag shadow
                     , this            // local data about the drag and drop operation
@@ -383,7 +383,7 @@ class Matryoshka_View extends LinearLayout implements Shouting {
         }
 
 
-        Logg.i(TAG, "SecondeLine");
+        //Logg.i(TAG, "SecondeLine");
 
         mLL_SecondLine = new LinearLayout(this.getContext());
         mLL_SecondLine.setId(View.generateViewId());
@@ -467,7 +467,7 @@ class Matryoshka_View extends LinearLayout implements Shouting {
                 Logg.k(TAG, "SP_Favourite: " +
                         parent.getItemAtPosition(position).toString());
                 CustomSpinnerItem tCustomSpinnerItem = (CustomSpinnerItem) mCSA_Spinner.getItem(position);
-                Logg.i(TAG, tCustomSpinnerItem.toString());
+                //Logg.i(TAG, tCustomSpinnerItem.toString());
                 processValueSpinnerChanged(tCustomSpinnerItem);
             }
 
@@ -522,10 +522,13 @@ class Matryoshka_View extends LinearLayout implements Shouting {
                 mTV_Count.setTextColor(getResources().getColor(R.color.scream_red, null));
             }
         }
-        if (mDisplayVariant == VARIANT_SUPER) {
-            mIV_Plus.setVisibility(VISIBLE);
-        } else {
-            mIV_Plus.setVisibility(GONE);
+        if (mIV_Plus != null) {
+
+            if (mDisplayVariant == VARIANT_SUPER) {
+                mIV_Plus.setVisibility(VISIBLE);
+            } else {
+                mIV_Plus.setVisibility(GONE);
+            }
         }
     }
 
@@ -546,10 +549,10 @@ class Matryoshka_View extends LinearLayout implements Shouting {
                 mET_Value.setMinimumWidth(90);
                 String tTextOfView = mET_Value.getText().toString();
                 if (!(mTextValue.equals(tTextOfView))) {
-                    Logg.i(TAG, "Vari|" + mTextValue + "|");
-                    Logg.i(TAG, "View|" + tTextOfView + "|");
-                    Logg.i(TAG, "Equal" + mTextValue.equals(tTextOfView));
-                    Logg.i(TAG, "Call setText 489, ID: " + Thread.currentThread().getId());
+//                    Logg.i(TAG, "Vari|" + mTextValue + "|");
+//                    Logg.i(TAG, "View|" + tTextOfView + "|");
+//                    Logg.i(TAG, "Equal" + mTextValue.equals(tTextOfView));
+//                    Logg.i(TAG, "Call setText 489, ID: " + Thread.currentThread().getId());
                     mET_Value.setText(mTextValue);
                 }
             }
@@ -603,14 +606,14 @@ class Matryoshka_View extends LinearLayout implements Shouting {
     }
 
     void onDragEnter() {
-        Logg.i(TAG, "Enter " + mHashCodeOfMatryochka);
+        //Logg.i(TAG, "Enter " + mHashCodeOfMatryochka);
         mModeHover = 1;
         applyColors();
         delayHoverReset();
     }
 
     void onDropped() {
-        Logg.i(TAG, "Drop " + mHashCodeOfMatryochka);
+        //Logg.i(TAG, "Drop " + mHashCodeOfMatryochka);
         mModeHover = 2;
         applyColors();
         delayHoverReset();
@@ -771,26 +774,27 @@ class Matryoshka_View extends LinearLayout implements Shouting {
 
 
     void process_shouting() {
-//        if (mGlassFloor.mActor.equals("DialogFragment_ChooseFormation")) {
-//            if (mGlassFloor.mLastAction.equals("selected") &&
-//                    mGlassFloor.mLastObject.equals("TreeSetOfId")) {
-//                if (mShouting != null) {
-//                    Shout tShout;
-//                    tShout = new Shout(this.getClass().getSimpleName());
-//                    tShout.mLastObject = "Value";
-//                    tShout.mLastAction = "edited";
-//                    try {
-//                        JSONObject tJsonObject = new JSONObject();
-//                        tJsonObject.put("Value", mGlassFloor.mJsonString);
-//                        tJsonObject.put("hashCode", mHashCodeOfChainedList);
-//                        tShout.mJsonString = tJsonObject.toString();
-//                    } catch(JSONException e) {
-//                        Logg.w(TAG, e.toString());
-//                    }
-//                    mShouting.shoutUp(tShout);
-//                }
-//            }
-//        }
+        if (mGlassFloor.mActor.equals("DialogFragment_ChooseFormation")) {
+            if (mGlassFloor.mLastAction.equals("selected") &&
+                    mGlassFloor.mLastObject.equals("TreeSetOfId")) {
+                if (mShouting != null) {
+                    Shout tShout;
+                    tShout = new Shout(this.getClass().getSimpleName());
+                    tShout.mLastObject = "Value";
+                    tShout.mLastAction = "edited";
+                    try {
+                        JSONObject tJsonObject = new JSONObject();
+                        tJsonObject.put("Value", mGlassFloor.mJsonString);
+                        tJsonObject.put("hashCode", mHashCodeOfMatryochka);
+                        tShout.mJsonString = tJsonObject.toString();
+                    } catch(JSONException e) {
+                        Logg.w(TAG, e.toString());
+                    }
+                    Logg.w(TAG, "shout up");
+                    mShouting.shoutUp(tShout);
+                }
+            }
+        }
     }
 
     // public methods
@@ -809,6 +813,17 @@ class Matryoshka_View extends LinearLayout implements Shouting {
                 Logg.w(TAG, e.toString());
             }
             mShouting.shoutUp(tShout);
+        }
+    }
+
+
+    public void removeRecursive() {
+        for (int i= 0; i < this.getChildCount(); i++) {
+            View lView = this.getChildAt(i);
+            if (lView instanceof Matryoshka_View) {
+                ((Matryoshka_View) lView).removeRecursive();
+                this.removeView(lView);
+            }
         }
     }
 

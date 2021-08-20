@@ -96,7 +96,9 @@ public class FormationAdapter extends RecyclerView.Adapter<FormationAdapter.View
         }
         holder.mFormationRoot = mAL_FormationRoot.get(position);
         try {
-            holder.TV_Name.setText(holder.mFormationRoot.mName);
+            holder.TV_Name.setText(holder.mFormationRoot.mName + "|"
+                    + holder.mFormationRoot.mKey+ "|");
+            // todo remove key
             holder.TV_Count.setText(String.format(Locale.ENGLISH,
                     "%d", holder.mFormationRoot.mCountDances));
             holder.hShouting = mShouting; 

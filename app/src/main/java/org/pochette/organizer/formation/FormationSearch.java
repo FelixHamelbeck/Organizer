@@ -11,7 +11,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.TreeSet;
 
-@SuppressWarnings("unused")
+/**
+ * FormationSearch is a search definition regarding formations
+ * it consist of a FormationRoot and 0-n formations below
+ * For application in dance searches this is translated into t TreeSet of formations id
+ */
+
 public class FormationSearch {
 
     private static final String TAG = "FEHA (FormationSearch)";
@@ -19,6 +24,7 @@ public class FormationSearch {
     // variables
     private FormationRoot mFormationRoot; // if one is already selected
     private ArrayList<Formation> mAL_Formation;
+    @SuppressWarnings("FieldMayBeFinal")
     private TreeSet<Integer> mTS_Id;
     private static FormationData mFormationData;
     // constructor
@@ -50,13 +56,20 @@ public class FormationSearch {
         mAL_Formation = AL_Formation;
     }
 
+    public void addFormation(Formation iFormation) {
+        for (Formation lFormation : mAL_Formation) {
+            if (lFormation.mKey.equals(iFormation.mKey)) {
+                return;
+            }
+        }
+        mAL_Formation.add(iFormation);
+    }
+
     public TreeSet<Integer> getTS_Id() {
         return mTS_Id;
     }
 
-    public void setTS_Id(TreeSet<Integer> TS_Id) {
-        mTS_Id = TS_Id;
-    }
+
 
     // lifecylce and override
     // internal

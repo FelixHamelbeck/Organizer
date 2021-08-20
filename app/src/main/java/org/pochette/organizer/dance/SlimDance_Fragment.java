@@ -55,6 +55,8 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
     Spinner mSP_Shape;
     CustomSpinnerAdapter mCSA_Shape;
 
+
+    ImageView mIV_Search;
     ImageView mIV_MusicFile;
     ImageView mIV_Diagram;
     ImageView mIV_Crib;
@@ -152,6 +154,19 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
             view.measure(View.MeasureSpec.AT_MOST, View.MeasureSpec.AT_MOST);
             Logg.i(TAG, String.format(Locale.ENGLISH, "masure after at most %d x %d", view.getMeasuredWidth(), view.getMeasuredHeight()));
         }
+
+
+        mIV_Search = requireView().findViewById(R.id.IV_Dance_Search);
+        if (mIV_Search != null) {
+            mIV_Search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logg.k(TAG, "OnClick Search");
+                    processOnClickSearch();
+                }
+            });
+        }
+
         //<editor-fold desc="ET_RECORDING_Artist">
         mET_SlimDance_Name = requireView().findViewById(R.id.ET_Dance_Dancename);
         mET_SlimDance_Name.setText("");
@@ -168,10 +183,7 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
             public void afterTextChanged(Editable s) {
                 createModel();
                 // avoid searches with one or two characters
-                String tName =s.toString();
-                if (tName.length() == 1 || tName.length() == 2) {
-                    return;
-                }
+                String tName = s.toString();
                 mModel.setDancename(tName);
             }
         });
@@ -203,7 +215,7 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
         });
 
 
-        mSP_RhythmType = requireView().findViewById(R.id.SP_Dance_Requestlist);
+        mSP_RhythmType = requireView().findViewById(R.id.SP_Dance_Type);
         tAL_Custom_SpinnerItem = tSpinnerItemFactory.getSpinnerItems(SpinnerItemFactory.FIELD_RHYTHM, true);
         mCSA_RhythmType = new CustomSpinnerAdapter(this.getContext(), tAL_Custom_SpinnerItem);
 
@@ -238,18 +250,13 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
                                        View view, int position, long id) {
                 Logg.k(TAG, "SP_Shape: " +
                         parent.getItemAtPosition(position).toString());
-
                 CustomSpinnerItem tCustomSpinnerItem = (CustomSpinnerItem) mCSA_Shape.getItem(position);
                 mModel.setEnumShape(tCustomSpinnerItem);
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-
         mIV_MusicFile = requireView().findViewById(R.id.Dance_IV_MusicFile);
         mIV_MusicFile.setOnClickListener(iView -> {
             Logg.k(TAG, "IV_Music OnClick");
@@ -413,12 +420,20 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
             }
         }
 
+        boolean mSearchAvailable;
+        if (mModel != null) {
+            mSearchAvailable = mModel.isSearchPossible();
+        } else {
+            mSearchAvailable = false;
+        }
+        if (mIV_Search != null) {
+            mIV_Search.setActivated(mSearchAvailable);
+        }
 
     }
 
 
     private void createModel() {
-        //Logg.v(TAG, "CreateModel");
         if (mModel != null) {
             return;
         }
@@ -430,17 +445,6 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
         mModel.mMLD_A.observe(getViewLifecycleOwner(), iAR_Object -> {
             Logg.i(TAG, "obervce for A");
             Integer[] tA = (Integer[]) iAR_Object;
-
-//            if (iAR_Object != null) {
-//                for (Object lObject : iAR_Object) {
-//                    Integer tId = (Integer) lObject;
-//                    Logg.i(TAG, "Observe Object " + lObject);
-//                }
-//            }
-//
-//            for (Integer lId : tA) {
-//                Logg.i(TAG, "Oberver " + lId);
-//            }
             mSlimDance_Adapter.setA(tA);
             mSlimDance_Adapter.notifyDataSetChanged();
         });
@@ -448,6 +452,11 @@ public class SlimDance_Fragment extends Fragment implements Shouting, LifecycleO
         mModel.forceSearch();
     }
 
+
+    void processOnClickSearch() {
+        Logg.i(TAG, "search click");
+        mModel.forceSearch();
+    }
 
     //Static Methods
 

@@ -160,12 +160,9 @@ public class SearchOption {
         return mAR_SearchOptions;
     }
 
-
     public SearchPattern convert(String iCode, String iValue) {
         return null;
     }
-
-
 
     public static SearchOption getByCode(Class iClass, String iCode) {
         SearchOption tSearchOption = null;

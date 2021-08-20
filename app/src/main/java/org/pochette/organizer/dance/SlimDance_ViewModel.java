@@ -71,7 +71,6 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
             return;
         }
         mDancename = iDancename;
-        newSearchData();
     }
 
     public void setListOfId(HashSet<Integer> iHS_Id) {
@@ -95,7 +94,6 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
     public void setFlagMusic(boolean iFlagMusic) {
         if (iFlagMusic != mFlagMusic) {
             mFlagMusic = iFlagMusic;
-            newSearchData();
         }
     }
 
@@ -106,7 +104,6 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
     public void setFlagDiagram(boolean iFlagDiagram) {
         if (iFlagDiagram != mFlagDiagram) {
             mFlagDiagram = iFlagDiagram;
-            newSearchData();
         }
     }
 
@@ -117,7 +114,6 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
     public void setFlagCrib(boolean iFlagCrib) {
         if (iFlagCrib != mFlagCrib) {
             mFlagCrib = iFlagCrib;
-            newSearchData();
         }
     }
 
@@ -128,7 +124,6 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
     public void setFlagRscds(boolean iFlagRscds) {
         if (iFlagRscds != mFlagRscds) {
             mFlagRscds = iFlagRscds;
-            newSearchData();
         }
     }
 
@@ -150,7 +145,6 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
             return;
         }
         mCsiFavourite = iCustomSpinnerItem;
-        newSearchData();
     }
 
     public void setCsiRhythmType(CustomSpinnerItem iCustomSpinnerItem) {
@@ -166,7 +160,6 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
             return;
         }
         mCsiRhythmType = iCustomSpinnerItem;
-        newSearchData();
     }
 
     public void setEnumShape(CustomSpinnerItem iCustomSpinnerItem) {
@@ -182,7 +175,6 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
             return;
         }
         mCsiShapeType = iCustomSpinnerItem;
-        newSearchData();
     }
 
 
@@ -208,8 +200,8 @@ public class SlimDance_ViewModel extends My_ViewSlimModel {
         DataServiceSingleton tDataServiceSingleton = DataServiceSingleton.getInstance();
         DataService tDataService = tDataServiceSingleton.getDataService();
         tA = tDataService.readArray(tSearchPattern);
-        Logg.i(TAG, "tAR" + tA.length);
-        Logg.i(TAG, "Model to Adapter" + tA.length);
+
+        Logg.i(TAG, "Model to Adapter with count items" + tA.length);
 
         if (Looper.getMainLooper() == Looper.myLooper()) {
             mMLD_A.setValue(tA);

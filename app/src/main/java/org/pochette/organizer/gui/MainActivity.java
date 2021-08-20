@@ -143,11 +143,11 @@ public class MainActivity extends AppCompatActivity implements Shouting {
 
 
         //startFragmentMusicDirectoryPairing();
-        //startFragmentMatryoshka();
+     //   startFragmentMatryoshka();
         // startFragmentRequestlist();
         //startFragmentMediaPlayerControl();
 //        startDialogPlayerControl();
-//        startFragmentMusicFile();
+        //startFragmentMusicFile();
 //                    //   startFragmentMusicDirectory();
 //                    //startFragmentAlbum();
 //

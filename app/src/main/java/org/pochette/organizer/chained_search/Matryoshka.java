@@ -1,8 +1,10 @@
 package org.pochette.organizer.chained_search;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.pochette.data_library.database_management.SearchRetrieval;
+import org.pochette.data_library.scddb_objects.Dance;
 import org.pochette.organizer.app.DataServiceSingleton;
 import org.pochette.organizer.formation.FormationSearch;
 import org.pochette.utils_lib.logg.Logg;
@@ -23,6 +25,7 @@ import static org.pochette.organizer.chained_search.SearchOption.VALUE_TYPE_NONE
  * data are the search definition with any sub matrzoshkas, the parent matryoska (may be null), the status and the result HashSet
  * methods are the calculation, change of search definition and the retrieval of status and the hashset
  */
+@SuppressWarnings({"unused", "unchecked"})
 public class Matryoshka implements Shouting {
 
     private static final String TAG = "FEHA (MY)";
@@ -41,6 +44,7 @@ public class Matryoshka implements Shouting {
     static final int STATUS_UPTODEFINITION = 10; // everything is fine
 
 
+    private static HashSet<Integer> mHS_All;
 
     // Any change of these five variables needs to be synchronized with mLock
     private SearchOption mSearchOption;
@@ -51,7 +55,6 @@ public class Matryoshka implements Shouting {
     private final Object mLock = new Object();
 
     private SearchRetrieval mSearchRetrieval;
-    private static HashSet<Integer> mHS_All;
 
     // variables
     @SuppressWarnings("rawtypes")
@@ -62,8 +65,8 @@ public class Matryoshka implements Shouting {
     private Matryoshka mParent_Matryoshka;
     private Matryoshka_Thread mMatryoshka_Thread;
 
-    private Shouting mDataShouting; // to be called for data processing, shoud not be the parent matroshka, hence usally null
-    private Shouting mGuiShouting; // to be call for GUI
+    private Shouting mDataShouting; // to be called for data processing, shoud always be the matryoshka_Controller
+   // private Shouting mGuiShouting; // to be call for GUI
     private Shout mGlassFloor;
 
     // constructor
@@ -88,7 +91,7 @@ public class Matryoshka implements Shouting {
             tValue = "";
         }
         mDataShouting = null;
-        mGuiShouting = null;
+      //  mGuiShouting = null;
 
         synchronized (mLock) {
             mSearchOption = tSearchOption;
@@ -119,10 +122,10 @@ public class Matryoshka implements Shouting {
         Shout tShout = new Shout("Matryoshka");
         tShout.mLastObject = "Matryoshka";
         tShout.mLastAction = "destroyed";
-        if (mGuiShouting != null) {
-            mGuiShouting.shoutUp(tShout);
-            mGuiShouting = null;
-        }
+//        if (mGuiShouting != null) {
+//            mGuiShouting.shoutUp(tShout);
+//            mGuiShouting = null;
+//        }
         if (mDataShouting != null) {
             mDataShouting.shoutUp(tShout);
             mDataShouting = null;
@@ -137,15 +140,11 @@ public class Matryoshka implements Shouting {
         return mStatus;
     }
 
-    public void setDataShouting(Shouting dataShouting) {
-        mDataShouting = dataShouting;
-    }
-
-    public void setGuiShouting(Shouting iGuiShouting) {
-        mGuiShouting = iGuiShouting;
+    public void setDataShouting(Shouting iDataShouting) {
+        mDataShouting = iDataShouting;
         if (mAL_Feeder != null && mAL_Feeder.size() > 0) {
             for (Matryoshka lMatryoshka : mAL_Feeder) {
-                lMatryoshka.setGuiShouting(iGuiShouting);
+                lMatryoshka.setDataShouting(iDataShouting);
             }
         }
     }
@@ -194,7 +193,7 @@ public class Matryoshka implements Shouting {
                 mAL_Feeder.add(iMatryoshka);
             }
             iMatryoshka.setParent_Matryoshka(this);
-            iMatryoshka.setGuiShouting(mGuiShouting);
+            iMatryoshka.setDataShouting(mDataShouting);
         }
     }
 
@@ -309,10 +308,10 @@ public class Matryoshka implements Shouting {
             JSONObject tJsonObject = new JSONObject();
             tJsonObject.put("hashCode", this.hashCode());
             tShout.mJsonString = tJsonObject.toString();
-            if (mGuiShouting != null) {
-                //  Logg.i(TAG, "GUI Shout");
-                mGuiShouting.shoutUp(tShout);
-            }
+//            if (mGuiShouting != null) {
+//                //  Logg.i(TAG, "GUI Shout");
+//                mGuiShouting.shoutUp(tShout);
+//            }
             if (mDataShouting != null) {
                 //      Logg.i(TAG, "Data Shout");
                 mDataShouting.shoutUp(tShout);
@@ -421,6 +420,7 @@ public class Matryoshka implements Shouting {
             mHS_All = SearchRetrieval.getHS_All();
         }
         HashSet<Integer> tResult;
+        //noinspection unchecked
         tResult = (HashSet<Integer>) mHS_All.clone();
         synchronized (mLock) {
             mHS_List = tResult;
@@ -475,12 +475,14 @@ public class Matryoshka implements Shouting {
 
     private HashSet<Integer> getHS_Not() {
         HashSet<Integer> tResult;
-        if (mAL_Feeder == null || mAL_Feeder.size() != 1) {
-            throw new RuntimeException("ArrayList of Feeder must be have 1 member for NOT");
+        if (mAL_Feeder == null || mAL_Feeder.size() > 1) {
+            throw new RuntimeException("ArrayList of Feeder must have 0 or 1 member for NOT");
         }
-        //noinspection unchecked
         tResult = (HashSet<Integer>) getHS_All().clone();
-        tResult.removeAll(mAL_Feeder.get(0).getHS_List());
+        if (mAL_Feeder != null && mAL_Feeder.size() == 1) {
+            tResult.removeAll(mAL_Feeder.get(0).getHS_List());
+        }
+        shoutUpToDefintion();
         return tResult;
     }
 
@@ -509,7 +511,7 @@ public class Matryoshka implements Shouting {
                 }
             }
         }
-        Logg.i(TAG, "call DB " + this.toString());
+        //Logg.i(TAG, "call DB " + this.toString());
         if (mSearchRetrieval != null) {
             mSearchRetrieval.stop();
             mSearchRetrieval = null;
@@ -573,9 +575,6 @@ public class Matryoshka implements Shouting {
         return tResult;
     }
 
-    public void requestChildRecalculate() {
-
-    }
 
     // method checked
 
@@ -632,6 +631,7 @@ public class Matryoshka implements Shouting {
      *
      * @param iMatryoshka to be added as feeder
      */
+    @SuppressWarnings("unused")
     public void removeSubMatryoshka(Matryoshka iMatryoshka) {
         removeFromFeederMatryoshka(iMatryoshka);
     }
@@ -729,7 +729,7 @@ public class Matryoshka implements Shouting {
     public boolean isChildOf(Matryoshka iMatryoshka) {
         Matryoshka tParent = this;
         while (tParent != null) {
-            if (iMatryoshka  == tParent) {
+            if (iMatryoshka == tParent) {
                 return true;
             }
             tParent = tParent.getParent_Matryoshka();
@@ -745,6 +745,108 @@ public class Matryoshka implements Shouting {
         }
         return mHS_List.size();
     }
+
+
+    public JSONObject getJson() {
+        JSONObject tJsonObject = new JSONObject();
+        try {
+            tJsonObject.put("Class", mObjectClass.getSimpleName());
+            tJsonObject.put("NodeType", mNodeType);
+            if (mNodeType == NODE_SEARCH) {
+                tJsonObject.put("Code", mSearchOption.mCode);
+                tJsonObject.put("SqlContractMethod", mSearchOption.mSqlContractMethod);
+                tJsonObject.put("Value", mValue);
+//            } else if (mNodeType == NODE_ALL) {
+//                ;
+            } else if (mNodeType == NODE_AND || mNodeType == NODE_OR || mNodeType == NODE_NOT) {
+                JSONArray tJsonArray = new JSONArray();
+                if (mAL_Feeder != null && mAL_Feeder.size() > 0) {
+                    for (Matryoshka lMatryoshka : mAL_Feeder) {
+                        tJsonArray.put(lMatryoshka.getJson());
+                    }
+                }
+                tJsonObject.put("Feeder", tJsonArray);
+            }
+        } catch(JSONException e) {
+            Logg.w(TAG, e.toString());
+        }
+        return tJsonObject;
+    }
+
+    public static Matryoshka getFromJson(JSONObject iJsonObject) {
+
+        Logg.i(TAG, iJsonObject.toString());
+        try {
+            String tClassName = iJsonObject.getString("Class");
+            //    Logg.i(TAG, "work with" + tClassName);
+
+            if (!tClassName.equals(Dance.class.getSimpleName())) {
+                Logg.w(TAG, "Matryoshka not implemented for class" + iJsonObject.getString("Class"));
+                return null;
+            }
+            int tNodeType = iJsonObject.getInt("NodeType");
+
+            Matryoshka tMatryoshka = new Matryoshka(Dance.class, tNodeType);
+            Logg.i(TAG, "Type " + tNodeType);
+            if (tNodeType == NODE_SEARCH) {
+                String tCode = iJsonObject.getString("Code");
+                Logg.i(TAG, "Code " + tCode);
+                SearchOption tSearchOption = SearchOption.getByCode(Dance.class, tCode);
+                if (!tSearchOption.mValueType.equals(VALUE_TYPE_NONE)) {
+                    String tValue = iJsonObject.getString("Value");
+                    tMatryoshka.updateSearchSetting(tSearchOption, tValue);
+                } else {
+                    tMatryoshka.updateSearchSetting(tSearchOption, null);
+                }
+
+
+//                tReelMatryoshka = new Matryoshka(mClass, Matryoshka.NODE_SEARCH);
+//                tSearchOption = SearchOption.getByCode(mClass, "DANCENAME");
+//                tReelMatryoshka.updateSearchSetting(tSearchOption, "wee");
+
+
+//            } else if (tNodeType == NODE_ALL) {
+//                ;
+            } else if (tNodeType == NODE_AND || tNodeType == NODE_OR || tNodeType == NODE_NOT) {
+                JSONArray tJsonArray = iJsonObject.getJSONArray("Feeder");
+                for (int i = 0; i < tJsonArray.length(); i++) {
+                    JSONObject lJsonObject = (JSONObject) tJsonArray.get(i);
+                    Matryoshka sMatryoshka = Matryoshka.getFromJson(lJsonObject);
+                    if (sMatryoshka != null) {
+                        tMatryoshka.addSubMatryoshka(sMatryoshka);
+                    }
+                }
+            }
+
+
+            return tMatryoshka;
+
+
+        } catch(JSONException e) {
+            Logg.w(TAG, e.toString());
+        }
+
+
+        return null;
+    }
+
+    public void removeRecursive() {
+        if (mMatryoshka_Thread != null) {
+            mMatryoshka_Thread.interrupt();
+        }
+        if (mSearchRetrieval != null) {
+            mSearchRetrieval.stop();
+        }
+        if (mAL_Feeder != null && mAL_Feeder.size() > 0) {
+            for (Matryoshka lMatryoshka : mAL_Feeder) {
+                lMatryoshka.removeRecursive();
+                lMatryoshka = null;
+            }
+            mAL_Feeder.clear();
+        }
+
+    }
+
 
     // method checked 
     @Override

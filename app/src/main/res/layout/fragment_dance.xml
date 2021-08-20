@@ -5,21 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
+    <ImageView
+        android:id="@+id/IV_Dance_Search"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        android:src="@drawable/ic_magnifyingglass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ET_Dance_Dancename"
+        app:layout_constraintHorizontal_weight="1"
+
+        app:layout_constraintBottom_toTopOf="@id/BV_Dance"
+        app:layout_constraintTop_toTopOf="@id/ET_Dance_Dancename" />
+
     <EditText
         android:id="@+id/ET_Dance_Dancename"
         style="@style/Data_Edittext"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@id/FL_Dance_Favourite"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="4"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintStart_toEndOf="@id/IV_Dance_Search"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/BV_Dance"
         tools:ignore="Autofill" />
 
     <FrameLayout
         android:id="@+id/FL_Dance_Favourite"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@id/FL_Dance_Requestlist"
         app:layout_constraintHorizontal_bias="0.5"
@@ -30,9 +44,10 @@
         >
         <Spinner
             android:id="@+id/SP_Dance_Favourite"
-            style="@style/Data_Edittext"
-            android:background="@color/scream_transparent"
+            style="@style/Data_Icon"
             android:dropDownWidth="@dimen/RV_basic_width_02"
+            android:layout_gravity="center"
+            app:layout_constraintHorizontal_bias="0.5"
             />
     </FrameLayout>
 
@@ -40,6 +55,7 @@
         android:id="@+id/FL_Dance_Requestlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/scream_red"
         app:layout_constraintBottom_toTopOf="@id/BV_Dance"
         app:layout_constraintEnd_toStartOf="@id/FL_Dance_Type"
         app:layout_constraintHorizontal_bias="0.5"
@@ -56,7 +72,7 @@
 
     <FrameLayout
         android:id="@+id/FL_Dance_Type"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/BV_Dance"
         app:layout_constraintEnd_toStartOf="@id/FL_Dance_Shape"
@@ -67,9 +83,10 @@
         >
     <Spinner
         android:id="@+id/SP_Dance_Type"
-        style="@style/Data_Edittext"
+        style="@style/Data_Icon"
         android:dropDownWidth="@dimen/RV_basic_width_02"
-        android:background="@color/scream_transparent"
+        android:layout_gravity="center"
+        app:layout_constraintHorizontal_bias="0.5"
        />
     </FrameLayout>
 
@@ -86,9 +103,10 @@
         >
     <Spinner
         android:id="@+id/SP_Dance_Shape"
-        style="@style/Data_Edittext"
+        style="@style/Data_Icon"
         android:dropDownWidth="@dimen/RV_basic_width_02"
-        android:background="@color/scream_transparent" />
+        android:layout_gravity="center"
+        app:layout_constraintHorizontal_bias="0.5"/>
     </FrameLayout>
 
     <FrameLayout

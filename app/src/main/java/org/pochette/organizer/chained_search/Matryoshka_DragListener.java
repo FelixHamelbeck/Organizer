@@ -37,22 +37,19 @@ public class Matryoshka_DragListener implements View.OnDragListener {
 
     /**
      * OnDrag shouts the action and the hash code of the dragged elements
-     * @param iView
-     * @param iEvent
-     * @return
+     * @param iView v
+     * @param iEvent the event
+     * @return always true
      */
 
     @Override
     public boolean onDrag(View iView, DragEvent iEvent) {
-
-
         Matryoshka_View tMatryoshka_View = null;
         try {
             tMatryoshka_View = (Matryoshka_View) iEvent.getLocalState();
         } catch(Exception e) {
             Logg.w(TAG, e.toString());
         }
-
         int tMatryoshka_dragged_HashCode;
         if (tMatryoshka_View == null) {
             tMatryoshka_dragged_HashCode = -99;

@@ -180,7 +180,7 @@ public class Dance_Cache {
         if (iA == null || iA.length == 0) {
             return;
         }
-        Logg.w(TAG, "preread " + iA.length);
+        Logg.d(TAG, "preread " + iA.length);
         DataService tDataService = DataServiceSingleton.getInstance().getDataService();
         Dance_Cache tDanceCache = Dance_Cache.getInstance();
         String tListOfId = "";
@@ -193,7 +193,6 @@ public class Dance_Cache {
             if (tDanceCache.mUsage.contains(tId)) {
                 // if it is already in cache exclude from retrieval
                 // worst would be if removed from cache prematurely
-                Logg.w(TAG, "no preread for " + tId);
                 continue;
             }
             if (jList == 0) {
